@@ -131,3 +131,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
+
+# Stripe Configuration
+STRIPE_PUBLISHABLE_KEY = ""  # nosec
+STRIPE_SECRET_KEY = ""  # nosec
+STRIPE_WEBHOOK_SECRET = ""  # nosec
+
+# Funnel Configuration
+FUNNEL_OFFER_EXPIRED_URL = "/offer-expired/"

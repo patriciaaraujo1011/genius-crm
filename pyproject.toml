@@ -4,7 +4,6 @@ requires-python = ">=3.9"
 [tool.black]
 line-length = 79
 target-version = ["py39"]
-strict = true
 include = '\.pyi?$'
 extend-exclude = '''
 /(

@@ -62,4 +62,31 @@ urlpatterns = [
         crm_views.api_update_opportunity_stage,
         name="api_update_opportunity_stage",
     ),
+    path(
+        "api/webhook/stripe/", crm_views.stripe_webhook, name="stripe_webhook"
+    ),
+    path("offer-expired/", crm_views.offer_expired, name="offer_expired"),
+    path(
+        "funnel/<slug:slug>/", crm_views.funnel_landing, name="funnel_landing"
+    ),
+    path(
+        "funnel/<slug:slug>/order/",
+        crm_views.funnel_order,
+        name="funnel_order",
+    ),
+    path(
+        "funnel/<slug:slug>/checkout/",
+        crm_views.funnel_checkout,
+        name="funnel_checkout",
+    ),
+    path(
+        "funnel/<slug:slug>/thank-you/",
+        crm_views.funnel_thankyou,
+        name="funnel_thankyou",
+    ),
+    path(
+        "funnel/<slug:slug>/upsell/",
+        crm_views.funnel_upsell,
+        name="funnel_upsell",
+    ),
 ]

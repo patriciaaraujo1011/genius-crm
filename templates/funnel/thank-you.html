@@ -1,0 +1,89 @@
+{% extends "funnel/base.html" %}
+
+{% block title %}{{ funnel.name }} - Thank You!{% endblock %}
+
+{% block content %}
+<main class="thank-you-page">
+    <header class="thank-you-header">
+        <h1>Thank You for Your Order!</h1>
+        <p class="confirmation">Your order has been confirmed.</p>
+    </header>
+
+    <section class="thank-you-content">
+        <p>A confirmation email has been sent to your email address.</p>
+
+        <h2>What's Next?</h2>
+        <ul>
+            <li>Check your email for your order confirmation</li>
+            <li>You'll receive access instructions shortly</li>
+            <li>If you have questions, contact our support team</li>
+        </ul>
+
+        <div class="next-steps">
+            <a href="/" class="home-button">Return to Home</a>
+        </div>
+    </section>
+</main>
+
+<style>
+    .thank-you-page {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 2rem;
+        font-family: system-ui, sans-serif;
+        color: #2D2D2D;
+        background: #F5F0E8;
+        min-height: 100vh;
+        text-align: center;
+    }
+
+    .thank-you-header h1 {
+        color: #8A0329;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .confirmation {
+        font-size: 1.25rem;
+        color: #555;
+    }
+
+    .thank-you-content {
+        text-align: left;
+        margin-top: 2rem;
+    }
+
+    .thank-you-content h2 {
+        color: #8A0329;
+        margin-top: 2rem;
+    }
+
+    .thank-you-content ul {
+        padding-left: 1.5rem;
+    }
+
+    .thank-you-content li {
+        margin-bottom: 0.75rem;
+    }
+
+    .next-steps {
+        margin-top: 3rem;
+        text-align: center;
+    }
+
+    .home-button {
+        display: inline-block;
+        background: #8A0329;
+        color: #EAFF9D;
+        padding: 1rem 2rem;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 8px;
+        transition: background 0.3s;
+    }
+
+    .home-button:hover {
+        background: #6b0220;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,170 @@
+{% extends "funnel/base.html" %}
+
+{% block title %}{{ funnel.name }} - Order{% endblock %}
+
+{% block content %}
+<main class="order-page">
+    <header class="order-header">
+        <h1>{{ page.headline|default:"Complete Your Order" }}</h1>
+        {% if page.subheadline %}
+        <p class="subheadline">{{ page.subheadline }}</p>
+        {% endif %}
+    </header>
+
+    <div class="order-content">
+        {% if page.content %}
+        <div class="product-description">
+            {{ page.content }}
+        </div>
+        {% endif %}
+
+        <section class="order-form">
+            <h2>Order Details</h2>
+            <form method="POST" action="{% url 'funnel_checkout' funnel.slug %}">
+                {% csrf_token %}
+                <input type="hidden" name="product_id" value="{{ main_product.product.id }}">
+
+                <div class="form-group">
+                    <label for="first_name">First Name</label>
+                    <input type="text" id="first_name" name="first_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" id="last_name" name="last_name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                {% if order_bumps %}
+                <div class="order-bumps">
+                    <h3>Add-Ons (Limited Time Offers)</h3>
+                    {% for bump in order_bumps %}
+                    <div class="order-bump-item">
+                        <label>
+                            <input type="checkbox" name="bump_ids" value="{{ bump.id }}">
+                            <span class="bump-info">
+                                <strong>{{ bump.headline|default:bump.product.name }}</strong>
+                                {% if bump.description %}<br><small>{{ bump.description }}</small>{% endif %}
+                                <span class="bump-price">+${{ bump.display_price }}</span>
+                            </span>
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="order-total">
+                    <p><strong>Total: ${{ main_product.product.price }}</strong></p>
+                </div>
+
+                <button type="submit" class="checkout-button">{{ page.cta_text|default:"Complete Order" }}</button>
+            </form>
+        </section>
+    </div>
+</main>
+
+<style>
+    .order-page {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        font-family: system-ui, sans-serif;
+        color: #2D2D2D;
+        background: #F5F0E8;
+        min-height: 100vh;
+    }
+
+    .order-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .order-header h1 {
+        color: #8A0329;
+        font-size: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.25rem;
+        font-weight: 600;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+
+    .order-bumps {
+        margin: 2rem 0;
+        padding: 1.5rem;
+        background: #EAFF9D;
+        border-radius: 8px;
+        border: 2px solid #8A0329;
+    }
+
+    .order-bumps h3 {
+        color: #8A0329;
+        margin-bottom: 1rem;
+    }
+
+    .order-bump-item {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background: white;
+        border-radius: 8px;
+    }
+
+    .order-bump-item label {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        cursor: pointer;
+    }
+
+    .order-bump-item input[type="checkbox"] {
+        margin-top: 0.5rem;
+        width: 20px;
+        height: 20px;
+    }
+
+    .bump-info {
+        flex: 1;
+    }
+
+    .bump-price {
+        color: #8A0329;
+        font-weight: bold;
+        margin-top: 0.5rem;
+        display: block;
+    }
+
+    .checkout-button {
+        width: 100%;
+        padding: 1rem;
+        background: #8A0329;
+        color: #EAFF9D;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.25rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .checkout-button:hover {
+        background: #6b0220;
+    }
+</style>
+{% endblock %}

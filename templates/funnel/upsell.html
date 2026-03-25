@@ -1,0 +1,88 @@
+{% extends "funnel/base.html" %}
+
+{% block title %}{{ funnel.name }} - Special Offer{% endblock %}
+
+{% block content %}
+<main class="upsell-page">
+    <header class="upsell-header">
+        <h1>Wait! Don't Go Yet...</h1>
+        <p class="special-offer">We have a special one-time offer for you</p>
+    </header>
+
+    <section class="upsell-content">
+        {{ page.content|default:"" }}
+    </section>
+
+    <section class="upsell-actions">
+        <div class="upsell-buttons">
+            <a href="{% url 'funnel_thankyou' funnel.slug %}" class="decline-button">No Thanks, Continue</a>
+            <a href="#" class="accept-button">Yes! Add This Now</a>
+        </div>
+    </section>
+</main>
+
+<style>
+    .upsell-page {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        font-family: system-ui, sans-serif;
+        color: #2D2D2D;
+        background: #F5F0E8;
+        min-height: 100vh;
+    }
+
+    .upsell-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .upsell-header h1 {
+        color: #8A0329;
+        font-size: 2.5rem;
+    }
+
+    .special-offer {
+        font-size: 1.25rem;
+        color: #555;
+    }
+
+    .upsell-actions {
+        margin-top: 2rem;
+    }
+
+    .upsell-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .decline-button {
+        padding: 1rem 2rem;
+        background: #ddd;
+        color: #333;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: background 0.3s;
+    }
+
+    .decline-button:hover {
+        background: #ccc;
+    }
+
+    .accept-button {
+        padding: 1rem 2rem;
+        background: #8A0329;
+        color: #EAFF9D;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: background 0.3s;
+    }
+
+    .accept-button:hover {
+        background: #6b0220;
+    }
+</style>
+{% endblock %}

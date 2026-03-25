@@ -163,6 +163,11 @@ class Funnel(models.Model):
         help_text="Auto-tag applied to leads from this funnel",
     )
     is_active = models.BooleanField(default=True)
+    offer_end_date = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text="Offer expiration date/time for countdown timer",
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -200,6 +205,29 @@ class FunnelPage(models.Model):
 
     def __str__(self):
         return f"{self.funnel.name} - {self.get_page_type_display()}"
+
+
+class OrderBump(models.Model):
+    funnel = models.ForeignKey(
+        Funnel, on_delete=models.CASCADE, related_name="order_bumps"
+    )
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    headline = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=True)
+    price_override = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True
+    )
+    order = models.IntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.funnel.name} - {self.product.name}"
+
+    @property
+    def display_price(self):
+        if self.price_override:
+            return self.price_override
+        return self.product.price
 
 
 class Module(models.Model):

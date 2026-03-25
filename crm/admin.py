@@ -13,6 +13,7 @@ from .models import (
     MemberProgress,
     Module,
     Order,
+    OrderBump,
     Product,
     UserBadge,
 )
@@ -46,10 +47,30 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ["contact__email", "stripe_payment_id"]
 
 
+class FunnelPageInline(admin.TabularInline):
+    model = FunnelPage
+    extra = 1
+    ordering = ["order"]
+
+
+class OrderBumpInline(admin.TabularInline):
+    model = OrderBump
+    extra = 1
+    ordering = ["order"]
+
+
 @admin.register(Funnel)
 class FunnelAdmin(admin.ModelAdmin):
-    list_display = ["name", "slug", "is_active", "created_at"]
+    list_display = [
+        "name",
+        "slug",
+        "is_active",
+        "offer_end_date",
+        "created_at",
+    ]
+    list_filter = ["is_active"]
     prepopulated_fields = {"slug": ("name",)}
+    inlines = [FunnelPageInline, OrderBumpInline]
 
 
 @admin.register(FunnelPage)
