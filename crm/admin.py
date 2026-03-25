@@ -1,4 +1,7 @@
 from django.contrib import admin
+from django.contrib.admin.sites import AdminSite
+from django.shortcuts import render
+from django.urls import path
 
 from .models import (
     Badge,
@@ -17,6 +20,62 @@ from .models import (
     Product,
     UserBadge,
 )
+
+
+def funnel_templates_view(request):
+    templates = [
+        {
+            "name": "Sales Template 1",
+            "file": "sales_template_1.html",
+            "description": "Landing/sales page with hero, video, testimonials, pricing, FAQ",
+        },
+        {
+            "name": "Order Template 1",
+            "file": "order_template_1.html",
+            "description": "Checkout page with order form, order bumps, product summary",
+        },
+        {
+            "name": "Upsell Template 1",
+            "file": "upsell_template_1.html",
+            "description": "Post-purchase upsell with urgency, value stack, comparison",
+        },
+        {
+            "name": "Thank You Template 1",
+            "file": "thank_you_template_1.html",
+            "description": "Confirmation page with access instructions and next steps",
+        },
+    ]
+    context = {
+        "title": "Funnel Templates",
+        "templates": templates,
+        "app_label": "crm",
+    }
+    return render(request, "admin/funnel_templates.html", context)
+
+
+class MyAdminSite(AdminSite):
+    site_header = "Genius CRM"
+    site_title = "Genius CRM Admin"
+    index_title = "Dashboard"
+
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            path(
+                "funnel-templates/",
+                self.admin_view(funnel_templates_view),
+                name="funnel_templates",
+            ),
+        ]
+        return my_urls + urls
+
+    def get_menu(self, request):
+        menu = super().get_menu(request)
+        menu.add_break()
+        return menu
+
+
+admin_site = MyAdminSite(name="myadmin")
 
 
 @admin.register(Contact)
@@ -114,6 +173,17 @@ class BadgeAdmin(admin.ModelAdmin):
     list_display = ["name", "points_required"]
 
 
-admin.site.register(
+admin_site.register(
     [MemberProgress, GamificationPoints, UserBadge, EmailSequenceStep]
 )
+
+admin_site.register(Contact)
+admin_site.register(Product)
+admin_site.register(Order)
+admin_site.register(Funnel)
+admin_site.register(FunnelPage)
+admin_site.register(Module)
+admin_site.register(Lesson)
+admin_site.register(Broadcast)
+admin_site.register(EmailSequence)
+admin_site.register(Badge)

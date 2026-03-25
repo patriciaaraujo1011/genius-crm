@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}Funnel Templates{% endblock %}
+{% block breadcrumb %}Funnel Templates{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>Funnel Templates</h2>
+    <p>Pre-built funnel page templates. Each template is fully customizable.</p>
+  </div>
+</div>
+
+<div class="table-card" style="padding: 24px; margin-bottom: 24px;">
+  <h3 style="color: var(--cream); margin-bottom: 16px;">Available Templates</h3>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+
+    <div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 20px;">
+      <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 8px;">Sales Page</div>
+      <h4 style="color: var(--cream); margin-bottom: 8px;">Sales Template 1</h4>
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
+        Hero, video, testimonials, pricing, FAQ. Perfect for landing pages.
+      </p>
+      <code style="font-size: 0.75rem; color: var(--accent); background: var(--bg-tertiary); padding: 4px 8px; border-radius: 4px;">
+        sales_template_1.html
+      </code>
+    </div>
+
+    <div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 20px;">
+      <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 8px;">Order Page</div>
+      <h4 style="color: var(--cream); margin-bottom: 8px;">Order Template 1</h4>
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
+        Checkout form, order bumps, product summary sidebar.
+      </p>
+      <code style="font-size: 0.75rem; color: var(--accent); background: var(--bg-tertiary); padding: 4px 8px; border-radius: 4px;">
+        order_template_1.html
+      </code>
+    </div>
+
+    <div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 20px;">
+      <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 8px;">Upsell Page</div>
+      <h4 style="color: var(--cream); margin-bottom: 8px;">Upsell Template 1</h4>
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
+        Post-purchase upgrade offer with urgency and value stack.
+      </p>
+      <code style="font-size: 0.75rem; color: var(--accent); background: var(--bg-tertiary); padding: 4px 8px; border-radius: 4px;">
+        upsell_template_1.html
+      </code>
+    </div>
+
+    <div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 20px;">
+      <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 8px;">Thank You Page</div>
+      <h4 style="color: var(--cream); margin-bottom: 8px;">Thank You Template 1</h4>
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
+        Confirmation with access instructions and next steps.
+      </p>
+      <code style="font-size: 0.75rem; color: var(--accent); background: var(--bg-tertiary); padding: 4px 8px; border-radius: 4px;">
+        thank_you_template_1.html
+      </code>
+    </div>
+
+  </div>
+</div>
+
+<div class="table-card" style="padding: 24px; background: var(--bg-secondary); border: 1px solid var(--accent);">
+  <h3 style="color: var(--accent); margin-bottom: 12px;">How to use templates</h3>
+  <ul style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.8; padding-left: 20px;">
+    <li>When creating a Funnel Page, select which template to use</li>
+    <li>Each template can be fully customized: colors, fonts, images, video, copy</li>
+    <li>To request changes to a template, contact your developer</li>
+  </ul>
+</div>
+{% endblock %}

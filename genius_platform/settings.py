@@ -27,7 +27,7 @@ SECRET_KEY = (  # nosec
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS: list = []
+ALLOWED_HOSTS: list = ["localhost", "127.0.0.1", ".localhost", "testserver"]
 
 
 # Application definition

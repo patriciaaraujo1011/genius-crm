@@ -1,0 +1,74 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Funnels | Genius CRM Admin{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">Genius CRM</h1>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+
+    <div class="module templates-section">
+        <h2>🔲 Funnel Templates</h2>
+        <p class="description">
+            Available funnel page templates. Each template is fully customizable including colors, fonts, images, video, and copy.
+            <br>To customize a template, contact your developer or update the template files directly.
+        </p>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Template Name</th>
+                    <th>File</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for template in templates %}
+                <tr>
+                    <td><strong>{{ template.name }}</strong></td>
+                    <td><code>{{ template.file }}</code></td>
+                    <td>{{ template.description }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="module live-funnels">
+        <h2>🚀 Live Funnels</h2>
+        <p class="description">
+            Manage your live funnels, pages, and order bumps here.
+        </p>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Model</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Funnels</strong></td>
+                    <td>Create and manage your funnels with pages and settings</td>
+                    <td><a href="/admin/myadmin/crm/funnel/">Manage</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Funnel Pages</strong></td>
+                    <td>Individual pages within each funnel (sales, order, upsell, thank you)</td>
+                    <td><a href="/admin/myadmin/crm/funnelpage/">Manage</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Order Bumps</strong></td>
+                    <td>Additional products offered on the order page</td>
+                    <td><a href="/admin/myadmin/crm/orderbump/">Manage</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

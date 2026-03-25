@@ -1,11 +1,11 @@
-from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
 from crm import views as crm_views
+from crm.admin import admin_site
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("admin/", admin_site.urls),
     path("", crm_views.dashboard, name="dashboard"),
     path(
         "accounts/login/",
@@ -22,6 +22,11 @@ urlpatterns = [
     path("products/", crm_views.products, name="products"),
     path("orders/", crm_views.orders, name="orders"),
     path("funnels/", crm_views.funnels, name="funnels"),
+    path(
+        "funnels/templates/",
+        crm_views.funnel_templates,
+        name="funnel_templates",
+    ),
     path(
         "funnels/<slug:slug>/", crm_views.funnel_detail, name="funnel_detail"
     ),

@@ -206,6 +206,11 @@ def funnels(request):
 
 
 @login_required
+def funnel_templates(request):
+    return render(request, "funnel_templates.html")
+
+
+@login_required
 def funnel_detail(request, slug):
     funnel = Funnel.objects.prefetch_related("funnelpage_set").get(slug=slug)
     pages = funnel.funnelpage_set.all()
@@ -410,12 +415,15 @@ def api_update_opportunity_stage(request):
 def funnel_landing(request, slug):
     funnel = get_object_or_404(Funnel, slug=slug, is_active=True)
     landing_page = funnel.funnelpage_set.filter(page_type="landing").first()
+    main_product = Product.objects.filter(is_active=True).first()
 
     context = {
         "funnel": funnel,
         "page": landing_page,
+        "product": main_product,
+        "order_url": f"/funnel/{slug}/order/",
     }
-    return render(request, "funnel/landing.html", context)
+    return render(request, "funnel/templates/sales_template_1.html", context)
 
 
 def funnel_order(request, slug):

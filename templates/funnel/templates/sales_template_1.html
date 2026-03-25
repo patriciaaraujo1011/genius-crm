@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ funnel.name }} — Sales Page</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --void:      #0B0A09;
+  --obsidian:  #131210;
+  --ink:       #1C1A17;
+  --card:      #211F1B;
+  --smoke:     #2A2722;
+  --bone:      #FAF7F2;
+  --silk:      rgba(250,247,242,.7);
+  --veil:      rgba(250,247,242,.35);
+  --blush:     #C8A882;
+  --blush2:    #E2C9A4;
+  --blush-d:   rgba(200,168,130,.12);
+  --blush-b:   rgba(200,168,130,.28);
+  --blush-bg:  rgba(200,168,130,.1);
+  --blush-brd: rgba(200,168,130,.28);
+  --blush-glo: rgba(200,168,130,.18);
+  --rouge:     #8B3A3A;
+  --rouge-bg:  rgba(139,58,58,.15);
+  --green:     #3A6B4A;
+  --green-bg:  rgba(58,107,74,.15);
+  --green-brd: rgba(58,107,74,.4);
+  --green-lit: #6dbf8a;
+  --serif:     'Cormorant Garamond', Georgia, serif;
+  --sans:      'Jost', sans-serif;
+  --max:       680px;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;padding-top:52px;background:#0B0A09;font-family:'Jost',sans-serif;}
+
+/* SCROLL REVEALS */
+.rv {opacity:0;transform:translateY(48px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.rv.go {opacity:1;transform:translateY(0);}
+.rv-left {opacity:0;transform:translateX(-50px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.rv-left.go {opacity:1;transform:translateX(0);}
+.rv-right {opacity:0;transform:translateX(50px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.rv-right.go {opacity:1;transform:translateX(0);}
+.rv-scale {opacity:0;transform:scale(.92);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.rv-scale.go {opacity:1;transform:scale(1);}
+.rv-stagger>* {opacity:0;transform:translateY(36px);transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1);}
+.rv-stagger.go>*:nth-child(1) {opacity:1;transform:none;transition-delay:.04s;}
+.rv-stagger.go>*:nth-child(2) {opacity:1;transform:none;transition-delay:.11s;}
+.rv-stagger.go>*:nth-child(3) {opacity:1;transform:none;transition-delay:.18s;}
+.rv-stagger.go>*:nth-child(4) {opacity:1;transform:none;transition-delay:.25s;}
+.rv-stagger.go>*:nth-child(5) {opacity:1;transform:none;transition-delay:.32s;}
+.rv-stagger.go>*:nth-child(6) {opacity:1;transform:none;transition-delay:.39s;}
+.rv-stagger.go>*:nth-child(7) {opacity:1;transform:none;transition-delay:.46s;}
+.rv-stagger.go>*:nth-child(8) {opacity:1;transform:none;transition-delay:.53s;}
+.d1 {transition-delay:.12s!important;}
+.d2 {transition-delay:.24s!important;}
+.d3 {transition-delay:.38s!important;}
+.d4 {transition-delay:.52s!important;}
+
+/* SALES PAGE SPECIFIC */
+#page-sales {
+  --void:    #0B0A09;
+  --obsidian:#131210;
+  --ink:     #1C1A17;
+  --smoke:   #2A2722;
+  --bone:    #FAF7F2;
+  --silk:    rgba(250,247,242,0.68);
+  --veil:    rgba(250,247,242,0.32);
+  --blush:   #C8A882;
+  --blush2:  #E2C9A4;
+  --blush-d: rgba(200,168,130,0.1);
+  --blush-b: rgba(200,168,130,0.26);
+  --rouge:   #8B3A3A;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Jost', sans-serif;
+  --max: 820px;
+}
+*, *::before, *::after {box-sizing:border-box;margin:0;padding:0;}
+html {scroll-behavior:smooth;background:var(--void);}
+body {font-family:var(--sans);background:var(--void);color:var(--bone);font-size:17px;line-height:1.76;overflow-x:hidden;}
+body::after {content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.026;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");background-size:220px;}
+#page-sales h1, #page-sales h2, #page-sales h3 {font-family:var(--serif);line-height:1.08;letter-spacing:-0.02em;}
+#page-sales h1 {font-size:clamp(36px,6vw,72px);font-weight:400;}
+#page-sales h2 {font-size:clamp(28px,5vw,54px);font-weight:400;margin-bottom:20px;}
+#page-sales h3 {font-size:clamp(18px,2.2vw,26px);font-weight:500;}
+#page-sales p {margin-bottom:16px;color:var(--silk);font-weight:300;}
+#page-sales p:last-child {margin-bottom:0;}
+#page-sales strong {font-weight:600;color:var(--bone);}
+#page-sales em {font-style:italic;color:var(--blush2);}
+#page-sales .wrap {max-width:var(--max);margin:0 auto;padding:0 28px;}
+
+/* ANN BAR */
+#page-sales .ann {background:var(--rouge);padding:11px 24px;text-align:center;font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#fff;position:relative;z-index:100;}
+
+/* STICKY NAV */
+#page-sales .snav {position:fixed;top:0;left:0;right:0;z-index:900;background:rgba(11,10,9,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--smoke);padding:12px 32px;display:flex;align-items:center;justify-content:space-between;transform:translateY(-100%);transition:transform .5s cubic-bezier(.16,1,.3,1);}
+#page-sales .snav.show {transform:translateY(0);}
+#page-sales .snav-brand {font-family:var(--serif);font-size:1rem;font-weight:500;color:var(--bone);letter-spacing:.04em;}
+#page-sales .snav-cta {background:var(--blush);color:var(--void);font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:10px 24px;border:none;cursor:pointer;text-decoration:none;transition:background .2s;}
+#page-sales .snav-cta:hover {background:var(--blush2);}
+
+/* SECTIONS */
+#page-sales .sec {padding:100px 28px;position:relative;overflow:hidden;}
+#page-sales .sec-dark {background:var(--void);}
+#page-sales .sec-ink {background:var(--obsidian);}
+#page-sales .sec-rouge {background:var(--rouge);}
+
+/* HERO */
+#page-sales .hero {min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:120px 28px 80px;}
+#page-sales .hero-parallax {position:absolute;inset:-20%;background:radial-gradient(ellipse 80% 60% at 50% 30%,rgba(139,58,58,.22) 0%,transparent 60%),radial-gradient(ellipse 60% 80% at 20% 80%,rgba(200,168,130,.08) 0%,transparent 50%),var(--void);will-change:transform;}
+#page-sales .hero-img-layer {position:absolute;inset:0;overflow:hidden;}
+#page-sales .hero-img-layer img {width:100%;height:100%;object-fit:cover;opacity:.15;filter:grayscale(.4) sepia(.2);display:block;}
+#page-sales .hero-content {position:relative;z-index:2;max-width:780px;margin:0 auto;}
+#page-sales .pip {display:inline-flex;align-items:center;gap:10px;font-size:10px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--blush);margin-bottom:18px;}
+#page-sales .pip::before, #page-sales .pip::after {content:'◆';font-size:4px;opacity:.6;}
+#page-sales .hero h1 {color:var(--bone);margin-bottom:18px;}
+#page-sales .hero h1 em {color:var(--blush2);font-style:italic;display:block;font-size:.78em;margin-top:6px;}
+#page-sales .hero-sub {font-family:var(--serif);font-size:clamp(16px,2vw,22px);font-style:italic;color:var(--blush);margin-bottom:32px;line-height:1.5;font-weight:300;}
+
+/* COUNTDOWN TIMER */
+#page-sales .countdown-bar {background:var(--obsidian);border-bottom:1px solid var(--smoke);padding:12px 24px;text-align:center;}
+#page-sales .countdown-inner {display:inline-flex;align-items:center;gap:10px;font-size:12px;color:var(--silk);}
+#page-sales .countdown-label {font-weight:600;color:var(--blush);}
+#page-sales .countdown-timer {display:flex;gap:8px;}
+#page-sales .countdown-unit {display:flex;flex-direction:column;align-items:center;min-width:36px;}
+#page-sales .countdown-num {font-family:var(--serif);font-size:22px;font-weight:600;color:var(--bone);line-height:1;}
+#page-sales .countdown-text {font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--veil);}
+
+/* VSL */
+#page-sales .vsl-wrap {max-width:660px;margin:0 auto 28px;}
+#page-sales .vsl-frame {padding:3px;background:linear-gradient(135deg,var(--blush),rgba(139,58,58,.4),var(--blush));border-radius:8px;box-shadow:0 0 0 8px rgba(200,168,130,.06),0 0 80px rgba(200,168,130,.2);}
+#page-sales .vsl-ratio {position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:6px;background:#000;}
+#page-sales .vsl-ratio iframe {position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
+#page-sales .vsl-ph {position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:rgba(0,0,0,.6);cursor:pointer;}
+#page-sales .vsl-ph .play {width:64px;height:64px;border-radius:50%;background:var(--blush);display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--void);transition:transform .2s,background .2s;}
+#page-sales .vsl-ph:hover .play {transform:scale(1.1);background:var(--blush2);}
+#page-sales .vsl-ph span {font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--veil);}
+#page-sales .hero-proof {font-size:14px;color:var(--veil);margin-bottom:28px;margin-top:12px;}
+#page-sales .hero-proof strong {color:var(--blush);}
+
+/* CTA BUTTON */
+#page-sales .cta-btn {display:inline-block;position:relative;overflow:hidden;background:var(--blush);color:var(--void);font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;padding:20px 56px;text-decoration:none;border:none;cursor:pointer;transition:background .2s,transform .15s;animation:btn-pulse 3.5s 2s infinite;}
+#page-sales .cta-btn::before {content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.25) 50%,transparent 70%);animation:shimmer 2.8s ease-in-out infinite;}
+@keyframes shimmer{0%{transform:translateX(-130%);}60%,100%{transform:translateX(130%);}}
+@keyframes btn-pulse{0%,100%{box-shadow:0 0 0 0 rgba(200,168,130,.5);}50%{box-shadow:0 0 0 16px rgba(200,168,130,0);}}
+#page-sales .cta-btn:hover {background:var(--blush2);transform:translateY(-2px);}
+#page-sales .cta-note {display:block;font-size:12px;color:var(--veil);margin-top:12px;letter-spacing:.04em;}
+
+/* PROOF TICKER */
+#page-sales .ticker-sec {background:var(--obsidian);border-top:1px solid var(--smoke);border-bottom:1px solid var(--smoke);padding:40px 0 48px;}
+#page-sales .ticker-head {text-align:center;padding:0 28px 24px;}
+#page-sales .ticker-stars {color:var(--blush);font-size:18px;letter-spacing:3px;display:block;margin-bottom:8px;}
+#page-sales .ticker-title {font-family:var(--serif);font-size:clamp(18px,2.5vw,26px);font-weight:400;color:var(--bone);}
+#page-sales .ticker-title span {color:var(--blush);}
+#page-sales .ticker-sub {font-size:12px;color:var(--veil);letter-spacing:.06em;margin-top:4px;}
+#page-sales .ticker-wrap {overflow:hidden;position:relative;}
+#page-sales .ticker-wrap::before, #page-sales .ticker-wrap::after {content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none;}
+#page-sales .ticker-wrap::before {left:0;background:linear-gradient(to right,var(--obsidian),transparent);}
+#page-sales .ticker-wrap::after {right:0;background:linear-gradient(to left,var(--obsidian),transparent);}
+#page-sales .ticker-track {display:flex;gap:12px;width:max-content;-webkit-animation:scroll-ticker 40s linear infinite;animation:scroll-ticker 40s linear infinite;}
+#page-sales .ticker-track:hover {-webkit-animation-play-state:paused;animation-play-state:paused;}
+@-webkit-keyframes scroll-ticker {0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+@keyframes scroll-ticker {0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+#page-sales .ticker-track img {height:280px;width:auto;border-radius:6px;border:1px solid var(--smoke);flex-shrink:0;box-shadow:0 8px 32px rgba(0,0,0,.5);}
+#page-sales .ticker-ph {height:280px;width:200px;border-radius:6px;border:1px solid var(--smoke);flex-shrink:0;background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+#page-sales .ticker-ph .ti {font-size:28px;opacity:.28;}
+#page-sales .ticker-ph .tl {font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--veil);}
+
+/* PROBLEM */
+#page-sales .p-hook {font-family:var(--serif);font-size:clamp(24px,3.5vw,42px);font-weight:400;font-style:italic;line-height:1.35;color:var(--bone);margin-bottom:36px;}
+#page-sales .p-hook em {color:var(--blush);}
+#page-sales .p-bar {border-left:3px solid var(--blush);padding:16px 0 16px 24px;font-family:var(--serif);font-size:clamp(18px,2.2vw,24px);font-weight:500;line-height:1.4;color:var(--bone);margin:28px 0;}
+#page-sales .p-body {font-size:16px;color:var(--silk);line-height:1.8;}
+#page-sales .p-kicker {font-family:var(--serif);font-size:clamp(19px,2.5vw,28px);font-style:italic;color:var(--blush2);margin-top:28px;}
+
+/* SECTION LABEL */
+#page-sales .sec-label {display:inline-flex;align-items:center;gap:10px;font-size:10px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--blush);margin-bottom:16px;}
+#page-sales .sec-label::after {content:'';display:block;width:28px;height:1px;background:var(--blush);opacity:.5;}
+
+/* AUTHORITY */
+#page-sales .auth-grid {display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;}
+#page-sales .auth-img {position:relative;}
+#page-sales .auth-img img {width:100%;border-radius:4px;display:block;filter:grayscale(.1);}
+#page-sales .auth-ph {width:100%;aspect-ratio:3/4;background:var(--ink);border:1px dashed var(--smoke);border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;}
+#page-sales .auth-ph .phi {font-size:32px;opacity:.25;}
+#page-sales .auth-ph .pht {font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--veil);text-align:center;}
+#page-sales .auth-badge {position:absolute;bottom:-20px;right:-20px;background:var(--blush);color:var(--void);padding:18px 20px;text-align:center;border-radius:3px;box-shadow:0 8px 28px rgba(0,0,0,.4);}
+#page-sales .auth-badge .big {font-family:var(--serif);font-size:26px;font-weight:700;line-height:1;}
+#page-sales .auth-badge .sm {font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.7;margin-top:2px;}
+#page-sales .auth-text {padding-top:12px;}
+#page-sales .stats-row {display:flex;gap:28px;margin:20px 0 24px;flex-wrap:wrap;}
+#page-sales .stat {display:flex;flex-direction:column;}
+#page-sales .stat-num {font-family:var(--serif);font-size:28px;font-weight:600;color:var(--blush);}
+#page-sales .stat-lbl {font-size:12px;color:var(--veil);letter-spacing:.06em;}
+#page-sales .gold-box {background:var(--blush-d);border:1.5px solid var(--blush-b);border-radius:6px;padding:22px 26px;margin:16px 0;}
+#page-sales .gold-box p {color:var(--silk);font-family:var(--serif);font-size:clamp(16px,1.8vw,20px);font-style:italic;line-height:1.65;margin:0;}
+
+/* OFFER */
+#page-sales .offer-wrap {max-width:640px;margin:0 auto;background:var(--ink);border:1.5px solid var(--blush-b);border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px rgba(200,168,130,.07),0 0 60px rgba(200,168,130,.14),0 40px 100px rgba(0,0,0,.4);}
+#page-sales .offer-head {text-align:center;padding:48px 40px 0;}
+#page-sales .offer-head h2 {color:var(--bone);margin-bottom:8px;}
+#page-sales .offer-img-ph {width:85%;max-width:380px;margin:24px auto 0;aspect-ratio:16/9;background:var(--smoke);border-radius:6px;display:flex;align-items:center;justify-content:center;}
+#page-sales .offer-img-ph img {width:100%;border-radius:6px;display:block;}
+#page-sales .offer-rows {padding:20px 32px 0;}
+#page-sales .offer-row {display:flex;align-items:flex-start;gap:14px;padding:14px 16px;border-bottom:1px solid rgba(255,250,242,.05);transition:background .15s;}
+#page-sales .offer-row:first-child {border-top:1px solid rgba(255,250,242,.05);}
+#page-sales .offer-row:hover {background:rgba(200,168,130,.05);}
+#page-sales .offer-check {color:var(--blush);font-size:14px;flex-shrink:0;margin-top:2px;}
+#page-sales .offer-item {flex:1;}
+#page-sales .offer-name {font-size:15px;font-weight:600;color:var(--bone);margin-bottom:3px;}
+#page-sales .offer-desc {font-size:13px;color:var(--veil);line-height:1.6;}
+#page-sales .offer-feat {background:var(--blush-d)!important;border:1px solid var(--blush-b)!important;border-radius:6px;margin:4px 0;}
+#page-sales .offer-feat .offer-name {color:var(--blush2);}
+#page-sales .offer-feat .offer-desc {color:var(--silk);}
+#page-sales .offer-total {padding:32px 40px 48px;text-align:center;border-top:1px solid rgba(255,250,242,.06);}
+#page-sales .offer-total-lbl {font-family:var(--serif);font-size:18px;font-style:italic;color:var(--bone);margin-bottom:12px;}
+#page-sales .offer-value {font-size:14px;color:var(--veil);line-height:1.7;max-width:440px;margin:0 auto 28px;}
+#page-sales .offer-guar {font-size:12px;color:var(--veil);margin-top:12px;letter-spacing:.04em;}
+
+/* TESTIMONIALS */
+#page-sales .testi-feat {background:var(--ink);border:1px solid var(--blush-b);border-radius:8px;padding:40px;margin-bottom:36px;position:relative;}
+#page-sales .testi-feat::before {content:'"';position:absolute;top:-12px;left:28px;font-family:var(--serif);font-size:120px;color:var(--blush);opacity:.12;line-height:1;}
+#page-sales .testi-q {font-family:var(--serif);font-size:clamp(15px,1.8vw,19px);font-style:italic;line-height:1.5;color:var(--bone);margin-bottom:14px;}
+#page-sales .testi-feat .testi-q {font-size:clamp(18px,2.5vw,26px);}
+#page-sales .testi-name {font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blush);}
+#page-sales .testi-handle {font-size:12px;color:var(--veil);margin-top:2px;}
+#page-sales .testi-grid {display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:36px;}
+#page-sales .testi-card {background:var(--ink);border:1px solid var(--smoke);border-left:3px solid var(--blush);padding:24px 22px;border-radius:4px;transition:border-color .2s;}
+#page-sales .testi-card:hover {border-left-color:var(--blush2);}
+#page-sales .shots {columns:3;gap:8px;margin:32px 0;}
+#page-sales .shot-ph {width:100%;aspect-ratio:9/16;background:var(--ink);border:1px solid var(--smoke);border-radius:4px;margin-bottom:8px;break-inside:avoid;display:flex;align-items:center;justify-content:center;}
+#page-sales .shot-ph span {font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--veil);}
+#page-sales .shots img {width:100%;border-radius:4px;margin-bottom:8px;break-inside:avoid;display:block;}
+
+/* CLOSE */
+#page-sales .close-sec {background:var(--void);text-align:center;position:relative;overflow:hidden;}
+#page-sales .close-sec::before {content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(139,58,58,.18) 0%,transparent 65%);pointer-events:none;}
+#page-sales .close-in {position:relative;z-index:1;max-width:620px;margin:0 auto;}
+#page-sales .close-sec h2 {color:var(--bone);}
+#page-sales .price-orig {font-size:15px;color:var(--veil);text-decoration:line-through;margin-bottom:6px;}
+#page-sales .price-final {font-family:var(--serif);font-size:clamp(52px,8vw,80px);font-weight:300;color:var(--bone);line-height:1;margin-bottom:6px;}
+#page-sales .price-note {font-size:13px;color:var(--veil);margin-bottom:28px;}
+#page-sales .choices {display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:36px 0;text-align:left;}
+#page-sales .choice {padding:24px 22px;border-radius:4px;}
+#page-sales .choice-no {background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);}
+#page-sales .choice-yes {background:var(--blush-d);border:2px solid var(--blush-b);box-shadow:0 0 28px rgba(200,168,130,.1);}
+#page-sales .choice-lbl {font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;opacity:.5;color:var(--bone);}
+#page-sales .choice-yes .choice-lbl {color:var(--blush);opacity:1;}
+#page-sales .choice p {font-size:14px;line-height:1.7;margin:0;}
+#page-sales .close-gold {font-family:var(--serif);font-size:clamp(16px,2vw,22px);font-style:italic;color:var(--blush2);margin:20px 0 28px;}
+#page-sales .close-guar {font-size:12px;color:var(--veil);margin-top:12px;}
+
+/* FAQ */
+#page-sales .faq-item {border-bottom:1px solid var(--smoke);}
+#page-sales .faq-q {width:100%;background:none;border:none;text-align:left;font-family:var(--sans);font-size:16px;font-weight:500;color:var(--bone);padding:20px 32px 20px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
+#page-sales .faq-q::after {content:'+';font-size:22px;color:var(--blush);font-weight:300;transition:transform .25s;flex-shrink:0;}
+#page-sales .faq-item.open .faq-q::after {transform:rotate(45deg);}
+#page-sales .faq-a {overflow:hidden;max-height:0;font-size:15px;color:var(--silk);line-height:1.75;transition:max-height .35s cubic-bezier(.16,1,.3,1),padding .3s;}
+#page-sales .faq-item.open .faq-a {max-height:400px;padding-bottom:18px;}
+
+/* FINAL CTA */
+#page-sales .fcta {background:var(--rouge);text-align:center;padding:100px 28px;position:relative;overflow:hidden;}
+#page-sales .fcta::before {content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 80% at 50% 50%,rgba(0,0,0,.25) 0%,transparent 70%);}
+#page-sales .fcta-in {position:relative;z-index:1;max-width:640px;margin:0 auto;}
+#page-sales .fcta h2 {color:#fff;}
+#page-sales .fcta p {color:rgba(255,255,255,.75);}
+#page-sales .fcta .cta-btn {background:var(--bone);color:var(--void);animation:none;}
+#page-sales .fcta .cta-btn::before {display:none;}
+#page-sales .fcta .cta-btn:hover {background:#fff;}
+
+/* FOOTER */
+#page-sales .footer {background:var(--void);border-top:1px solid var(--smoke);padding:28px;text-align:center;}
+#page-sales .footer p {font-size:12px;color:var(--veil);line-height:1.9;margin:0;}
+#page-sales .footer a {color:var(--blush);text-decoration:none;margin:0 8px;}
+#page-sales .footer a:hover {color:var(--blush2);}
+
+/* IMG PLACEHOLDER */
+#page-sales .img-ph {background:var(--ink);border:1px dashed var(--smoke);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:28px;}
+#page-sales .img-ph .phi {font-size:32px;opacity:.25;}
+#page-sales .img-ph .pht {font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--veil);text-align:center;}
+
+/* MOBILE */
+@media(max-width:768px) {
+  #page-sales .auth-grid{grid-template-columns:1fr;gap:36px;}
+  #page-sales .auth-badge {bottom:-12px;right:-8px;}
+  #page-sales .testi-grid {grid-template-columns:1fr;}
+  #page-sales .choices {grid-template-columns:1fr;}
+  #page-sales .shots {columns:2;}
+  #page-sales .offer-head {padding:32px 24px 0;}
+  #page-sales .offer-rows {padding:12px 16px 0;}
+  #page-sales .offer-total {padding:24px 24px 36px;}
+  #page-sales .sec {padding:70px 20px;}
+  #page-sales .hero {padding:100px 20px 70px;}
+}
+@media(max-width:480px) {
+  #page-sales .shots{columns:1;}
+  #page-sales .ann {font-size:9px;padding:9px 12px;}
+  #page-sales .cta-btn {display:block;width:100%;padding:18px 24px;text-align:center;}
+  #page-sales .hero {padding:80px 20px 60px;}
+}
+</style>
+</head>
+<body>
+
+<!-- SALES PAGE CONTENT -->
+<div id="page-sales">
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="ann">The pattern has a name. And you already know it.</div>
+
+<!-- STICKY NAV -->
+<nav class="snav" id="snav">
+  <div class="snav-brand">{{ funnel.name }}</div>
+  <a href="#get-access" class="snav-cta">Get Instant Access</a>
+</nav>
+
+<!-- HERO + VIDEO -->
+<section class="hero" id="hero">
+  <div class="hero-parallax" id="hero-parallax"></div>
+  <div class="hero-content">
+    <div class="pip">{{ funnel.name }}</div>
+
+    <h1>
+      {{ page.headline|default:"You're Not Stuck.<br><em>You're Running the Same Pattern.</em>" }}
+    </h1>
+
+    <p class="hero-sub">
+      {{ page.subheadline|default:"The women who fix this don't work harder. They just stop repeating it." }}
+    </p>
+
+    <!-- VIDEO BLOCK -->
+    <div class="vsl-wrap">
+      <div class="vsl-frame">
+        <div class="vsl-ratio">
+          <div class="vsl-ph">
+            <div class="play">▶</div>
+            <span>Your video goes here</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="hero-proof">
+      <strong>Join 247+ women</strong> who stopped the cycle for good.
+    </p>
+
+    <a href="#get-access" class="cta-btn">{{ page.cta_text|default:"Yes, I'm Ready to Break the Pattern" }}</a>
+    <span class="cta-note">Instant access · 30-day guarantee · Starts immediately</span>
+  </div>
+</section>
+
+<!-- PROOF TICKER -->
+<div class="ticker-sec">
+  <div class="ticker-head">
+    <span class="ticker-stars">★★★★★</span>
+    <div class="ticker-title">Trusted by <span id="ctr">0</span>+ women who were done with the cycle.</div>
+    <p class="ticker-sub">Real results · Real women · Any stage</p>
+  </div>
+  <div class="ticker-wrap">
+    <div class="ticker-track" id="ticker">
+      <div class="ticker-ph"><span class="ti">📸</span><span class="tl">Result Screenshot</span></div>
+      <div class="ticker-ph"><span class="ti">📸</span><span class="tl">Result Screenshot</span></div>
+      <div class="ticker-ph"><span class="ti">📸</span><span class="tl">Result Screenshot</span></div>
+      <div class="ticker-ph"><span class="ti">📸</span><span class="tl">Result Screenshot</span></div>
+      <div class="ticker-ph"><span class="ti">📸</span><span class="tl">Result Screenshot</span></div>
+      <div class="ticker-ph"><span class="ti">📸</span><span class="tl">Result Screenshot</span></div>
+      <div class="ticker-ph"><span class="ti">📸</span><span class="tl">Result Screenshot</span></div>
+      <div class="ticker-ph"><span class="ti">📸</span><span class="tl">Result Screenshot</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM SECTION -->
+<section class="sec sec-dark">
+  <div class="wrap">
+    <p class="p-hook rv">
+      You have the awareness.<br>
+      You have the insight.<br>
+      <em>So why does the pattern keep coming back?</em>
+    </p>
+    <p class="p-body rv d1">You've done the therapy. Read the books. Had the breakthrough. Had it again. You understand your patterns better than most people understand themselves.</p>
+    <p class="p-body rv d2">And somehow, three months later, you're back in the same dynamic. The same relationship. The same self-abandonment dressed up in a different outfit.</p>
+    <div class="p-bar rv d3">Here's what nobody tells you: understanding the pattern is not the same as breaking it. You've been solving an identity problem with a knowledge solution.</div>
+    <p class="p-body rv">Not because you're not trying hard enough. Not because you're broken. Because the pattern has structural roots that no amount of journalling can reach.</p>
+    <p class="p-body rv d1">The Cool Girl is strategic. She performs okayness. She keeps the peace, keeps the momentum, keeps everyone comfortable while quietly erasing herself.</p>
+    <p class="p-body rv d2">And the harder you work on yourself without naming this, the more exhausting it gets. You're not lacking discipline. You're lacking the right framework.</p>
+    <p class="p-kicker rv d3">{{ funnel.name }} gives the pattern a name. And then an exit.</p>
+  </div>
+</section>
+
+<!-- AUTHORITY / ABOUT -->
+<section class="sec sec-ink">
+  <div class="wrap">
+    <div class="auth-grid">
+
+      <div class="auth-img rv-left">
+        <div class="auth-ph">
+          <span class="phi">📷</span>
+          <span class="pht">Your photo here<br>Portrait · 3:4 ratio recommended</span>
+        </div>
+        <div class="auth-badge">
+          <div class="big">5+</div>
+          <div class="sm">Years</div>
+        </div>
+      </div>
+
+      <div class="auth-text rv-right">
+        <span class="sec-label">Who Built This</span>
+        <h2>I'm Patricia.<br>I Know This Pattern.</h2>
+        <div class="stats-row rv">
+          <div class="stat"><span class="stat-num">247+</span><span class="stat-lbl">Women through the rehab</span></div>
+          <div class="stat"><span class="stat-num">5+</span><span class="stat-lbl">Years in this work</span></div>
+        </div>
+        <p class="rv d1">I spent years being the high-functioning woman who had it together on the outside and couldn't figure out why the same things kept happening on the inside. Not undisciplined. Not broken. Running a pattern I'd never been given language for.</p>
+        <p class="rv d2">I've studied this, lived this, and built an entire methodology around identifying and dismantling it. Not managing it — ending it.</p>
+        <div class="gold-box rv d3">
+          <p>"The Cool Girl isn't a personality type. She's a coping strategy. And when you finally see her — really see her — you can't unsee her. That's when it ends."</p>
+        </div>
+        <p class="rv d4" style="color:var(--blush2);font-family:var(--serif);font-style:italic;font-size:17px;">I did the work so I could show you exactly where to start.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- OFFER SECTION -->
+<section class="sec sec-dark" id="get-access">
+  <div class="wrap">
+    <div class="offer-wrap rv-scale">
+      <div class="offer-head">
+        <span class="sec-label" style="justify-content:center">What You Get</span>
+        <h2>Everything You Need to Break the Pattern. For Good.</h2>
+        <p>Not another layer of understanding. A structural exit.</p>
+        <div class="offer-img-ph">
+          <span class="phi" style="font-size:32px;opacity:.25">🖼️</span>
+        </div>
+      </div>
+
+      <div class="offer-rows rv-stagger d1">
+        <div class="offer-row offer-feat">
+          <span class="offer-check">✓</span>
+          <div class="offer-item">
+            <div class="offer-name">The Pattern Identifier ✦</div>
+            <div class="offer-desc">The diagnostic that names it in your specific life, your specific relationships, your specific body. This is where it starts.</div>
+          </div>
+        </div>
+        <div class="offer-row">
+          <span class="offer-check">✓</span>
+          <div class="offer-item">
+            <div class="offer-name">The Cycle Breaker Framework</div>
+            <div class="offer-desc">The structural tool that makes it impossible to keep running the pattern unconsciously.</div>
+          </div>
+        </div>
+        <div class="offer-row">
+          <span class="offer-check">✓</span>
+          <div class="offer-item">
+            <div class="offer-name">The Cool Girl Identity Module</div>
+            <div class="offer-desc">Five phases of the pattern — which one you're in and what it costs you to stay there.</div>
+          </div>
+        </div>
+        <div class="offer-row">
+          <span class="offer-check">✓</span>
+          <div class="offer-item">
+            <div class="offer-name">The Standard Protocol</div>
+            <div class="offer-desc">How to stop abandoning yourself before you're even aware you're doing it.</div>
+          </div>
+        </div>
+        <div class="offer-row">
+          <span class="offer-check">✓</span>
+          <div class="offer-item">
+            <div class="offer-name">Weekly Live Sessions</div>
+            <div class="offer-desc">Real-time support as you move through the work. Not recorded fluff — live, targeted integration.</div>
+          </div>
+        </div>
+        <div class="offer-row">
+          <span class="offer-check">✓</span>
+          <div class="offer-item">
+            <div class="offer-name">Community Access</div>
+            <div class="offer-desc">Women doing this exact work, at every stage. The room matters as much as the content.</div>
+          </div>
+        </div>
+        <div class="offer-row offer-feat">
+          <span class="offer-check">✓</span>
+          <div class="offer-item">
+            <div class="offer-name">The Inconvenient Truth Workbook ✦</div>
+            <div class="offer-desc">The companion piece that takes the modules off the screen and into your actual life.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="offer-total">
+        <p class="offer-total-lbl">Everything above is yours the moment you join.</p>
+        <p class="offer-value">A private coaching intensive for this level of work runs $3,000+. {{ funnel.name }} gives you the full framework, live support, and the community — for a fraction of that.</p>
+        <a href="{{ order_url }}" class="cta-btn">{{ page.cta_text|default:"Yes, I'm Ready →" }}</a>
+        <p class="offer-guar">✦ 30-day money-back guarantee · Instant access</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="sec sec-ink">
+  <div class="wrap">
+    <span class="sec-label rv">Social Proof</span>
+    <h2 class="rv d1">What Happens When the Pattern Breaks.</h2>
+    <p class="rv d2" style="max-width:560px">These aren't transformations that took years. They took the moment of seeing it clearly.</p>
+
+    <div class="testi-feat rv d3">
+      <p class="testi-q">"I've done so much self-development work. This is the first thing that actually named the thing I couldn't name. Module 2 alone was worth everything."</p>
+      <div class="testi-name">Jade M.</div>
+      <div class="testi-handle">Executive Coach · Sydney</div>
+    </div>
+
+    <p class="rv" style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--veil);margin-bottom:14px;margin-top:8px;">What they're saying</p>
+    <div class="shots rv d1">
+      <div class="shot-ph"><span>Screenshot</span></div>
+      <div class="shot-ph"><span>Screenshot</span></div>
+      <div class="shot-ph"><span>Screenshot</span></div>
+      <div class="shot-ph"><span>Screenshot</span></div>
+      <div class="shot-ph"><span>Screenshot</span></div>
+      <div class="shot-ph"><span>Screenshot</span></div>
+    </div>
+
+    <div class="testi-grid rv-stagger d2">
+      <div class="testi-card">
+        <p class="testi-q">"I'm two weeks in and the way I move through the world has already shifted. I can see the pattern in real time now."</p>
+        <div class="testi-name">Marissa T.</div>
+        <div class="testi-handle">Brand Strategist</div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-q">"I came in thinking this was about relationships. It's about every single area of my life."</p>
+        <div class="testi-name">Naomi K.</div>
+        <div class="testi-handle">Therapist, Melbourne</div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-q">"Patricia has a way of saying the thing you've been circling for years in one sentence. I felt seen in a way I haven't in any other program."</p>
+        <div class="testi-name">Chloe R.</div>
+        <div class="testi-handle">Creative Director</div>
+      </div>
+      <div class="testi-card">
+        <p class="testi-q">"The community alone is worth it. Women who actually get it, actually in the work. Real transformation."</p>
+        <div class="testi-name">Danielle W.</div>
+        <div class="testi-handle">Entrepreneur</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSE / PRICE -->
+<section class="sec close-sec">
+  <div class="close-in">
+    <span class="sec-label rv" style="justify-content:center">The Decision</span>
+    <h2 class="rv d1">You Already Know What Needs to Change.</h2>
+    <p class="rv d2">The pattern has a name now. The only question is whether you're done living inside it.</p>
+
+    <div class="choices rv d3">
+      <div class="choice choice-no">
+        <div class="choice-lbl">Option A</div>
+        <p>Keep doing the work without the framework. Keep having insights that don't hold. Come back to this page when you're more exhausted than you are today.</p>
+      </div>
+      <div class="choice choice-yes">
+        <div class="choice-lbl">Option B</div>
+        <p>Give the pattern a name. Give it an exit. Spend the next few weeks actually finishing this, instead of managing it for another year.</p>
+      </div>
+    </div>
+
+    <p class="close-gold rv d4">Your notes app has enough unprocessed insights in it.</p>
+
+    <div class="rv d4">
+      <p class="price-orig">Value: $3,000+</p>
+      <p class="price-final">${{ product.price|default:"497" }}</p>
+      <p class="price-note">One payment · Instant access · Starts immediately</p>
+      <a href="{{ order_url }}" class="cta-btn">{{ page.cta_text|default:"Yes, I'm Ready to Break the Pattern →" }}</a>
+      <p class="close-guar">30-day money-back guarantee · No questions asked</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec sec-ink">
+  <div class="wrap">
+    <span class="sec-label rv">FAQ</span>
+    <h2 class="rv d1">Quick Answers.</h2>
+
+    <div class="rv d2">
+      <div class="faq-item">
+        <button class="faq-q">I've done a lot of therapy. Is this different?</button>
+        <div class="faq-a">Yes — and this is specifically designed for people who have done a lot of work. Therapy is incredibly valuable. This is structural work on top of that foundation. It names the pattern in a way that makes the insight usable, rather than just understood.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How long does it take?</button>
+        <div class="faq-a">The pattern identifier alone creates a shift in the first week. The full framework is designed to be moved through over six to eight weeks, with ongoing live support. You don't need to clear your calendar — you need to show up.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What does "Cool Girl" mean in this context?</button>
+        <div class="faq-a">The Cool Girl is the version of you that keeps everything smooth, keeps everyone comfortable, and abandons herself in the process. It's not a personality type. It's a coping strategy that most high-functioning women developed early and have never been shown how to put down.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Is this a course, a coaching program, or a community?</button>
+        <div class="faq-a">All three, by design. The modules give you the framework. The live sessions give you support as you integrate it. The community gives you women who are doing the exact same work. Each layer reinforces the others.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What if it doesn't work for me?</button>
+        <div class="faq-a">There's a 30-day money-back guarantee, no questions asked. But to be direct — if you do the work, it works. The guarantee exists for people who buy and never open it. If you show up, you will see the pattern shift.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="fcta">
+  <div class="fcta-in">
+    <h2 class="rv">Ready to Stop Running the Pattern?</h2>
+    <p class="rv d1">One decision. The framework is ready. The only thing missing is you inside it.</p>
+    <div class="rv d2" style="margin-top:32px">
+      <a href="{{ order_url }}" class="cta-btn">{{ page.cta_text|default:"Yes, I Want Instant Access" }}</a>
+      <p style="color:rgba(255,255,255,.4);font-size:12px;margin-top:12px;letter-spacing:.04em">Instant access · 30-day guarantee · Starts immediately</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>
+    © 2026 {{ funnel.name }} · All Rights Reserved<br>
+    <a href="#">Terms & Conditions</a>
+    <a href="#">Privacy Policy</a>
+    <a href="#">Earnings Disclaimer</a>
+    <a href="#">Refund Policy</a>
+  </p>
+  <p style="margin-top:10px">This site is not a part of Facebook™ or Instagram™. Results mentioned are individual experiences and are not guaranteed.</p>
+</footer>
+
+</div><!-- end #page-sales -->
+
+<!-- COUNTDOWN TIMER JAVASCRIPT -->
+{% if funnel.offer_end_date %}
+<script>
+(function() {
+  const endDate = new Date('{{ funnel.offer_end_date|date:"Y-m-d H:i:s" }}').getTime();
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = endDate - now;
+
+    if (distance < 0) {
+      document.getElementById('countdown-bar').innerHTML = '<div class="countdown-inner"><span class="countdown-label" style="color:#E07070;">This offer has expired</span></div>';
+      return;
+    }
+
+    const hours = Math.floor(distance / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
+    document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
+    document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+})();
+</script>
+{% endif %}
+
+<!-- SCROLL REVEAL + STICKY NAV -->
+<script>
+(function() {
+  // Scroll reveals - using original initReveal pattern with scope
+  function initReveal(scope) {
+    var sel = ['.rv', '.rv-left', '.rv-right', '.rv-scale', '.rv-stagger']
+      .map(function(s) { return (scope || '') + ' ' + s; })
+      .join(',');
+    var els = document.querySelectorAll(sel);
+    if (!els.length) return;
+    var obs = new IntersectionObserver(function(en) {
+      en.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          e.target.classList.add('go');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    els.forEach(function(el) { obs.observe(el); });
+  }
+
+  // Initialize scroll reveals for sales page
+  initReveal('#page-sales');
+
+  // Sticky nav
+  window.addEventListener('scroll', function() {
+    var nav = document.querySelector('#page-sales .snav');
+    if (nav) nav.classList.toggle('show', window.scrollY > 600);
+  });
+
+  // FAQ accordions
+  document.querySelectorAll('#page-sales .faq-q').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
