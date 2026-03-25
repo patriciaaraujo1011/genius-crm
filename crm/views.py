@@ -1,5 +1,6 @@
 import json
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -15,10 +16,12 @@ from .models import (
     Funnel,
     Opportunity,
     Order,
+    OrderBump,
     Pipeline,
     PipelineStage,
     Product,
 )
+from .stripe_utils import create_order_bump_session
 from .validators import get_country_from_phone, validate_email
 
 
@@ -200,6 +203,11 @@ def funnels(request):
         "-created_at"
     )
     return render(request, "funnels.html", {"funnels": funnels})
+
+
+@login_required
+def funnel_templates(request):
+    return render(request, "funnel_templates.html")
 
 
 @login_required
@@ -402,3 +410,160 @@ def api_update_opportunity_stage(request):
         return JsonResponse({"success": True})
     except Exception as e:
         return JsonResponse({"success": False, "error": str(e)})
+
+
+def funnel_landing(request, slug):
+    funnel = get_object_or_404(Funnel, slug=slug, is_active=True)
+    landing_page = funnel.funnelpage_set.filter(page_type="landing").first()
+    main_product = Product.objects.filter(is_active=True).first()
+
+    context = {
+        "funnel": funnel,
+        "page": landing_page,
+        "product": main_product,
+        "order_url": f"/funnel/{slug}/order/",
+    }
+    return render(request, "funnel/templates/sales_template_1.html", context)
+
+
+def funnel_order(request, slug):
+    funnel = get_object_or_404(Funnel, slug=slug, is_active=True)
+    order_page = funnel.funnelpage_set.filter(page_type="order").first()
+    main_product = funnel.funnelpage_set.filter(page_type="order").first()
+    order_bumps = (
+        funnel.order_bumps.filter(is_active=True)
+        .order_by("order")
+        .select_related("product")
+    )
+
+    context = {
+        "funnel": funnel,
+        "page": order_page,
+        "main_product": main_product,
+        "order_bumps": order_bumps,
+    }
+    return render(request, "funnel/order.html", context)
+
+
+@require_http_methods(["POST"])
+def funnel_checkout(request, slug):
+    funnel = get_object_or_404(Funnel, slug=slug, is_active=True)
+    product_id = request.POST.get("product_id")
+    bump_ids = request.POST.getlist("bump_ids")
+    email = request.POST.get("email", "")
+
+    product = get_object_or_404(Product, id=product_id)
+    bump_products = OrderBump.objects.filter(
+        id__in=bump_ids, funnel=funnel, is_active=True
+    ).select_related("product")
+
+    base_url = request.build_absolute_uri("/")[:-1]
+    success_url = f"{base_url}/funnel/{slug}/thank-you/"
+    cancel_url = f"{base_url}/funnel/{slug}/order/"
+
+    metadata = {
+        "funnel_slug": slug,
+        "product_id": str(product.id),
+        "bump_ids": ",".join([str(b.id) for b in bump_products]),
+        "contact_email": email,
+    }
+
+    try:
+        session = create_order_bump_session(
+            main_product=product,
+            bump_products=list(bump_products),
+            success_url=success_url,
+            cancel_url=cancel_url,
+            customer_email=email,
+            metadata=metadata,
+        )
+        return redirect(session.url, code=303)
+    except Exception as e:
+        messages.error(request, f"Checkout error: {e!s}")
+        return redirect("funnel_order", slug=slug)
+
+
+def funnel_thankyou(request, slug):
+    funnel = get_object_or_404(Funnel, slug=slug)
+    session_id = request.GET.get("session_id")
+
+    context = {
+        "funnel": funnel,
+        "session_id": session_id,
+    }
+    return render(request, "funnel/thank-you.html", context)
+
+
+def funnel_upsell(request, slug):
+    funnel = get_object_or_404(Funnel, slug=slug, is_active=True)
+    upsell_page = funnel.funnelpage_set.filter(page_type="upsell").first()
+
+    context = {
+        "funnel": funnel,
+        "page": upsell_page,
+    }
+    return render(request, "funnel/upsell.html", context)
+
+
+def offer_expired(request):
+    return render(request, "funnel/offer-expired.html")
+
+
+@require_http_methods(["POST"])
+def stripe_webhook(request):
+    import stripe
+
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    payload = request.body
+    sig_header = request.META.get("HTTP_STRIPE_SIGNATURE", "")
+    event = None
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
+        )
+    except ValueError:
+        return JsonResponse({"error": "Invalid payload"}, status=400)
+    except stripe.error.SignatureVerificationError:
+        return JsonResponse({"error": "Invalid signature"}, status=400)
+
+    if event["type"] == "checkout.session.completed":
+        session = event["data"]["object"]
+        handle_successful_payment(session)
+
+    return JsonResponse({"status": "success"})
+
+
+def handle_successful_payment(session):
+    metadata = session.get("metadata", {})
+    funnel_slug = metadata.get("funnel_slug")
+    product_id = metadata.get("product_id")
+    contact_email = metadata.get("contact_email")
+
+    if not product_id:
+        return
+
+    try:
+        product = Product.objects.get(id=product_id)
+    except Product.DoesNotExist:
+        return
+
+    contact, _ = Contact.objects.get_or_create(
+        email=contact_email,
+        defaults={
+            "source": "checkout",
+        },
+    )
+    contact.is_buyer = True
+    if funnel_slug:
+        contact.add_tag(funnel_slug)
+    contact.add_product(product.name)
+    contact.save()
+
+    Order.objects.create(
+        contact=contact,
+        product=product,
+        amount=product.price,
+        status="completed",
+        stripe_payment_id=session.get("id", ""),
+    )

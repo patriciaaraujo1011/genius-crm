@@ -1,11 +1,11 @@
-from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path
 
 from crm import views as crm_views
+from crm.admin import admin_site
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path("admin/", admin_site.urls),
     path("", crm_views.dashboard, name="dashboard"),
     path(
         "accounts/login/",
@@ -22,6 +22,11 @@ urlpatterns = [
     path("products/", crm_views.products, name="products"),
     path("orders/", crm_views.orders, name="orders"),
     path("funnels/", crm_views.funnels, name="funnels"),
+    path(
+        "funnels/templates/",
+        crm_views.funnel_templates,
+        name="funnel_templates",
+    ),
     path(
         "funnels/<slug:slug>/", crm_views.funnel_detail, name="funnel_detail"
     ),
@@ -61,5 +66,32 @@ urlpatterns = [
         "api/opportunity/stage/",
         crm_views.api_update_opportunity_stage,
         name="api_update_opportunity_stage",
+    ),
+    path(
+        "api/webhook/stripe/", crm_views.stripe_webhook, name="stripe_webhook"
+    ),
+    path("offer-expired/", crm_views.offer_expired, name="offer_expired"),
+    path(
+        "funnel/<slug:slug>/", crm_views.funnel_landing, name="funnel_landing"
+    ),
+    path(
+        "funnel/<slug:slug>/order/",
+        crm_views.funnel_order,
+        name="funnel_order",
+    ),
+    path(
+        "funnel/<slug:slug>/checkout/",
+        crm_views.funnel_checkout,
+        name="funnel_checkout",
+    ),
+    path(
+        "funnel/<slug:slug>/thank-you/",
+        crm_views.funnel_thankyou,
+        name="funnel_thankyou",
+    ),
+    path(
+        "funnel/<slug:slug>/upsell/",
+        crm_views.funnel_upsell,
+        name="funnel_upsell",
     ),
 ]

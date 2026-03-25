@@ -1,0 +1,81 @@
+{% extends "funnel/base.html" %}
+
+{% block title %}{{ funnel.name }} - {{ page.title|default:"Welcome" }}{% endblock %}
+
+{% block content %}
+<main class="landing-page">
+    <header class="landing-header">
+        <h1>{{ page.headline|default:funnel.name }}</h1>
+        {% if page.subheadline %}
+        <p class="subheadline">{{ page.subheadline }}</p>
+        {% endif %}
+    </header>
+
+    <section class="landing-content">
+        {{ page.content|default:"" }}
+    </section>
+
+    <section class="landing-cta">
+        <a href="{% url 'funnel_order' funnel.slug %}" class="cta-button">{{ page.cta_text|default:"Get Started Now" }}</a>
+    </section>
+</main>
+
+<style>
+    .landing-page {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        font-family: system-ui, sans-serif;
+        color: #2D2D2D;
+        background: #F5F0E8;
+        min-height: 100vh;
+    }
+
+    .landing-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .landing-header h1 {
+        color: #8A0329;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .subheadline {
+        font-size: 1.25rem;
+        color: #555;
+    }
+
+    .landing-content {
+        margin-bottom: 2rem;
+    }
+
+    .landing-cta {
+        text-align: center;
+    }
+
+    .cta-button {
+        display: inline-block;
+        background: #8A0329;
+        color: #EAFF9D;
+        padding: 1rem 2rem;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 8px;
+        font-size: 1.25rem;
+        transition: background 0.3s;
+    }
+
+    .cta-button:hover {
+        background: #6b0220;
+    }
+
+    .countdown-wrapper {
+        text-align: center;
+        padding: 1rem;
+        background: #EAFF9D;
+        margin-bottom: 2rem;
+    }
+</style>
+{% endblock %}
