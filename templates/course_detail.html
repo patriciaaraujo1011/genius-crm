@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}{{ product.name }}{% endblock %}
+{% block breadcrumb %}Courses{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>{{ product.name }}</h2>
+    <p style="color: var(--lime); font-family: var(--font-mono);">${{ product.price|floatformat:0 }}</p>
+  </div>
+  <div style="display: flex; gap: 8px;">
+    <a href="{% url 'courses' %}" class="btn btn-ghost">← Back to Courses</a>
+    <a href="/admin/crm/product/{{ product.id }}/change/" class="btn btn-primary">Edit Course</a>
+  </div>
+</div>
+
+<div class="table-card">
+  <div class="table-toolbar">
+    <div class="table-title">Modules & Lessons</div>
+    <a href="/admin/crm/module/add/?product={{ product.id }}" class="btn btn-ghost">+ Add Module</a>
+  </div>
+  {% with product.modules.all as modules %}
+    {% if modules %}
+      {% for module in modules %}
+      <div style="border-bottom: 1px solid var(--border);">
+        <div style="padding: 16px 20px; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h4 style="color: var(--cream); font-family: var(--font-display);">{{ module.title }}</h4>
+            <span style="font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono);">
+              {{ module.lessons.count }} lessons
+            </span>
+          </div>
+          <a href="/admin/crm/module/{{ module.id }}/change/" class="btn btn-ghost" style="padding: 6px 12px;">Edit</a>
+        </div>
+        {% if module.lessons.exists %}
+        <table>
+          <tbody>
+            {% for lesson in module.lessons.all %}
+            <tr>
+              <td style="width: 40px; text-align: center; color: var(--text-muted);">{{ lesson.order }}</td>
+              <td>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="font-size: 0.85rem;">{{ lesson.title }}</span>
+                  <span class="tag" style="font-size: 0.6rem;">{{ lesson.get_content_type_display }}</span>
+                </div>
+              </td>
+              <td style="color: var(--text-muted); font-family: var(--font-mono); font-size: 0.75rem;">
+                {% if lesson.duration_minutes %}{{ lesson.duration_minutes }} min{% else %}—{% endif %}
+              </td>
+              <td><a href="/admin/crm/lesson/{{ lesson.id }}/change/" class="action-dots">Edit</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% endif %}
+      </div>
+      {% endfor %}
+    {% else %}
+      <div style="padding: 40px; text-align: center; color: var(--text-muted);">
+        No modules yet. <a href="/admin/crm/module/add/?product={{ product.id }}" style="color: var(--burgundy);">Add your first module</a>
+      </div>
+    {% endif %}
+  {% endwith %}
+</div>
+{% endblock %}

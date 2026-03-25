@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Products{% endblock %}
+{% block breadcrumb %}Products{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>Products</h2>
+    <p>Manage your courses, memberships and digital products</p>
+  </div>
+  <a href="/admin/crm/product/add/" class="btn btn-primary">+ Add Product</a>
+</div>
+
+<div class="table-card">
+  <div class="table-toolbar">
+    <div class="table-title">All Products ({{ products|length }})</div>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Price</th>
+        <th>Status</th>
+        <th>Created</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product in products %}
+      <tr>
+        <td>
+          <div style="font-weight: 500;">{{ product.name }}</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">/{{ product.slug }}/</div>
+        </td>
+        <td><span class="tag">{{ product.get_product_type_display }}</span></td>
+        <td style="color: var(--lime); font-family: var(--font-mono);">${{ product.price|floatformat:0 }}</td>
+        <td>
+          {% if product.is_active %}
+            <span class="status-pill active">Active</span>
+          {% else %}
+            <span class="status-pill at-risk">Inactive</span>
+          {% endif %}
+        </td>
+        <td style="color: var(--text-muted); font-family: var(--font-mono); font-size: 0.75rem;">{{ product.created_at|date:"M d, Y" }}</td>
+        <td><a href="/admin/crm/product/{{ product.id }}/change/" class="action-dots">Edit</a></td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 40px;">
+          No products yet. <a href="/admin/crm/product/add/" style="color: var(--burgundy);">Add your first product</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

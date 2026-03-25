@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block breadcrumb %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-label">Total Contacts</div>
+    <div class="stat-value">{{ total_contacts }}</div>
+  </div>
+  <div class="stat-card lime">
+    <div class="stat-label">Buyers</div>
+    <div class="stat-value">{{ buyer_contacts }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Orders</div>
+    <div class="stat-value">{{ completed_orders }}</div>
+  </div>
+  <div class="stat-card cream">
+    <div class="stat-label">Revenue</div>
+    <div class="stat-value">${{ total_revenue|floatformat:0 }}</div>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px;">
+  <div class="stat-card">
+    <div class="stat-label">Products</div>
+    <div class="stat-value">{{ total_products }}</div>
+  </div>
+  <div class="stat-card lime">
+    <div class="stat-label">Active Funnels</div>
+    <div class="stat-value">{{ active_funnels }}</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Broadcasts</div>
+    <div class="stat-value">{{ total_broadcasts }}</div>
+  </div>
+</div>
+
+<div class="panel-grid">
+  <div>
+    <div class="table-card">
+      <div class="table-toolbar">
+        <div class="table-title">Recent Orders</div>
+        <a href="{% url 'orders' %}" class="btn btn-ghost">View All</a>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in recent_orders %}
+          <tr>
+            <td>{{ order.contact.first_name }} {{ order.contact.last_name }}</td>
+            <td>{{ order.product.name }}</td>
+            <td style="color: var(--lime); font-family: var(--font-mono);">${{ order.amount|floatformat:0 }}</td>
+            <td><span class="tag">{{ order.status }}</span></td>
+            <td style="color: var(--text-muted); font-family: var(--font-mono); font-size: 0.75rem;">{{ order.created_at|date:"M d, Y" }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" style="text-align: center; color: var(--text-muted);">No orders yet</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="table-card" style="margin-top: 20px;">
+      <div class="table-toolbar">
+        <div class="table-title">Recent Contacts</div>
+        <a href="{% url 'contacts' %}" class="btn btn-ghost">View All</a>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Source</th>
+            <th>Buyer</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for contact in recent_contacts %}
+          <tr>
+            <td>{{ contact.first_name }} {{ contact.last_name }}</td>
+            <td>{{ contact.email }}</td>
+            <td><span class="tag">{{ contact.source }}</span></td>
+            <td>{% if contact.is_buyer %}<span style="color: var(--lime);">✓</span>{% else %}—{% endif %}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="4" style="text-align: center; color: var(--text-muted);">No contacts yet</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="side-panel">
+    <div class="mini-card">
+      <div class="mini-card-title">Top Products</div>
+      <div class="event-log">
+        {% for product in top_products %}
+        <div class="event-item">
+          <span class="e-type">📦</span>
+          <span class="e-name">{{ product.name }}</span>
+          <span style="color: var(--text-muted); font-family: var(--font-mono);">{{ product.order_count }} sales</span>
+        </div>
+        {% empty %}
+        <div style="color: var(--text-muted); font-size: 0.78rem;">No products yet</div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="mini-card">
+      <div class="mini-card-title">Quick Actions</div>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <a href="{% url 'contacts' %}" class="btn btn-ghost" style="width: 100%; justify-content: center;">+ Add Contact</a>
+        <a href="{% url 'products' %}" class="btn btn-ghost" style="width: 100%; justify-content: center;">+ Add Product</a>
+        <a href="{% url 'funnels' %}" class="btn btn-ghost" style="width: 100%; justify-content: center;">+ Create Funnel</a>
+        <a href="{% url 'broadcast' %}" class="btn btn-ghost" style="width: 100%; justify-content: center;">Send Broadcast</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

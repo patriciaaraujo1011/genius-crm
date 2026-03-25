@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}{{ funnel.name }}{% endblock %}
+{% block breadcrumb %}Funnels{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>{{ funnel.name }}</h2>
+    <p style="font-family: var(--font-mono); color: var(--text-muted);">/{{ funnel.slug }}/</p>
+  </div>
+  <div style="display: flex; gap: 8px;">
+    {% if funnel.is_active %}
+      <span class="status-pill active">Active</span>
+    {% else %}
+      <span class="status-pill at-risk">Inactive</span>
+    {% endif %}
+    <a href="/admin/crm/funnel/{{ funnel.id }}/change/" class="btn btn-primary">Edit Funnel</a>
+  </div>
+</div>
+
+<div class="table-card">
+  <div class="table-toolbar">
+    <div class="table-title">Pages in this funnel</div>
+    <a href="/admin/crm/funnelpage/add/?funnel={{ funnel.id }}" class="btn btn-ghost">+ Add Page</a>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Order</th>
+        <th>Page Type</th>
+        <th>Title</th>
+        <th>CTA</th>
+        <th>Countdown</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for page in pages %}
+      <tr>
+        <td style="font-family: var(--font-mono); color: var(--text-muted);">{{ page.order }}</td>
+        <td><span class="tag">{{ page.get_page_type_display }}</span></td>
+        <td>{{ page.title }}</td>
+        <td>{{ page.cta_text|default:"—" }}</td>
+        <td>
+          {% if page.countdown_hours > 0 %}
+            <span style="color: var(--lime);">{{ page.countdown_hours }}h</span>
+          {% else %}
+            —
+          {% endif %}
+        </td>
+        <td><a href="/admin/crm/funnelpage/{{ page.id }}/change/" class="action-dots">Edit</a></td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 40px;">
+          No pages yet. <a href="/admin/crm/funnelpage/add/?funnel={{ funnel.id }}" style="color: var(--burgundy);">Add the first page</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

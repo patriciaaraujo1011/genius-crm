@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Courses{% endblock %}
+{% block breadcrumb %}Courses{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>Courses</h2>
+    <p>Manage your course content and lessons</p>
+  </div>
+  <a href="/admin/crm/product/add/" class="btn btn-primary">+ Add Course</a>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;">
+  {% for product in products %}
+  <div class="table-card" style="padding: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
+      <div>
+        <h3 style="font-family: var(--font-display); color: var(--cream); font-size: 1.1rem;">{{ product.name }}</h3>
+        <span class="tag" style="margin-top: 4px; display: inline-block;">{{ product.get_product_type_display }}</span>
+      </div>
+      <span style="color: var(--lime); font-family: var(--font-mono); font-size: 1.2rem;">${{ product.price|floatformat:0 }}</span>
+    </div>
+    <p style="color: var(--text-muted); font-size: 0.82rem; margin-bottom: 16px; line-height: 1.5;">{{ product.description|truncatewords:30 }}</p>
+    <div style="display: flex; gap: 8px;">
+      <a href="{% url 'course_detail' product.slug %}" class="btn btn-ghost" style="flex: 1; justify-content: center;">View Content</a>
+      <a href="/admin/crm/product/{{ product.id }}/change/" class="btn btn-primary" style="flex: 1; justify-content: center;">Edit</a>
+    </div>
+  </div>
+  {% empty %}
+  <div class="table-card" style="padding: 40px; text-align: center; grid-column: 1 / -1;">
+    <div style="font-size: 2rem; margin-bottom: 12px;">🎓</div>
+    <h3 style="color: var(--cream); margin-bottom: 8px;">No courses yet</h3>
+    <p style="color: var(--text-muted); margin-bottom: 16px;">Create your first course</p>
+    <a href="/admin/crm/product/add/" class="btn btn-primary">+ Add Course</a>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}Broadcast{% endblock %}
+{% block breadcrumb %}Broadcast{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>Broadcast</h2>
+    <p>Email & push messages to your members</p>
+  </div>
+</div>
+
+<div class="panel-grid">
+  <div>
+    <div class="mini-card">
+      <div class="mini-card-title">New Broadcast</div>
+      <form id="broadcastForm">
+        <div class="form-group">
+          <label>Segment</label>
+          <select name="segment">
+            <option value="all">All Members</option>
+            <option value="active">Active only</option>
+            <option value="at_risk">At-risk</option>
+            <option value="trial">Trial</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Subject line</label>
+          <input type="text" name="subject" placeholder="e.g. You haven't logged in. Here's why that's the pattern." required />
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea name="message" rows="5" placeholder="Write your message here..." required></textarea>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button type="submit" class="btn btn-primary">Send Now</button>
+          <button type="button" class="btn btn-ghost">Save Draft</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="side-panel">
+    <div class="mini-card">
+      <div class="mini-card-title">Sent History</div>
+      <div class="event-log">
+        {% for broadcast in broadcasts %}
+        <div class="event-item">
+          <span class="e-type">📬</span>
+          <span class="e-name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;">"{{ broadcast.subject }}"</span>
+          <span style="margin-left: auto; color: var(--lime);">{{ broadcast.open_rate }}%</span>
+        </div>
+        {% empty %}
+        <div style="color: var(--text-muted); font-size: 0.78rem;">No broadcasts sent yet</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById('broadcastForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+  const data = Object.fromEntries(formData);
+  
+  const response = await fetch('/api/broadcast/', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(data)
+  });
+  
+  if (response.ok) {
+    location.reload();
+  } else {
+    alert('Error sending broadcast');
+  }
+});
+</script>
+{% endblock %}

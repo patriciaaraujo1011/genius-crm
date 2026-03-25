@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Email Sequences{% endblock %}
+{% block breadcrumb %}Email Sequences{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>Email Sequences</h2>
+    <p>Automated email drip campaigns</p>
+  </div>
+  <a href="/admin/crm/emailsequence/add/" class="btn btn-primary">+ Create Sequence</a>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px;">
+  {% for sequence in sequences %}
+  <div class="table-card" style="padding: 20px;">
+    <div style="margin-bottom: 16px;">
+      <h3 style="font-family: var(--font-display); color: var(--cream); font-size: 1.1rem; margin-bottom: 4px;">{{ sequence.name }}</h3>
+      <span style="font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono);">Trigger: {{ sequence.trigger }}</span>
+    </div>
+    <div style="border-top: 1px solid var(--border); padding-top: 12px;">
+      <div style="font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono); text-transform: uppercase; margin-bottom: 8px;">Steps</div>
+      {% with sequence.steps.all as steps %}
+        {% if steps %}
+          {% for step in steps %}
+            <div style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border);">
+              <span style="background: var(--burgundy); color: var(--cream); width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-family: var(--font-mono);">{{ step.order }}</span>
+              <div style="flex: 1;">
+                <div style="font-size: 0.82rem;">{{ step.subject }}</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">+{{ step.delay_hours }}h delay</div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div style="color: var(--text-muted); font-size: 0.82rem;">No steps yet</div>
+        {% endif %}
+      {% endwith %}
+    </div>
+    <div style="margin-top: 16px;">
+      <a href="/admin/crm/emailsequence/{{ sequence.id }}/change/" class="btn btn-primary" style="width: 100%; justify-content: center;">Edit Sequence</a>
+    </div>
+  </div>
+  {% empty %}
+  <div class="table-card" style="padding: 40px; text-align: center; grid-column: 1 / -1;">
+    <div style="font-size: 2rem; margin-bottom: 12px;">✉️</div>
+    <h3 style="color: var(--cream); margin-bottom: 8px;">No sequences yet</h3>
+    <p style="color: var(--text-muted); margin-bottom: 16px;">Create automated email drip campaigns</p>
+    <a href="/admin/crm/emailsequence/add/" class="btn btn-primary">+ Create Sequence</a>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

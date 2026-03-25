@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — Genius</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;600&family=DM+Mono&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --burgundy: #8A0329;
+      --charcoal: #2D2D2D;
+      --lime: #EAFF9D;
+      --cream: #F5F0E8;
+      --text-muted: rgba(245, 240, 232, 0.52);
+      --border: rgba(245, 240, 232, 0.1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--charcoal);
+      color: var(--cream);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-card {
+      background: #1e1e1e;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px;
+      width: 400px;
+      max-width: 90%;
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .logo .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--lime);
+      margin-bottom: 4px;
+    }
+    .logo h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .form-group input {
+      width: 100%;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 0.9rem;
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+    }
+    .form-group input:focus { border-color: var(--burgundy); }
+    .btn {
+      width: 100%;
+      background: var(--burgundy);
+      color: var(--cream);
+      border: none;
+      border-radius: 8px;
+      padding: 14px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: background 0.16s;
+    }
+    .btn:hover { background: #a0032f; }
+    .error {
+      background: rgba(255, 138, 138, 0.15);
+      border: 1px solid rgba(255, 138, 138, 0.3);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 20px;
+      color: #ff8a8a;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <div class="logo">
+      <div class="eyebrow">Cool Girl Rehab™</div>
+      <h1>Genius</h1>
+    </div>
+    
+    {% if messages %}
+      {% for message in messages %}
+        <div class="error">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="id_username">Username</label>
+        <input type="text" name="username" id="id_username" required autofocus />
+      </div>
+      <div class="form-group">
+        <label for="id_password">Password</label>
+        <input type="password" name="password" id="id_password" required />
+      </div>
+      <button type="submit" class="btn">Sign In</button>
+    </form>
+  </div>
+</body>
+</html>
