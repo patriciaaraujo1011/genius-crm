@@ -14,7 +14,7 @@
 <div class="table-card">
   <div class="table-toolbar">
     <div class="table-title">All Contacts ({{ contacts|length }})</div>
-    <input type="text" id="searchContacts" placeholder="Search by name, email, or tag..." 
+    <input type="text" id="searchContacts" placeholder="Search by name, email, or tag..."
            style="background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 6px; padding: 8px 14px; font-size: 0.8rem; color: var(--cream); font-family: var(--font-body); outline: none; width: 240px;" />
   </div>
   <table>
@@ -130,10 +130,10 @@ function closeModal() {
 document.getElementById('contactForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   const formData = new FormData(this);
-  
+
   let tagsValue = formData.get('tags') || '';
   let tags = tagsValue.split(',').map(t => t.trim()).filter(t => t);
-  
+
   const data = {
     first_name: formData.get('first_name'),
     last_name: formData.get('last_name'),
@@ -142,15 +142,15 @@ document.getElementById('contactForm').addEventListener('submit', async function
     source: formData.get('source'),
     tags: tags
   };
-  
+
   const response = await fetch('/api/contacts/', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(data)
   });
-  
+
   const result = await response.json();
-  
+
   if (result.success) {
     location.reload();
   } else {

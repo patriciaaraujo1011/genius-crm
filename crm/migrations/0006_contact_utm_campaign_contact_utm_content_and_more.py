@@ -4,35 +4,34 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('crm', '0005_alter_contact_source'),
+        ("crm", "0005_alter_contact_source"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='contact',
-            name='utm_campaign',
+            model_name="contact",
+            name="utm_campaign",
             field=models.CharField(blank=True, max_length=200),
         ),
         migrations.AddField(
-            model_name='contact',
-            name='utm_content',
+            model_name="contact",
+            name="utm_content",
             field=models.CharField(blank=True, max_length=200),
         ),
         migrations.AddField(
-            model_name='contact',
-            name='utm_medium',
+            model_name="contact",
+            name="utm_medium",
             field=models.CharField(blank=True, max_length=200),
         ),
         migrations.AddField(
-            model_name='contact',
-            name='utm_source',
+            model_name="contact",
+            name="utm_source",
             field=models.CharField(blank=True, max_length=200),
         ),
         migrations.AddField(
-            model_name='contact',
-            name='utm_term',
+            model_name="contact",
+            name="utm_term",
             field=models.CharField(blank=True, max_length=200),
         ),
     ]

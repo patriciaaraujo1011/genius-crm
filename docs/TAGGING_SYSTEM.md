@@ -49,18 +49,18 @@ from datetime import datetime
 def optin_page(request, slug=None):
     if request.method == 'POST':
         # ... get form data ...
-        
+
         # Capture UTM parameters
         utm_source = request.GET.get('utm_source', '')
         utm_medium = request.GET.get('utm_medium', '')
         utm_campaign = request.GET.get('utm_campaign', '')
-        
+
         # Determine source from UTM or default
         source = request.POST.get('source', 'organic')
         if not source or source == 'organic':
             if utm_source:
                 source = utm_source
-        
+
         # Build tag list
         tags_to_add = [
             'opt-in-1',  # UPDATE: template tag
@@ -69,13 +69,13 @@ def optin_page(request, slug=None):
             datetime.now().strftime('%B-%Y').lower(),  # Date tag
             'lead-magnet',  # Lead type tag
         ]
-        
+
         # Add UTM-based tags
         if utm_campaign:
             tags_to_add.append(f'campaign-{utm_campaign}')
         if utm_source:
             tags_to_add.append(f'source-{utm_source}')
-        
+
         # Create or update contact
         contact, created = Contact.objects.get_or_create(
             email=email,
@@ -92,14 +92,14 @@ def optin_page(request, slug=None):
                 'pipeline_stage': 'new_lead'
             }
         )
-        
+
         # If contact exists, add new tags
         if not created:
             for tag in tags_to_add:
                 if tag not in contact.tags:
                     contact.tags.append(tag)
             contact.save()
-        
+
         return redirect('optin_thankyou')
 ```
 

@@ -53,17 +53,21 @@ path('opt-in/thank-you/', ...)     # Never reached
 ### 3. Database Migrations
 After modifying models, always run:
 ```bash
-python3 manage.py makemigrations
-python3 manage.py migrate
+source .venv/bin/activate
+python manage.py makemigrations
+python manage.py migrate
 ```
 
 ### 4. Server Management
 ```bash
+# Activate venv first
+source .venv/bin/activate
+
 # Start server
-python3 manage.py runserver 8000
+python manage.py runserver 8000
 
 # Restart server (after code changes)
-pkill -f "manage.py runserver" && python3 manage.py runserver 8000
+pkill -f "manage.py runserver" && python manage.py runserver 8000
 ```
 
 ---
@@ -114,7 +118,8 @@ Located in `crm/validators.py`:
 ### Test opt-in form:
 ```bash
 cd "/Users/patriciaaraujo/Desktop/Genius CRM /genius"
-python3 manage.py shell -c "
+source .venv/bin/activate
+python manage.py shell -c "
 from crm.views import optin_page
 from django.test import RequestFactory
 factory = RequestFactory()
@@ -132,7 +137,7 @@ print('Redirect:', response.url)
 
 ### Check contacts:
 ```bash
-python3 manage.py shell -c "
+python manage.py shell -c "
 from crm.models import Contact
 contacts = Contact.objects.order_by('-created_at')[:5]
 for c in contacts:
@@ -155,6 +160,62 @@ for c in contacts:
 
 ---
 
+## Pre-Commit Hooks
+
+This project uses pre-commit hooks for code quality and consistency. All hooks are defined in `.pre-commit-config.yaml`.
+
+### Installed Hooks
+
+| Hook | Description | Auto-Fix |
+|------|-------------|----------|
+| **Django System Checks** | Runs `python manage.py check` | No |
+| **Django Tests** | Runs `python manage.py test` | No |
+| **Django Migrations Check** | Ensures no unapplied migrations | No |
+| **Safety Vulnerability Check** | Scans dependencies for CVEs | No |
+| **Trailing Whitespace** | Removes trailing whitespace | Yes |
+| **End of File Fixer** | Ensures newline at EOF | Yes |
+| **Check YAML** | Validates YAML syntax | No |
+| **Check Large Files** | Prevents large file commits | No |
+| **Ruff Linter** | Fast Python linter | Yes |
+| **Ruff Formatter** | Code formatting | Yes |
+| **Black** | PEP-8 code formatting | Yes |
+| **isort** | Import sorting | Yes |
+| **mypy** | Static type checking | No |
+| **Bandit** | Security linting | No |
+
+### Running Pre-Commit
+
+```bash
+# Run on all files
+pre-commit run --all-files
+
+# Run on staged files only (default on commit)
+pre-commit run
+
+# Update hook versions
+pre-commit autoupdate
+```
+
+### Skipping Hooks
+
+To bypass pre-commit hooks when committing:
+```bash
+git commit --no-verify -m "Your message"
+```
+
+### Virtual Environment
+
+The project uses `uv` for package management. Activate the venv:
+```bash
+source .venv/bin/activate
+```
+
+### Dependencies Location
+- **Virtual Environment:** `.venv/`
+- **Python Packages:** Installed via `uv pip install`
+
+---
+
 ## User Preferences
 
 - **Build incrementally** with approval checkpoints
@@ -173,3 +234,21 @@ for c in contacts:
 ---
 
 **Last Updated:** March 25, 2026
+
+---
+
+## Configuration Files
+
+### pyproject.toml
+Contains tool configurations for:
+- `black` - Code formatting (line-length: 79, strict PEP-8)
+- `isort` - Import sorting (profile: black)
+- `ruff` - Linting rules
+- `mypy` - Type checking settings
+- `bandit` - Security scanning settings
+
+### .pre-commit-config.yaml
+Pre-commit hook definitions. See "Pre-Commit Hooks" section above.
+
+### .gitignore
+Excludes: `__pycache__`, `.venv`, `db.sqlite3`, IDE files, OS files

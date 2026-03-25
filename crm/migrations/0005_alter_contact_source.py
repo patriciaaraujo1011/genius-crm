@@ -4,15 +4,31 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('crm', '0004_funnel_tag'),
+        ("crm", "0004_funnel_tag"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='contact',
-            name='source',
-            field=models.CharField(choices=[('lead_magnet_freebie_a', 'Lead Magnet - Freebie A'), ('lead_magnet_freebie_b', 'Lead Magnet - Freebie B'), ('webinar', 'Webinar'), ('referral', 'Referral'), ('organic', 'Organic'), ('instagram', 'Instagram'), ('facebook', 'Facebook'), ('meta_ad', 'Meta Ad'), ('google_ad', 'Google Ad'), ('tiktok', 'TikTok'), ('email', 'Email'), ('manual', 'Manual Entry')], default='organic', max_length=50),
+            model_name="contact",
+            name="source",
+            field=models.CharField(
+                choices=[
+                    ("lead_magnet_freebie_a", "Lead Magnet - Freebie A"),
+                    ("lead_magnet_freebie_b", "Lead Magnet - Freebie B"),
+                    ("webinar", "Webinar"),
+                    ("referral", "Referral"),
+                    ("organic", "Organic"),
+                    ("instagram", "Instagram"),
+                    ("facebook", "Facebook"),
+                    ("meta_ad", "Meta Ad"),
+                    ("google_ad", "Google Ad"),
+                    ("tiktok", "TikTok"),
+                    ("email", "Email"),
+                    ("manual", "Manual Entry"),
+                ],
+                default="organic",
+                max_length=50,
+            ),
         ),
     ]

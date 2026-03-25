@@ -101,13 +101,13 @@
       <div class="eyebrow">Cool Girl Rehab™</div>
       <h1>Genius</h1>
     </div>
-    
+
     {% if messages %}
       {% for message in messages %}
         <div class="error">{{ message }}</div>
       {% endfor %}
     {% endif %}
-    
+
     <form method="post">
       {% csrf_token %}
       <div class="form-group">

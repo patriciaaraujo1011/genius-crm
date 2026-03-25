@@ -1,0 +1,71 @@
+repos:
+  - repo: local
+    hooks:
+      - id: django-check
+        name: Django System Checks
+        entry: ".venv/bin/python manage.py check"
+        language: system
+        pass_filenames: false
+        types: [python]
+
+      - id: django-test
+        name: Django Tests
+        entry: ".venv/bin/python manage.py test"
+        language: system
+        pass_filenames: false
+        types: [python]
+
+      - id: django-migrations
+        name: Django Migrations Check
+        entry: ".venv/bin/python manage.py makemigrations --check --dry-run"
+        language: system
+        pass_filenames: false
+        types: [python]
+
+      - id: safety
+        name: Safety Vulnerability Check
+        entry: ".venv/bin/safety check --full-report"
+        language: system
+        pass_filenames: false
+        types: [python]
+        args: ['--ignore=76910', '--ignore=82754', '--ignore=83159', '--ignore=84183', '--ignore=84415']
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+        args: ['--maxkb=5000']
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.5
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix, --exclude=migrations/]
+      - id: ruff-format
+
+  - repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+      - id: black
+        args: [--check, --diff]
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        args: [--check-only, --diff]
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.14.1
+    hooks:
+      - id: mypy
+        args: [--ignore-missing-imports]
+
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.10
+    hooks:
+      - id: bandit
+        args: [-r, -x, B404,B603]
