@@ -6,6 +6,12 @@
 <title>Cool Girl Rehab™ — You're In!</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+/* ══════════════════════════════════════════════════
+   CGR OPT-IN THANK YOU PAGE — Editorial Light Template
+   Funnel: Lead Magnet → Opt-In → [THANK YOU]
+   All <!-- EDIT --> markers = your copy/content
+══════════════════════════════════════════════════ */
+
 :root {
   --burgundy:    #8A0329;
   --burgundy-d:  #6b0220;
@@ -43,6 +49,9 @@ body {
   margin-top: 48px;
 }
 
+/* ─────────────────────────────────
+   DEVICE TOGGLE BAR
+───────────────────────────────── */
 .dev-bar {
   position: fixed; top: 0; left: 0; right: 0;
   height: 48px; z-index: 99999;
@@ -66,6 +75,7 @@ body {
 .dev-btn:hover:not(.active) { color: rgba(245,240,232,.7); border-color: rgba(245,240,232,.15); }
 .dev-sep { width: 1px; height: 18px; background: var(--charcoal-mid); }
 
+/* Mobile mode */
 body.mobile-mode {
   max-width: 430px !important;
   margin-left: auto !important; margin-right: auto !important;
@@ -81,6 +91,9 @@ body.mobile-mode .ty-hero { padding: 52px 20px 48px !important; }
 body.mobile-mode .ty-hero-head { font-size: clamp(36px, 10vw, 48px) !important; }
 body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28px !important; }
 
+/* ─────────────────────────────────
+   HEADER
+───────────────────────────────── */
 .ty-header {
   background: var(--burgundy);
   border-bottom: 1px solid var(--burgundy-d);
@@ -100,6 +113,9 @@ body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28
   color: rgba(245,240,232,.55);
 }
 
+/* ─────────────────────────────────
+   CONFIRMATION BADGE
+───────────────────────────────── */
 .ty-badge {
   display: flex; align-items: center;
   justify-content: center; gap: 10px;
@@ -123,6 +139,9 @@ body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28
   flex-shrink: 0;
 }
 
+/* ─────────────────────────────────
+   HERO
+───────────────────────────────── */
 .ty-hero {
   background: var(--white);
   border-bottom: 1px solid var(--border);
@@ -130,6 +149,7 @@ body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28
   text-align: center;
   position: relative; overflow: hidden;
 }
+/* watermark */
 .ty-hero::before {
   content: '✓';
   position: absolute; left: 50%; top: 50%;
@@ -176,6 +196,9 @@ body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28
 }
 .ty-hero-sub strong { color: var(--charcoal); }
 
+/* ─────────────────────────────────
+   DOWNLOAD BUTTON
+───────────────────────────────── */
 .ty-download-wrap { margin-bottom: 16px; }
 .ty-download-btn {
   display: inline-flex; align-items: center; gap: 12px;
@@ -224,6 +247,9 @@ body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28
   flex-shrink: 0;
 }
 
+/* ─────────────────────────────────
+   WHAT TO DO NEXT — STEPS
+───────────────────────────────── */
 .ty-section {
   padding: 72px 48px;
   border-bottom: 1px solid var(--border);
@@ -252,6 +278,7 @@ body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28
 .ty-section-head em { color: var(--burgundy); font-style: italic; }
 .ty-section.dark .ty-section-head em { color: var(--lime); }
 
+/* Steps strip — compact horizontal */
 .ty-steps {
   display: flex;
   align-items: stretch;
@@ -288,6 +315,9 @@ body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28
   font-size: 12.5px; color: var(--muted); line-height: 1.6;
 }
 
+/* ─────────────────────────────────
+   SOCIAL FOLLOW
+───────────────────────────────── */
 .ty-social-row {
   display: flex; align-items: center;
   justify-content: space-between; gap: 32px;
@@ -321,6 +351,9 @@ body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28
   fill: currentColor; flex-shrink: 0;
 }
 
+/* ─────────────────────────────────
+   CLOSING NOTE
+───────────────────────────────── */
 .ty-closing {
   background: var(--white);
   border-bottom: 1px solid var(--border);
@@ -347,6 +380,9 @@ body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28
   text-transform: none; margin-top: 6px;
 }
 
+/* ─────────────────────────────────
+   FOOTER
+───────────────────────────────── */
 .ty-footer {
   background: var(--charcoal);
   padding: 28px 48px; text-align: center;
@@ -355,9 +391,15 @@ body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28
 .ty-footer a { color: rgba(234,255,157,.6); text-decoration: none; margin: 0 8px; }
 .ty-footer a:hover { color: var(--lime); }
 
+/* ─────────────────────────────────
+   SCROLL REVEAL
+───────────────────────────────── */
 .rv { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
 .rv.visible { opacity: 1; transform: translateY(0); }
 
+/* ─────────────────────────────────
+   NATIVE RESPONSIVE
+───────────────────────────────── */
 @media (max-width: 768px) {
   .ty-hero { padding: 52px 24px 48px; }
   .ty-hero::before { font-size: 220px; }
@@ -372,6 +414,7 @@ body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28
 </head>
 <body>
 
+<!-- DEVICE TOGGLE BAR -->
 <div class="dev-bar">
   <button class="dev-btn active" id="btn-desktop" onclick="setDevice('desktop')">
     <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
@@ -384,11 +427,15 @@ body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28
   </button>
 </div>
 
+<!-- HEADER -->
 <header class="ty-header">
-  <div class="ty-header-brand">Cool Girl Rehab™</div>
+  <div class="ty-header-brand">Cool Girl Rehab™</div><!-- EDIT: brand -->
   <div class="ty-header-label">You're In</div>
 </header>
 
+<!-- ══════════════════════════
+     HERO
+══════════════════════════ -->
 <section class="ty-hero">
   <div class="ty-hero-wrap">
 
@@ -403,17 +450,20 @@ body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28
 
     <h1 class="ty-hero-head">
       You've got it.<br>
-      <em>[Lead Magnet Name]</em> is yours.
+      <em>[Lead Magnet Name]</em><!-- EDIT: lead magnet name -->
+      is yours.
     </h1>
 
     <p class="ty-hero-sub">
+      <!-- EDIT: warm confirmation message -->
       You just took a real step. <strong>Your free resource is ready to download right now</strong> — and a copy has also been sent to your inbox so you'll always have it.
     </p>
 
+    <!-- DOWNLOAD BUTTON -->
     <div class="ty-download-wrap">
-      <a href="#" class="ty-download-btn">
+      <a href="#" class="ty-download-btn"><!-- EDIT: href = direct download link or hosted file URL -->
         <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Download Now →
+        Download Now →<!-- EDIT: button copy -->
       </a>
     </div>
 
@@ -425,6 +475,9 @@ body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28
   </div>
 </section>
 
+<!-- ══════════════════════════
+     WHAT TO DO NEXT
+══════════════════════════ -->
 <section class="ty-section cream rv" style="padding: 36px 48px;">
   <div class="ty-wrap">
     <div class="ty-section-eye" style="margin-bottom: 16px;">What To Do Next</div>
@@ -436,7 +489,7 @@ body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28
         <div class="ty-step-content">
           <span class="ty-step-num-label">Step 01</span>
           <div class="ty-step-title">Download it now</div>
-          <div class="ty-step-desc">Hit the button above and save it somewhere you'll actually open it — desktop, Drive, or phone.</div>
+          <div class="ty-step-desc">Hit the button above and save it somewhere you'll actually open it — desktop, Drive, or phone.</div><!-- EDIT -->
         </div>
       </div>
 
@@ -445,7 +498,7 @@ body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28
         <div class="ty-step-content">
           <span class="ty-step-num-label">Step 02</span>
           <div class="ty-step-title">Check your email</div>
-          <div class="ty-step-desc">A copy is on its way to your inbox. Add us to your contacts so nothing goes to spam.</div>
+          <div class="ty-step-desc">A copy is on its way to your inbox. Add us to your contacts so nothing goes to spam.</div><!-- EDIT -->
         </div>
       </div>
 
@@ -453,8 +506,8 @@ body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28
         <span class="ty-step-icon">✍️</span>
         <div class="ty-step-content">
           <span class="ty-step-num-label">Step 03</span>
-          <div class="ty-step-title">Actually use it</div>
-          <div class="ty-step-desc">Don't just read it — work through it. [Your specific instruction here.]</div>
+          <div class="ty-step-title">Actually use it</div><!-- EDIT -->
+          <div class="ty-step-desc">Don't just read it — work through it. [Your specific instruction here.]</div><!-- EDIT -->
         </div>
       </div>
 
@@ -462,58 +515,67 @@ body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28
   </div>
 </section>
 
+<!-- ══════════════════════════
+     SOCIAL FOLLOW — DARK
+══════════════════════════ -->
 <section class="ty-section dark rv">
   <div class="ty-wrap">
     <div class="ty-social-row">
 
       <div class="ty-social-copy">
-        <div class="ty-section-eye">Come Find Me</div>
+        <div class="ty-section-eye">Come Find Me</div><!-- EDIT -->
         <h2 class="ty-section-head">
           Let's keep the<br>
           <em>conversation going</em>
         </h2>
         <p>
-          This is just the beginning. <strong>Come say hi on Instagram</strong> — I share [what you post about: honest conversations about real life, mindset, and what it actually takes to feel like yourself again]. It's where the good stuff happens between the resources.
+          This is just the beginning. <strong>Come say hi on Instagram</strong> — I share [what you post about: e.g. "honest conversations about real life, mindset, and what it actually takes to feel like yourself again"]. It's where the good stuff happens between the resources.<!-- EDIT -->
         </p>
       </div>
 
-      <a href="https://instagram.com/[yourhandle]" target="_blank" class="ty-social-btn">
+      <a href="https://instagram.com/[yourhandle]" target="_blank" class="ty-social-btn"><!-- EDIT: href -->
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/>
           <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
           <circle cx="17.5" cy="6.5" r="1.5"/>
         </svg>
-        Follow @[yourhandle]
+        Follow @[yourhandle]<!-- EDIT: Instagram handle -->
       </a>
 
     </div>
   </div>
 </section>
 
+<!-- ══════════════════════════
+     CLOSING NOTE
+══════════════════════════ -->
 <div class="ty-closing rv">
   <div class="ty-closing-quote">
+    <!-- EDIT: personal closing note in your voice -->
     "I made this because I wish someone had handed it to me when I needed it most. I hope it gives you exactly <strong>what you need right now.</strong>"
   </div>
   <div class="ty-closing-sig">
-    With love,
-    <span>[Your Name]</span>
+    With love,<!-- EDIT -->
+    <span>[Your Name]</span><!-- EDIT: your name -->
   </div>
 </div>
 
+<!-- FOOTER -->
 <footer class="ty-footer">
   <p>
-    © 2026 Cool Girl Rehab™ &nbsp;·&nbsp; All Rights Reserved<br>
+    © 2026 Cool Girl Rehab™ &nbsp;·&nbsp; All Rights Reserved<br><!-- EDIT -->
     <a href="#">Terms & Conditions</a>
     <a href="#">Privacy Policy</a>
     <a href="#">Earnings Disclaimer</a>
     <a href="#">Refund Policy</a>
   </p>
   <p style="margin-top:8px;padding-bottom:8px;">
-    Questions? Email <a href="mailto:support@coolgirlrehab.com">support@coolgirlrehab.com</a>
+    Questions? Email <a href="mailto:support@coolgirlrehab.com">support@coolgirlrehab.com</a><!-- EDIT -->
   </p>
 </footer>
 
 <script>
+// ── Device toggle ──
 function setDevice(mode) {
   const body = document.body;
   const btnD = document.getElementById('btn-desktop');
@@ -530,6 +592,7 @@ function setDevice(mode) {
   window.scrollTo(0, 0);
 }
 
+// ── Scroll reveal ──
 const rvEls = document.querySelectorAll('.rv');
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => {
@@ -541,5 +604,6 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.08 });
 rvEls.forEach(el => observer.observe(el));
 </script>
+
 </body>
 </html>

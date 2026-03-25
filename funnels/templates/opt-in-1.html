@@ -6,7 +6,14 @@
 <title>Cool Girl Rehab™ — Free Resource</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+/* ══════════════════════════════════════════════════
+   CGR OPT-IN PAGE — Editorial Light Template
+   Funnel: Lead Magnet → [OPT-IN] → Thank You
+   All <!-- EDIT --> markers = your copy/content
+══════════════════════════════════════════════════ */
+
 :root {
+  /* CGR Brand */
   --burgundy:    #8A0329;
   --burgundy-d:  #6b0220;
   --burgundy-bg: rgba(138,3,41,.08);
@@ -24,6 +31,7 @@
   --muted:       #6b6560;
   --border:      #D9D3C9;
 
+  /* Typography */
   --serif:  'Instrument Serif', Georgia, serif;
   --sans:   'DM Sans', sans-serif;
   --mono:   'DM Mono', monospace;
@@ -41,6 +49,9 @@ body {
   margin-top: 48px;
 }
 
+/* ─────────────────────────────────
+   DEVICE TOGGLE BAR
+───────────────────────────────── */
 .dev-bar {
   position: fixed; top: 0; left: 0; right: 0;
   height: 48px; z-index: 99999;
@@ -64,6 +75,7 @@ body {
 .dev-btn:hover:not(.active) { color: rgba(245,240,232,.7); border-color: rgba(245,240,232,.15); }
 .dev-sep { width: 1px; height: 18px; background: var(--charcoal-mid); }
 
+/* Mobile mode */
 body.mobile-mode {
   max-width: 430px !important;
   margin-left: auto !important; margin-right: auto !important;
@@ -81,6 +93,9 @@ body.mobile-mode .oi-announce { font-size: 10px !important; padding: 10px 16px !
 body.mobile-mode .oi-hero-head { font-size: clamp(36px, 10vw, 52px) !important; }
 body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
 
+/* ─────────────────────────────────
+   ANNOUNCE BAR
+───────────────────────────────── */
 .oi-announce {
   background: var(--burgundy);
   color: var(--lime);
@@ -92,6 +107,9 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
 }
 .oi-announce span { color: rgba(234,255,157,.6); margin: 0 12px; }
 
+/* ─────────────────────────────────
+   HEADER
+───────────────────────────────── */
 .oi-header {
   background: var(--cream);
   border-bottom: 1px solid var(--border);
@@ -111,6 +129,9 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
   color: var(--muted);
 }
 
+/* ─────────────────────────────────
+   HERO — 2 COL EDITORIAL
+───────────────────────────────── */
 .oi-hero {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -125,6 +146,7 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
   background: var(--white);
   position: relative; overflow: hidden;
 }
+/* Large watermark number */
 .oi-hero-left::before {
   content: '01';
   position: absolute; right: -10px; bottom: -30px;
@@ -160,6 +182,7 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
 }
 .oi-hero-sub strong { color: var(--charcoal); }
 
+/* Proof row */
 .oi-proof-row {
   display: flex; align-items: center; gap: 20px;
   padding-top: 8px;
@@ -168,6 +191,7 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
 .oi-proof-text { font-size: 12px; color: var(--muted); font-weight: 500; }
 .oi-proof-text strong { color: var(--charcoal); }
 
+/* Right side — form */
 .oi-hero-right {
   background: var(--cream);
   padding: 64px 56px;
@@ -175,6 +199,9 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
   justify-content: center; gap: 32px;
 }
 
+/* ─────────────────────────────────
+   FORM CARD
+───────────────────────────────── */
 .oi-form-card {
   background: var(--white);
   border: 1px solid var(--border);
@@ -226,11 +253,8 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
   border-color: var(--burgundy);
   box-shadow: 0 0 0 3px var(--burgundy-bg);
 }
-.oi-input.error {
-  border-color: #e74c3c;
-  box-shadow: 0 0 0 3px rgba(231,76,60,.15);
-}
 
+/* Phone row */
 .oi-phone-wrap {
   display: flex; gap: 10px;
 }
@@ -248,6 +272,7 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
 .oi-phone-code:focus { border-color: var(--burgundy); box-shadow: 0 0 0 3px var(--burgundy-bg); }
 .oi-phone-num { flex: 1; }
 
+/* CTA button */
 .oi-submit {
   display: block; width: 100%;
   background: var(--lime);
@@ -282,24 +307,9 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
   letter-spacing: .02em;
 }
 
-.oi-error-msg {
-  background: rgba(231,76,60,.1);
-  border: 1px solid rgba(231,76,60,.25);
-  border-radius: 8px;
-  padding: 12px 16px;
-  margin-bottom: 16px;
-  font-size: 13px;
-  color: #c0392b;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.oi-error-msg svg {
-  width: 16px; height: 16px;
-  fill: none; stroke: #c0392b; stroke-width: 2;
-  flex-shrink: 0;
-}
-
+/* ─────────────────────────────────
+   WHAT YOU GET SECTION
+───────────────────────────────── */
 .oi-section {
   padding: 80px 0;
   border-bottom: 1px solid var(--border);
@@ -333,6 +343,7 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
 .oi-section-head em { color: var(--burgundy); font-style: italic; }
 .oi-section.dark .oi-section-head em { color: var(--lime); }
 
+/* What's inside paragraphs */
 .oi-what-body {
   max-width: 680px;
   display: flex; flex-direction: column; gap: 20px;
@@ -345,6 +356,7 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
 }
 .oi-what-p:first-child { border-left-color: var(--burgundy); color: var(--charcoal-mid); }
 
+/* What you get grid */
 .oi-what-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -380,6 +392,9 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
   font-size: 14px; color: var(--muted); line-height: 1.7;
 }
 
+/* ─────────────────────────────────
+   FOR YOU IF — DARK SECTION
+───────────────────────────────── */
 .oi-for-list {
   display: flex; flex-direction: column; gap: 0;
   max-width: 720px;
@@ -406,6 +421,9 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
 }
 .oi-for-text strong { color: var(--cream); }
 
+/* ─────────────────────────────────
+   STATS BAND
+───────────────────────────────── */
 .oi-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -431,6 +449,9 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
   color: var(--muted); line-height: 1.6;
 }
 
+/* ─────────────────────────────────
+   BOTTOM CTA SECTION
+───────────────────────────────── */
 .oi-cta-section {
   background: var(--burgundy);
   padding: 80px 48px;
@@ -473,6 +494,9 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
   box-shadow: 0 14px 50px rgba(234,255,157,.5);
 }
 
+/* ─────────────────────────────────
+   FOOTER
+───────────────────────────────── */
 .oi-footer {
   background: var(--charcoal);
   padding: 28px 48px; text-align: center;
@@ -481,9 +505,15 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
 .oi-footer a { color: rgba(234,255,157,.6); text-decoration: none; margin: 0 8px; }
 .oi-footer a:hover { color: var(--lime); }
 
+/* ─────────────────────────────────
+   SCROLL REVEAL
+───────────────────────────────── */
 .rv { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
 .rv.visible { opacity: 1; transform: translateY(0); }
 
+/* ─────────────────────────────────
+   NATIVE RESPONSIVE
+───────────────────────────────── */
 @media (max-width: 768px) {
   .oi-hero { grid-template-columns: 1fr; }
   .oi-hero-left { border-right: none; border-bottom: 1px solid var(--border); padding: 48px 24px; }
@@ -503,6 +533,7 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
 </head>
 <body>
 
+<!-- DEVICE TOGGLE BAR -->
 <div class="dev-bar">
   <button class="dev-btn active" id="btn-desktop" onclick="setDevice('desktop')">
     <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
@@ -515,62 +546,71 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
   </button>
 </div>
 
+<!-- ANNOUNCE BAR -->
 <div class="oi-announce">
-  Free Resource <span>·</span> Instant Access <span>·</span> No Credit Card Required
+  Free Resource <span>·</span> <!-- EDIT: announce copy e.g. "Download Instantly" -->
+  Instant Access <span>·</span> No Credit Card Required
 </div>
 
+<!-- HEADER -->
 <header class="oi-header">
-  <div class="oi-header-brand">Cool Girl Rehab™</div>
-  <div class="oi-header-label">Free Resource</div>
+  <div class="oi-header-brand">Cool Girl Rehab™</div><!-- EDIT: brand -->
+  <div class="oi-header-label">Free Resource</div><!-- EDIT: label -->
 </header>
 
+<!-- ══════════════════════════
+     HERO — 2 COL
+══════════════════════════ -->
 <section class="oi-hero">
+
+  <!-- LEFT: copy -->
   <div class="oi-hero-left">
-    <div class="oi-eyebrow">Free Download</div>
+    <div class="oi-eyebrow">Free Download</div><!-- EDIT -->
 
     <h1 class="oi-hero-head">
+      <!-- EDIT: headline -->
       [Your Lead Magnet<br>
       <em>Title Goes Here]</em>
     </h1>
 
     <p class="oi-hero-sub">
+      <!-- EDIT: subheadline — one punchy promise -->
       The <strong>[X-step / X-page]</strong> resource that helps you [specific result] — even if [common objection].
     </p>
 
     <div class="oi-proof-row">
       <span class="oi-proof-stars">★★★★★</span>
-      <span class="oi-proof-text"><strong>[XXX]+ women</strong> already have this</span>
+      <span class="oi-proof-text"><strong>[XXX]+ women</strong> already have this</span><!-- EDIT -->
     </div>
   </div>
 
+  <!-- RIGHT: form -->
   <div class="oi-hero-right">
     <div class="oi-form-card">
       <div class="oi-form-card-head">
-        <div class="oi-form-card-label">Yes, send it to me</div>
-        <div class="oi-form-card-title">It's completely free →</div>
+        <div class="oi-form-card-label">Yes, send it to me</div><!-- EDIT -->
+        <div class="oi-form-card-title">It's completely free →</div><!-- EDIT -->
       </div>
       <div class="oi-form-body">
         {% if error %}
-        <div class="oi-error-msg">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div style="background: rgba(231,76,60,.1); border: 1px solid rgba(231,76,60,.25); border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: #c0392b;">
           {{ error }}
         </div>
         {% endif %}
-        
-        <form method="post" action="" onsubmit="console.log('Form submitting...')">
+        <form method="post">
           {% csrf_token %}
           <div class="oi-form-grid">
             <div class="oi-field">
               <label class="oi-label">First Name</label>
-              <input class="oi-input" type="text" name="first_name" placeholder="Your first name" value="{{ first_name }}" autocomplete="given-name" required>
+              <input class="oi-input" type="text" name="first_name" placeholder="Your first name" value="{{ first_name|default:'' }}" autocomplete="given-name" required>
             </div>
             <div class="oi-field">
               <label class="oi-label">Last Name</label>
-              <input class="oi-input" type="text" name="last_name" placeholder="Your last name" value="{{ last_name }}" autocomplete="family-name" required>
+              <input class="oi-input" type="text" name="last_name" placeholder="Your last name" value="{{ last_name|default:'' }}" autocomplete="family-name" required>
             </div>
             <div class="oi-field full">
               <label class="oi-label">Email Address</label>
-              <input class="oi-input {% if error %}error{% endif %}" type="email" name="email" placeholder="Your email address" value="{{ email }}" autocomplete="email" required>
+              <input class="oi-input" type="email" name="email" placeholder="Your email address" value="{{ email|default:'' }}" autocomplete="email" required>
             </div>
             <div class="oi-field full">
               <label class="oi-label">Phone Number</label>
@@ -597,7 +637,7 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
                   <option value="+52">🇲🇽 +52</option>
                   <option value="+54">🇦🇷 +54</option>
                 </select>
-                <input class="oi-input oi-phone-num" type="tel" name="phone" placeholder="Your phone number" value="{{ phone }}" autocomplete="tel">
+                <input class="oi-input oi-phone-num" type="tel" name="phone" placeholder="Your phone number" value="{{ phone|default:'' }}" autocomplete="tel">
               </div>
             </div>
           </div>
@@ -612,18 +652,23 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
   </div>
 </section>
 
+<!-- ══════════════════════════
+     WHAT'S INSIDE
+══════════════════════════ -->
 <section class="oi-section white rv">
   <div class="oi-wrap">
-    <div class="oi-section-eye">What's Inside</div>
+    <div class="oi-section-eye">What's Inside</div><!-- EDIT -->
     <h2 class="oi-section-head">
       Everything you need to<br>
-      <em>[achieve the result]</em>
+      <em>[achieve the result]</em><!-- EDIT -->
     </h2>
 
     <div class="oi-what-body">
+      <!-- EDIT: paragraph 1 — what the resource is and what it does for them -->
       <p class="oi-what-p">
         [Lead Magnet Name] is a [X-page / X-part] resource designed to help you [specific outcome]. Whether you're just starting out or you've been at this for a while and something still isn't clicking, this gives you a clear, practical place to begin.
       </p>
+      <!-- EDIT: paragraph 2 — the deeper promise / why it's different -->
       <p class="oi-what-p">
         Inside you'll find [describe the type of content — frameworks, prompts, exercises, etc.] that [what it helps them do or feel]. No fluff, no theory for the sake of it — just the [honest description] that actually moves the needle.
       </p>
@@ -631,15 +676,19 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
   </div>
 </section>
 
+<!-- ══════════════════════════
+     FOR YOU IF — DARK
+══════════════════════════ -->
 <section class="oi-section dark rv">
   <div class="oi-wrap">
-    <div class="oi-section-eye">This is for you if</div>
+    <div class="oi-section-eye">This is for you if</div><!-- EDIT -->
     <h2 class="oi-section-head">
       You're in the right place<br>
-      <em>if any of this sounds like you</em>
+      <em>if any of this sounds like you</em><!-- EDIT -->
     </h2>
 
     <div class="oi-for-list">
+      <!-- EDIT: 4-6 "this is for you if" statements -->
       <div class="oi-for-item">
         <div class="oi-for-check">
           <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
@@ -671,34 +720,40 @@ body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
   </div>
 </section>
 
+<!-- ══════════════════════════
+     BOTTOM CTA
+══════════════════════════ -->
 <div class="oi-cta-section rv">
-  <div class="oi-cta-eye">Ready?</div>
+  <div class="oi-cta-eye">Ready?</div><!-- EDIT -->
   <h2 class="oi-cta-head">
     Get your free copy of<br>
-    <em>[Lead Magnet Name]</em>
+    <em>[Lead Magnet Name]</em><!-- EDIT -->
   </h2>
   <p class="oi-cta-sub">
+    <!-- EDIT: one-line reassurance -->
     Instant access. No credit card. Just [the thing they actually want].
   </p>
   <a href="#" class="oi-cta-btn" onclick="scrollToForm(event)">
-    Yes, Send It To Me →
+    Yes, Send It To Me →<!-- EDIT -->
   </a>
 </div>
 
+<!-- FOOTER -->
 <footer class="oi-footer">
   <p>
-    © 2026 Cool Girl Rehab™ &nbsp;·&nbsp; All Rights Reserved<br>
+    © 2026 Cool Girl Rehab™ &nbsp;·&nbsp; All Rights Reserved<br><!-- EDIT -->
     <a href="#">Terms & Conditions</a>
     <a href="#">Privacy Policy</a>
     <a href="#">Earnings Disclaimer</a>
     <a href="#">Refund Policy</a>
   </p>
   <p style="margin-top:8px;padding-bottom:8px;">
-    Questions? Email <a href="mailto:support@coolgirlrehab.com">support@coolgirlrehab.com</a>
+    Questions? Email <a href="mailto:support@coolgirlrehab.com">support@coolgirlrehab.com</a><!-- EDIT -->
   </p>
 </footer>
 
 <script>
+// ── Device toggle ──────────────────────────────
 function setDevice(mode) {
   const body = document.body;
   const btnD = document.getElementById('btn-desktop');
@@ -715,12 +770,16 @@ function setDevice(mode) {
   window.scrollTo(0, 0);
 }
 
+// ── Form submit ──────────────────────────────────
+
+// ── Scroll to form ───────────────────────────────
 function scrollToForm(e) {
   e.preventDefault();
   const form = document.querySelector('.oi-form-card');
   if (form) form.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
+// ── Scroll reveal ────────────────────────────────
 const rvEls = document.querySelectorAll('.rv');
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => {
@@ -732,5 +791,7 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.08 });
 rvEls.forEach(el => observer.observe(el));
 </script>
+
+<script src="cgr-validation.js"></script>
 </body>
 </html>

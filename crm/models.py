@@ -33,7 +33,11 @@ class Contact(models.Model):
         ('referral', 'Referral'),
         ('organic', 'Organic'),
         ('instagram', 'Instagram'),
-        ('paid_ad', 'Paid Ad'),
+        ('facebook', 'Facebook'),
+        ('meta_ad', 'Meta Ad'),
+        ('google_ad', 'Google Ad'),
+        ('tiktok', 'TikTok'),
+        ('email', 'Email'),
         ('manual', 'Manual Entry'),
     ]
     PIPELINE_STAGE_CHOICES = [
@@ -52,6 +56,11 @@ class Contact(models.Model):
     country = models.CharField(max_length=100, blank=True)
     address = models.TextField(blank=True)
     source = models.CharField(max_length=50, choices=SOURCE_CHOICES, default='organic')
+    utm_source = models.CharField(max_length=200, blank=True)
+    utm_medium = models.CharField(max_length=200, blank=True)
+    utm_campaign = models.CharField(max_length=200, blank=True)
+    utm_content = models.CharField(max_length=200, blank=True)
+    utm_term = models.CharField(max_length=200, blank=True)
     tags = models.JSONField(default=list, blank=True)
     products_purchased = models.JSONField(default=list, blank=True)
     pipeline_stage = models.CharField(max_length=50, choices=PIPELINE_STAGE_CHOICES, default='new_lead')
@@ -132,11 +141,17 @@ class Order(models.Model):
 class Funnel(models.Model):
     name = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
+    tag = models.CharField(max_length=100, blank=True, help_text="Auto-tag applied to leads from this funnel")
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        from django.utils.text import slugify
+        self.tag = slugify(self.name).replace('-', '_')
+        super().save(*args, **kwargs)
 
 
 class FunnelPage(models.Model):

@@ -34,6 +34,7 @@ def optin_page(request, slug=None):
         last_name = request.POST.get('last_name', '').strip()
         email = request.POST.get('email', '').strip()
         phone = request.POST.get('phone', '').strip()
+        phone_code = request.POST.get('phone_code', '')
         source = request.POST.get('source', 'organic')
         tag = request.POST.get('tag', '')
         
@@ -44,23 +45,54 @@ def optin_page(request, slug=None):
                 'first_name': first_name,
                 'last_name': last_name,
                 'email': email,
-                'phone': phone,
+                'phone': f"{phone_code} {phone}" if phone_code else phone,
                 'slug': slug
             })
         
-        country = get_country_from_phone(phone)
+        country = get_country_from_phone(f"{phone_code}{phone}")
+        full_phone = f"{phone_code} {phone}" if phone_code else phone
         
-        tags = [tag] if tag else []
+        utm_source = request.GET.get('utm_source', '')
+        utm_medium = request.GET.get('utm_medium', '')
+        utm_campaign = request.GET.get('utm_campaign', '')
+        utm_content = request.GET.get('utm_content', '')
+        utm_term = request.GET.get('utm_term', '')
+        
+        if not source or source == 'organic':
+            if utm_source:
+                source = utm_source
+            elif utm_medium:
+                source = utm_medium
+        
+        from datetime import datetime
+        
+        tags_to_add = [
+            'opt-in-1',  # 1. Template tag
+            slug or 'main',  # 2. Funnel/slug tag
+            source,  # 3. Source tag (from UTM or default)
+            datetime.now().strftime('%B-%Y').lower(),  # 4. Date tag (e.g., march-2026)
+            'lead-magnet',  # 5. Lead magnet tag
+        ]
+        
+        if utm_campaign:
+            tags_to_add.append(f"campaign-{utm_campaign}")
+        if utm_source:
+            tags_to_add.append(f"source-{utm_source}")
         
         contact, created = Contact.objects.get_or_create(
             email=email,
             defaults={
                 'first_name': first_name,
                 'last_name': last_name,
-                'phone': phone,
+                'phone': full_phone,
                 'country': country,
                 'source': source,
-                'tags': tags,
+                'utm_source': utm_source,
+                'utm_medium': utm_medium,
+                'utm_campaign': utm_campaign,
+                'utm_content': utm_content,
+                'utm_term': utm_term,
+                'tags': tags_to_add,
                 'pipeline_stage': 'new_lead'
             }
         )
@@ -68,14 +100,20 @@ def optin_page(request, slug=None):
         if not created:
             contact.first_name = first_name
             contact.last_name = last_name
-            contact.phone = phone
+            contact.phone = full_phone
             contact.country = country
-            for t in tags:
+            if utm_source:
+                contact.utm_source = utm_source
+            if utm_medium:
+                contact.utm_medium = utm_medium
+            if utm_campaign:
+                contact.utm_campaign = utm_campaign
+            for t in tags_to_add:
                 if t not in contact.tags:
                     contact.tags.append(t)
             contact.save()
         
-        return redirect('optin_thankyou')
+        return redirect('/opt-in/thank-you/?submitted=1')
     
     return render(request, 'optin.html', {'slug': slug})
 
