@@ -1,15 +1,18 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from django.db.models import Sum, Count
+from django.utils import timezone
 from .models import (
     Contact, Product, Order, Funnel, FunnelPage,
     Module, Lesson, MemberProgress, GamificationPoints,
-    Badge, UserBadge, Broadcast, EmailSequence, EmailSequenceStep
+    Badge, UserBadge, Broadcast, EmailSequence, EmailSequenceStep,
+    Pipeline, PipelineStage, Opportunity
 )
+from .validators import validate_email, get_country_from_phone
 import json
 
 
@@ -23,6 +26,62 @@ def login_view(request):
             return redirect('dashboard')
         messages.error(request, 'Invalid credentials')
     return render(request, 'login.html')
+
+
+def optin_page(request, slug=None):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name', '').strip()
+        last_name = request.POST.get('last_name', '').strip()
+        email = request.POST.get('email', '').strip()
+        phone = request.POST.get('phone', '').strip()
+        source = request.POST.get('source', 'organic')
+        tag = request.POST.get('tag', '')
+        
+        is_valid, error_msg = validate_email(email)
+        if not is_valid:
+            return render(request, 'optin.html', {
+                'error': error_msg,
+                'first_name': first_name,
+                'last_name': last_name,
+                'email': email,
+                'phone': phone,
+                'slug': slug
+            })
+        
+        country = get_country_from_phone(phone)
+        
+        tags = [tag] if tag else []
+        
+        contact, created = Contact.objects.get_or_create(
+            email=email,
+            defaults={
+                'first_name': first_name,
+                'last_name': last_name,
+                'phone': phone,
+                'country': country,
+                'source': source,
+                'tags': tags,
+                'pipeline_stage': 'new_lead'
+            }
+        )
+        
+        if not created:
+            contact.first_name = first_name
+            contact.last_name = last_name
+            contact.phone = phone
+            contact.country = country
+            for t in tags:
+                if t not in contact.tags:
+                    contact.tags.append(t)
+            contact.save()
+        
+        return redirect('optin_thankyou')
+    
+    return render(request, 'optin.html', {'slug': slug})
+
+
+def optin_thankyou(request):
+    return render(request, 'optin_thankyou.html')
 
 
 @login_required
@@ -115,15 +174,34 @@ def sequences(request):
 def api_add_contact(request):
     try:
         data = json.loads(request.body)
-        contact = Contact.objects.create(
-            first_name=data.get('first_name', ''),
-            last_name=data.get('last_name', ''),
-            email=data.get('email', ''),
-            phone=data.get('phone', ''),
-            source=data.get('source', 'organic'),
-            tags=data.get('tags', [])
+        email = data.get('email', '').strip()
+        
+        is_valid, error_msg = validate_email(email)
+        if not is_valid:
+            return JsonResponse({'success': False, 'error': error_msg})
+        
+        phone = data.get('phone', '')
+        country = get_country_from_phone(phone)
+        tags = data.get('tags', [])
+        source = data.get('source', 'organic')
+        
+        contact, created = Contact.objects.get_or_create(
+            email=email,
+            defaults={
+                'first_name': data.get('first_name', ''),
+                'last_name': data.get('last_name', ''),
+                'phone': phone,
+                'country': country,
+                'source': source,
+                'tags': tags,
+                'pipeline_stage': 'new_lead'
+            }
         )
-        return JsonResponse({'success': True, 'id': contact.id})
+        
+        if not created:
+            return JsonResponse({'success': False, 'error': 'Contact with this email already exists'})
+        
+        return JsonResponse({'success': True, 'id': contact.id, 'created': True})
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)})
 
@@ -163,5 +241,72 @@ def api_send_broadcast(request):
             segment=data.get('segment', 'all')
         )
         return JsonResponse({'success': True, 'id': broadcast.id})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})
+
+
+@login_required
+def pipeline_list(request):
+    pipelines = Pipeline.objects.prefetch_related('stages').all()
+    return render(request, 'pipeline_list.html', {'pipelines': pipelines})
+
+
+@login_required
+def pipeline_board(request, pipeline_id):
+    pipeline = get_object_or_404(Pipeline, id=pipeline_id)
+    stages = pipeline.stages.all()
+    opportunities = Opportunity.objects.filter(pipeline=pipeline).select_related('contact', 'stage')
+    contacts = Contact.objects.all()
+    return render(request, 'pipeline_board.html', {
+        'pipeline': pipeline,
+        'stages': stages,
+        'opportunities': opportunities,
+        'contacts': contacts
+    })
+
+
+@require_http_methods(["POST"])
+def api_create_pipeline(request):
+    try:
+        data = json.loads(request.body)
+        pipeline = Pipeline.objects.create(name=data.get('name', 'New Pipeline'))
+        
+        default_stages = ['New Lead', 'Contacted', 'Qualified', 'Proposal', 'Negotiation', 'Closed Won', 'Closed Lost']
+        for i, stage_name in enumerate(default_stages):
+            PipelineStage.objects.create(pipeline=pipeline, name=stage_name, order=i)
+        
+        return JsonResponse({'success': True, 'id': pipeline.id})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})
+
+
+@require_http_methods(["POST"])
+def api_create_opportunity(request):
+    try:
+        data = json.loads(request.body)
+        contact = Contact.objects.get(id=data.get('contact_id'))
+        pipeline = Pipeline.objects.get(id=data.get('pipeline_id'))
+        stage = pipeline.stages.first()
+        
+        opportunity = Opportunity.objects.create(
+            contact=contact,
+            pipeline=pipeline,
+            stage=stage,
+            deal_value=data.get('deal_value', 0)
+        )
+        return JsonResponse({'success': True, 'id': opportunity.id})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})
+
+
+@require_http_methods(["POST"])
+def api_update_opportunity_stage(request):
+    try:
+        data = json.loads(request.body)
+        opportunity = Opportunity.objects.get(id=data.get('opportunity_id'))
+        stage = PipelineStage.objects.get(id=data.get('stage_id'))
+        opportunity.stage = stage
+        opportunity.save()
+        return JsonResponse({'success': True})
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)})

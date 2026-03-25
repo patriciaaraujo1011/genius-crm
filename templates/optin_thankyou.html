@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cool Girl Rehab™ — You're In!</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --burgundy:    #8A0329;
+  --burgundy-d:  #6b0220;
+  --burgundy-bg: rgba(138,3,41,.08);
+  --burgundy-brd:rgba(138,3,41,.2);
+  --charcoal:    #2D2D2D;
+  --charcoal-mid:#3d3d3d;
+  --lime:        #EAFF9D;
+  --lime-dim:    rgba(234,255,157,.15);
+  --lime-brd:    rgba(234,255,157,.35);
+  --cream:       #F5F0E8;
+  --cream-mid:   #EDE8DE;
+  --cream-dark:  #E0D9CE;
+  --white:       #FFFFFF;
+  --muted:       #6b6560;
+  --border:      #D9D3C9;
+  --green:       #2E6B45;
+  --green-bg:    rgba(46,107,69,.1);
+  --green-brd:   rgba(46,107,69,.3);
+  --green-lit:   #4aab6d;
+  --serif:  'Instrument Serif', Georgia, serif;
+  --sans:   'DM Sans', sans-serif;
+  --mono:   'DM Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--cream);
+  color: var(--charcoal);
+  line-height: 1.6;
+  min-height: 100vh;
+  margin-top: 48px;
+}
+
+.dev-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 48px; z-index: 99999;
+  background: var(--charcoal);
+  border-bottom: 1px solid var(--charcoal-mid);
+  display: flex; align-items: center;
+  justify-content: center; gap: 6px;
+}
+.dev-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 4px;
+  border: 1px solid transparent; background: transparent;
+  color: rgba(245,240,232,.4);
+  font-family: var(--mono); font-size: 10px;
+  font-weight: 500; letter-spacing: .1em;
+  text-transform: uppercase; cursor: pointer;
+  transition: all .15s ease;
+}
+.dev-btn svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.dev-btn.active { background: var(--burgundy-bg); border-color: var(--burgundy-brd); color: var(--burgundy); }
+.dev-btn:hover:not(.active) { color: rgba(245,240,232,.7); border-color: rgba(245,240,232,.15); }
+.dev-sep { width: 1px; height: 18px; background: var(--charcoal-mid); }
+
+body.mobile-mode {
+  max-width: 430px !important;
+  margin-left: auto !important; margin-right: auto !important;
+  box-shadow: 0 0 0 100vw #111 !important;
+  position: relative !important;
+}
+body.mobile-mode .ty-steps { flex-direction: column !important; border-radius: 10px !important; }
+body.mobile-mode .ty-step { border-right: none !important; border-bottom: 1px solid var(--border) !important; }
+body.mobile-mode .ty-step:last-child { border-bottom: none !important; }
+body.mobile-mode .ty-social-row { flex-direction: column !important; align-items: center !important; }
+body.mobile-mode .ty-section { padding: 48px 20px !important; }
+body.mobile-mode .ty-hero { padding: 52px 20px 48px !important; }
+body.mobile-mode .ty-hero-head { font-size: clamp(36px, 10vw, 48px) !important; }
+body.mobile-mode .ty-download-btn { font-size: 10px !important; padding: 18px 28px !important; }
+
+.ty-header {
+  background: var(--burgundy);
+  border-bottom: 1px solid var(--burgundy-d);
+  padding: 16px 32px;
+  display: flex; align-items: center;
+  justify-content: space-between;
+}
+.ty-header-brand {
+  font-family: var(--serif);
+  font-size: 1.1rem; font-style: italic;
+  color: var(--cream);
+}
+.ty-header-label {
+  font-family: var(--mono);
+  font-size: 9px; font-weight: 500;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(245,240,232,.55);
+}
+
+.ty-badge {
+  display: flex; align-items: center;
+  justify-content: center; gap: 10px;
+  background: var(--green-bg);
+  border: 1px solid var(--green-brd);
+  border-radius: 6px;
+  padding: 12px 20px; margin-bottom: 40px;
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 500;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--green-lit);
+  animation: badge-in .5s ease both;
+}
+@keyframes badge-in {
+  from { opacity: 0; transform: scale(.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.ty-badge svg {
+  width: 16px; height: 16px;
+  fill: none; stroke: var(--green-lit); stroke-width: 2.5;
+  flex-shrink: 0;
+}
+
+.ty-hero {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 72px 48px 64px;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.ty-hero::before {
+  content: '✓';
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--serif); font-size: 400px;
+  color: var(--cream); line-height: 1;
+  pointer-events: none; user-select: none;
+  z-index: 0;
+}
+.ty-hero > * { position: relative; z-index: 1; }
+.ty-hero-wrap { max-width: 680px; margin: 0 auto; }
+
+.ty-confetti {
+  font-size: 44px; display: block;
+  margin-bottom: 24px;
+  animation: float 3.5s ease-in-out infinite;
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+.ty-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 500;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--burgundy); margin-bottom: 20px;
+}
+.ty-eyebrow::before, .ty-eyebrow::after { content: '·'; opacity: .4; }
+
+.ty-hero-head {
+  font-family: var(--serif);
+  font-size: clamp(40px, 5vw, 68px);
+  font-weight: 400; line-height: 1.06;
+  color: var(--charcoal); margin-bottom: 20px;
+}
+.ty-hero-head em { color: var(--burgundy); font-style: italic; }
+
+.ty-hero-sub {
+  font-size: 17px; color: var(--muted);
+  line-height: 1.75; margin-bottom: 40px;
+  max-width: 520px; margin-left: auto; margin-right: auto;
+}
+.ty-hero-sub strong { color: var(--charcoal); }
+
+.ty-download-wrap { margin-bottom: 16px; }
+.ty-download-btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: var(--lime); color: var(--charcoal);
+  font-family: var(--mono); font-size: 11px;
+  font-weight: 700; letter-spacing: .2em;
+  text-transform: uppercase; text-decoration: none;
+  padding: 20px 48px; border-radius: 100px;
+  border: none; cursor: pointer;
+  box-shadow: 0 8px 40px rgba(234,255,157,.5), 0 2px 8px rgba(44,30,20,.15);
+  transition: all .2s ease;
+  position: relative; overflow: hidden;
+  animation: pulse-glow 3.5s 1.5s infinite;
+}
+.ty-download-btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,.4) 50%, transparent 70%);
+  animation: shimmer 3s ease-in-out infinite;
+}
+.ty-download-btn svg {
+  width: 18px; height: 18px;
+  fill: none; stroke: var(--charcoal); stroke-width: 2.2;
+  flex-shrink: 0;
+}
+.ty-download-btn:hover {
+  background: #f2ffad;
+  box-shadow: 0 14px 50px rgba(234,255,157,.65), 0 4px 12px rgba(44,30,20,.18);
+  transform: translateY(-3px);
+}
+@keyframes shimmer { 0%{transform:translateX(-140%)} 60%,100%{transform:translateX(140%)} }
+@keyframes pulse-glow {
+  0%,100% { box-shadow: 0 8px 40px rgba(234,255,157,.5), 0 2px 8px rgba(44,30,20,.15); }
+  50%      { box-shadow: 0 8px 60px rgba(234,255,157,.8), 0 2px 8px rgba(44,30,20,.15); }
+}
+
+.ty-email-note {
+  font-size: 13px; color: var(--muted);
+  display: flex; align-items: center;
+  justify-content: center; gap: 8px;
+  margin-top: 16px;
+}
+.ty-email-note svg {
+  width: 15px; height: 15px;
+  fill: none; stroke: var(--muted); stroke-width: 1.8;
+  flex-shrink: 0;
+}
+
+.ty-section {
+  padding: 72px 48px;
+  border-bottom: 1px solid var(--border);
+}
+.ty-section.cream { background: var(--cream); }
+.ty-section.dark  { background: var(--charcoal); color: var(--cream); }
+.ty-section.white { background: var(--white); }
+
+.ty-wrap { max-width: 860px; margin: 0 auto; }
+
+.ty-section-eye {
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 500;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--burgundy); margin-bottom: 14px;
+}
+.ty-section.dark .ty-section-eye { color: var(--lime); }
+
+.ty-section-head {
+  font-family: var(--serif);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 400; line-height: 1.15;
+  color: var(--charcoal); margin-bottom: 40px;
+}
+.ty-section.dark .ty-section-head { color: var(--cream); }
+.ty-section-head em { color: var(--burgundy); font-style: italic; }
+.ty-section.dark .ty-section-head em { color: var(--lime); }
+
+.ty-steps {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.ty-step {
+  flex: 1;
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 20px 22px;
+  border-right: 1px solid var(--border);
+  transition: background .15s;
+}
+.ty-step:last-child { border-right: none; }
+.ty-step:hover { background: var(--cream); }
+.ty-step-num { display: none; }
+.ty-step-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+.ty-step-content { flex: 1; }
+.ty-step-title {
+  font-family: var(--sans);
+  font-size: 13px; font-weight: 700;
+  color: var(--charcoal); margin-bottom: 4px;
+}
+.ty-step-num-label {
+  font-family: var(--mono);
+  font-size: 9px; font-weight: 500;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--burgundy); margin-bottom: 6px; display: block;
+}
+.ty-step-desc {
+  font-size: 12.5px; color: var(--muted); line-height: 1.6;
+}
+
+.ty-social-row {
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 32px;
+  flex-wrap: wrap;
+}
+.ty-social-copy { max-width: 460px; }
+.ty-social-copy p {
+  font-size: 16px; color: var(--muted); line-height: 1.7;
+  margin-top: 12px;
+}
+.ty-social-copy p strong { color: var(--cream); }
+
+.ty-social-btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: transparent;
+  border: 1px solid rgba(234,255,157,.3);
+  color: var(--lime);
+  font-family: var(--mono); font-size: 10px;
+  font-weight: 700; letter-spacing: .18em;
+  text-transform: uppercase; text-decoration: none;
+  padding: 16px 28px; border-radius: 100px;
+  transition: all .2s ease; white-space: nowrap;
+}
+.ty-social-btn:hover {
+  background: var(--lime-dim);
+  border-color: rgba(234,255,157,.6);
+  transform: translateY(-2px);
+}
+.ty-social-btn svg {
+  width: 16px; height: 16px;
+  fill: currentColor; flex-shrink: 0;
+}
+
+.ty-closing {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 56px 48px; text-align: center;
+}
+.ty-closing-quote {
+  font-family: var(--serif);
+  font-size: clamp(20px, 2.5vw, 28px);
+  font-style: italic; color: var(--muted);
+  line-height: 1.55; max-width: 600px;
+  margin: 0 auto 20px;
+}
+.ty-closing-quote strong { color: var(--charcoal); }
+.ty-closing-sig {
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 500;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--muted);
+}
+.ty-closing-sig span {
+  display: block; color: var(--burgundy);
+  font-family: var(--serif); font-style: italic;
+  font-size: 18px; letter-spacing: 0;
+  text-transform: none; margin-top: 6px;
+}
+
+.ty-footer {
+  background: var(--charcoal);
+  padding: 28px 48px; text-align: center;
+}
+.ty-footer p { font-size: 11px; color: rgba(245,240,232,.35); line-height: 2; }
+.ty-footer a { color: rgba(234,255,157,.6); text-decoration: none; margin: 0 8px; }
+.ty-footer a:hover { color: var(--lime); }
+
+.rv { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
+.rv.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 768px) {
+  .ty-hero { padding: 52px 24px 48px; }
+  .ty-hero::before { font-size: 220px; }
+  .ty-steps { grid-template-columns: 1fr; }
+  .ty-section { padding: 52px 24px; }
+  .ty-closing { padding: 48px 24px; }
+  .ty-footer { padding: 24px; }
+  .ty-social-row { flex-direction: column; align-items: flex-start; }
+  .ty-download-btn { font-size: 10px; padding: 18px 32px; }
+}
+</style>
+</head>
+<body>
+
+<div class="dev-bar">
+  <button class="dev-btn active" id="btn-desktop" onclick="setDevice('desktop')">
+    <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+    Desktop
+  </button>
+  <div class="dev-sep"></div>
+  <button class="dev-btn" id="btn-mobile" onclick="setDevice('mobile')">
+    <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="1" fill="currentColor"/></svg>
+    Mobile
+  </button>
+</div>
+
+<header class="ty-header">
+  <div class="ty-header-brand">Cool Girl Rehab™</div>
+  <div class="ty-header-label">You're In</div>
+</header>
+
+<section class="ty-hero">
+  <div class="ty-hero-wrap">
+
+    <div class="ty-badge">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      You're confirmed — check your inbox
+    </div>
+
+    <span class="ty-confetti">🎉</span>
+
+    <div class="ty-eyebrow">Congratulations</div>
+
+    <h1 class="ty-hero-head">
+      You've got it.<br>
+      <em>[Lead Magnet Name]</em> is yours.
+    </h1>
+
+    <p class="ty-hero-sub">
+      You just took a real step. <strong>Your free resource is ready to download right now</strong> — and a copy has also been sent to your inbox so you'll always have it.
+    </p>
+
+    <div class="ty-download-wrap">
+      <a href="#" class="ty-download-btn">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Now →
+      </a>
+    </div>
+
+    <div class="ty-email-note">
+      <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      A copy has also been sent to your email — check your spam if you don't see it within a few minutes.
+    </div>
+
+  </div>
+</section>
+
+<section class="ty-section cream rv" style="padding: 36px 48px;">
+  <div class="ty-wrap">
+    <div class="ty-section-eye" style="margin-bottom: 16px;">What To Do Next</div>
+
+    <div class="ty-steps">
+
+      <div class="ty-step">
+        <span class="ty-step-icon">⬇️</span>
+        <div class="ty-step-content">
+          <span class="ty-step-num-label">Step 01</span>
+          <div class="ty-step-title">Download it now</div>
+          <div class="ty-step-desc">Hit the button above and save it somewhere you'll actually open it — desktop, Drive, or phone.</div>
+        </div>
+      </div>
+
+      <div class="ty-step">
+        <span class="ty-step-icon">📬</span>
+        <div class="ty-step-content">
+          <span class="ty-step-num-label">Step 02</span>
+          <div class="ty-step-title">Check your email</div>
+          <div class="ty-step-desc">A copy is on its way to your inbox. Add us to your contacts so nothing goes to spam.</div>
+        </div>
+      </div>
+
+      <div class="ty-step">
+        <span class="ty-step-icon">✍️</span>
+        <div class="ty-step-content">
+          <span class="ty-step-num-label">Step 03</span>
+          <div class="ty-step-title">Actually use it</div>
+          <div class="ty-step-desc">Don't just read it — work through it. [Your specific instruction here.]</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="ty-section dark rv">
+  <div class="ty-wrap">
+    <div class="ty-social-row">
+
+      <div class="ty-social-copy">
+        <div class="ty-section-eye">Come Find Me</div>
+        <h2 class="ty-section-head">
+          Let's keep the<br>
+          <em>conversation going</em>
+        </h2>
+        <p>
+          This is just the beginning. <strong>Come say hi on Instagram</strong> — I share [what you post about: honest conversations about real life, mindset, and what it actually takes to feel like yourself again]. It's where the good stuff happens between the resources.
+        </p>
+      </div>
+
+      <a href="https://instagram.com/[yourhandle]" target="_blank" class="ty-social-btn">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/>
+          <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+          <circle cx="17.5" cy="6.5" r="1.5"/>
+        </svg>
+        Follow @[yourhandle]
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<div class="ty-closing rv">
+  <div class="ty-closing-quote">
+    "I made this because I wish someone had handed it to me when I needed it most. I hope it gives you exactly <strong>what you need right now.</strong>"
+  </div>
+  <div class="ty-closing-sig">
+    With love,
+    <span>[Your Name]</span>
+  </div>
+</div>
+
+<footer class="ty-footer">
+  <p>
+    © 2026 Cool Girl Rehab™ &nbsp;·&nbsp; All Rights Reserved<br>
+    <a href="#">Terms & Conditions</a>
+    <a href="#">Privacy Policy</a>
+    <a href="#">Earnings Disclaimer</a>
+    <a href="#">Refund Policy</a>
+  </p>
+  <p style="margin-top:8px;padding-bottom:8px;">
+    Questions? Email <a href="mailto:support@coolgirlrehab.com">support@coolgirlrehab.com</a>
+  </p>
+</footer>
+
+<script>
+function setDevice(mode) {
+  const body = document.body;
+  const btnD = document.getElementById('btn-desktop');
+  const btnM = document.getElementById('btn-mobile');
+  if (mode === 'mobile') {
+    body.classList.add('mobile-mode');
+    btnM.classList.add('active');
+    btnD.classList.remove('active');
+  } else {
+    body.classList.remove('mobile-mode');
+    btnD.classList.add('active');
+    btnM.classList.remove('active');
+  }
+  window.scrollTo(0, 0);
+}
+
+const rvEls = document.querySelectorAll('.rv');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+rvEls.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

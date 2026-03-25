@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cool Girl Rehab™ — Free Resource</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --burgundy:    #8A0329;
+  --burgundy-d:  #6b0220;
+  --burgundy-bg: rgba(138,3,41,.08);
+  --burgundy-brd:rgba(138,3,41,.2);
+  --charcoal:    #2D2D2D;
+  --charcoal-mid:#3d3d3d;
+  --lime:        #EAFF9D;
+  --lime-dim:    rgba(234,255,157,.15);
+  --lime-brd:    rgba(234,255,157,.35);
+  --cream:       #F5F0E8;
+  --cream-mid:   #EDE8DE;
+  --cream-dark:  #E0D9CE;
+  --white:       #FFFFFF;
+  --ink:         #1C1A17;
+  --muted:       #6b6560;
+  --border:      #D9D3C9;
+
+  --serif:  'Instrument Serif', Georgia, serif;
+  --sans:   'DM Sans', sans-serif;
+  --mono:   'DM Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--cream);
+  color: var(--charcoal);
+  line-height: 1.6;
+  min-height: 100vh;
+  margin-top: 48px;
+}
+
+.dev-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 48px; z-index: 99999;
+  background: var(--charcoal);
+  border-bottom: 1px solid var(--charcoal-mid);
+  display: flex; align-items: center;
+  justify-content: center; gap: 6px;
+}
+.dev-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 4px;
+  border: 1px solid transparent; background: transparent;
+  color: rgba(245,240,232,.4);
+  font-family: var(--mono); font-size: 10px;
+  font-weight: 500; letter-spacing: .1em;
+  text-transform: uppercase; cursor: pointer;
+  transition: all .15s ease;
+}
+.dev-btn svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.dev-btn.active { background: var(--burgundy-bg); border-color: var(--burgundy-brd); color: var(--burgundy); }
+.dev-btn:hover:not(.active) { color: rgba(245,240,232,.7); border-color: rgba(245,240,232,.15); }
+.dev-sep { width: 1px; height: 18px; background: var(--charcoal-mid); }
+
+body.mobile-mode {
+  max-width: 430px !important;
+  margin-left: auto !important; margin-right: auto !important;
+  box-shadow: 0 0 0 100vw #111 !important;
+  position: relative !important;
+}
+body.mobile-mode .oi-hero { grid-template-columns: 1fr !important; }
+body.mobile-mode .oi-hero-left { border-right: none !important; border-bottom: 1px solid var(--border) !important; }
+body.mobile-mode .oi-proof-row { flex-wrap: wrap !important; }
+body.mobile-mode .oi-what-grid { grid-template-columns: 1fr !important; }
+body.mobile-mode .oi-form-grid { grid-template-columns: 1fr !important; }
+body.mobile-mode .oi-section { padding: 48px 20px !important; }
+body.mobile-mode .oi-wrap { padding: 0 20px !important; }
+body.mobile-mode .oi-announce { font-size: 10px !important; padding: 10px 16px !important; }
+body.mobile-mode .oi-hero-head { font-size: clamp(36px, 10vw, 52px) !important; }
+body.mobile-mode .oi-stats { grid-template-columns: 1fr 1fr !important; }
+
+.oi-announce {
+  background: var(--burgundy);
+  color: var(--lime);
+  font-family: var(--mono);
+  font-size: 11px; font-weight: 500;
+  letter-spacing: .18em; text-transform: uppercase;
+  text-align: center; padding: 12px 20px;
+  border-bottom: 1px solid var(--burgundy-d);
+}
+.oi-announce span { color: rgba(234,255,157,.6); margin: 0 12px; }
+
+.oi-header {
+  background: var(--cream);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 32px;
+  display: flex; align-items: center;
+  justify-content: space-between;
+}
+.oi-header-brand {
+  font-family: var(--serif);
+  font-size: 1.1rem; font-style: italic;
+  color: var(--charcoal); letter-spacing: .02em;
+}
+.oi-header-label {
+  font-family: var(--mono);
+  font-size: 9px; font-weight: 500;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--muted);
+}
+
+.oi-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 540px;
+  border-bottom: 1px solid var(--border);
+}
+.oi-hero-left {
+  padding: 64px 56px;
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  justify-content: center; gap: 28px;
+  background: var(--white);
+  position: relative; overflow: hidden;
+}
+.oi-hero-left::before {
+  content: '01';
+  position: absolute; right: -10px; bottom: -30px;
+  font-family: var(--serif); font-size: 240px;
+  font-style: italic; color: var(--cream);
+  line-height: 1; pointer-events: none;
+  user-select: none;
+}
+.oi-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 500;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--burgundy);
+}
+.oi-eyebrow::before, .oi-eyebrow::after {
+  content: '·'; opacity: .4;
+}
+.oi-hero-head {
+  font-family: var(--serif);
+  font-size: clamp(38px, 4.5vw, 62px);
+  font-weight: 400; line-height: 1.04;
+  color: var(--charcoal);
+}
+.oi-hero-head em {
+  color: var(--burgundy); font-style: italic;
+}
+.oi-hero-sub {
+  font-size: 16px; color: var(--muted);
+  line-height: 1.75; max-width: 440px;
+  border-left: 3px solid var(--burgundy);
+  padding-left: 18px;
+}
+.oi-hero-sub strong { color: var(--charcoal); }
+
+.oi-proof-row {
+  display: flex; align-items: center; gap: 20px;
+  padding-top: 8px;
+}
+.oi-proof-stars { color: var(--burgundy); letter-spacing: 3px; font-size: 13px; }
+.oi-proof-text { font-size: 12px; color: var(--muted); font-weight: 500; }
+.oi-proof-text strong { color: var(--charcoal); }
+
+.oi-hero-right {
+  background: var(--cream);
+  padding: 64px 56px;
+  display: flex; flex-direction: column;
+  justify-content: center; gap: 32px;
+}
+
+.oi-form-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 40px rgba(44,30,20,.08);
+}
+.oi-form-card-head {
+  background: var(--charcoal);
+  padding: 20px 28px;
+}
+.oi-form-card-label {
+  font-family: var(--mono);
+  font-size: 9px; font-weight: 500;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--lime); margin-bottom: 4px;
+}
+.oi-form-card-title {
+  font-family: var(--serif);
+  font-size: 20px; color: var(--cream);
+  font-style: italic;
+}
+.oi-form-body { padding: 28px; }
+.oi-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px; margin-bottom: 14px;
+}
+.oi-field { display: flex; flex-direction: column; gap: 6px; }
+.oi-field.full { grid-column: 1 / -1; }
+.oi-label {
+  font-family: var(--mono);
+  font-size: 9px; font-weight: 500;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--muted);
+}
+.oi-input {
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 13px 16px;
+  font-family: var(--sans);
+  font-size: 14px; color: var(--charcoal);
+  outline: none; width: 100%;
+  transition: border-color .15s, box-shadow .15s;
+}
+.oi-input::placeholder { color: rgba(107,101,96,.5); }
+.oi-input:focus {
+  border-color: var(--burgundy);
+  box-shadow: 0 0 0 3px var(--burgundy-bg);
+}
+.oi-input.error {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 3px rgba(231,76,60,.15);
+}
+
+.oi-phone-wrap {
+  display: flex; gap: 10px;
+}
+.oi-phone-code {
+  width: 100px; flex-shrink: 0;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 13px 12px;
+  font-family: var(--sans); font-size: 14px;
+  color: var(--charcoal); outline: none;
+  appearance: none; cursor: pointer;
+  transition: border-color .15s;
+}
+.oi-phone-code:focus { border-color: var(--burgundy); box-shadow: 0 0 0 3px var(--burgundy-bg); }
+.oi-phone-num { flex: 1; }
+
+.oi-submit {
+  display: block; width: 100%;
+  background: var(--lime);
+  color: var(--charcoal);
+  font-family: var(--mono);
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .2em; text-transform: uppercase;
+  padding: 20px 24px; text-align: center;
+  border: none; border-radius: 100px;
+  cursor: pointer; margin-top: 20px;
+  position: relative; overflow: hidden;
+  box-shadow: 0 8px 32px rgba(234,255,157,.45), 0 2px 8px rgba(44,30,20,.12);
+  transition: all .2s ease;
+}
+.oi-submit::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,.4) 50%, transparent 70%);
+  animation: shimmer 3s ease-in-out infinite;
+}
+.oi-submit:hover {
+  background: #f2ffad;
+  box-shadow: 0 12px 40px rgba(234,255,157,.6), 0 4px 12px rgba(44,30,20,.15);
+  transform: translateY(-2px);
+}
+.oi-submit:active { transform: translateY(0); }
+@keyframes shimmer { 0%{transform:translateX(-140%)} 60%,100%{transform:translateX(140%)} }
+
+.oi-form-note {
+  font-size: 11px; color: var(--muted);
+  text-align: center; margin-top: 12px;
+  letter-spacing: .02em;
+}
+
+.oi-error-msg {
+  background: rgba(231,76,60,.1);
+  border: 1px solid rgba(231,76,60,.25);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: #c0392b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.oi-error-msg svg {
+  width: 16px; height: 16px;
+  fill: none; stroke: #c0392b; stroke-width: 2;
+  flex-shrink: 0;
+}
+
+.oi-section {
+  padding: 80px 0;
+  border-bottom: 1px solid var(--border);
+}
+.oi-section.dark {
+  background: var(--charcoal);
+  color: var(--cream);
+}
+.oi-section.cream { background: var(--cream); }
+.oi-section.white { background: var(--white); }
+
+.oi-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+.oi-section-eye {
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 500;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--burgundy); margin-bottom: 16px;
+}
+.oi-section.dark .oi-section-eye { color: var(--lime); }
+.oi-section-head {
+  font-family: var(--serif);
+  font-size: clamp(30px, 3.5vw, 48px);
+  font-weight: 400; line-height: 1.1;
+  color: var(--charcoal); margin-bottom: 48px;
+}
+.oi-section.dark .oi-section-head { color: var(--cream); }
+.oi-section-head em { color: var(--burgundy); font-style: italic; }
+.oi-section.dark .oi-section-head em { color: var(--lime); }
+
+.oi-what-body {
+  max-width: 680px;
+  display: flex; flex-direction: column; gap: 20px;
+}
+.oi-what-p {
+  font-size: 16px; color: var(--muted);
+  line-height: 1.8;
+  border-left: 3px solid var(--burgundy-brd);
+  padding-left: 20px;
+}
+.oi-what-p:first-child { border-left-color: var(--burgundy); color: var(--charcoal-mid); }
+
+.oi-what-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.oi-what-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 32px 28px;
+  position: relative; overflow: hidden;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+.oi-what-card:hover {
+  border-color: var(--burgundy);
+  box-shadow: 0 0 0 1px rgba(138,3,41,.15), 0 12px 40px rgba(44,30,20,.1);
+  transform: translateY(-3px);
+}
+.oi-what-card-num {
+  position: absolute; right: 16px; top: 8px;
+  font-family: var(--serif); font-style: italic;
+  font-size: 80px; line-height: 1;
+  color: var(--cream-dark); pointer-events: none;
+  user-select: none;
+}
+.oi-what-icon { font-size: 22px; margin-bottom: 16px; display: block; }
+.oi-what-title {
+  font-family: var(--serif);
+  font-size: 22px; font-weight: 400;
+  color: var(--charcoal); margin-bottom: 10px;
+}
+.oi-what-desc {
+  font-size: 14px; color: var(--muted); line-height: 1.7;
+}
+
+.oi-for-list {
+  display: flex; flex-direction: column; gap: 0;
+  max-width: 720px;
+}
+.oi-for-item {
+  display: flex; align-items: flex-start; gap: 20px;
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(245,240,232,.1);
+}
+.oi-for-item:last-child { border-bottom: none; }
+.oi-for-check {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--lime); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 2px;
+}
+.oi-for-check svg {
+  width: 12px; height: 12px;
+  fill: none; stroke: var(--charcoal); stroke-width: 3;
+}
+.oi-for-text {
+  font-size: 17px; color: rgba(245,240,232,.9);
+  line-height: 1.65;
+}
+.oi-for-text strong { color: var(--cream); }
+
+.oi-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden;
+  background: var(--white);
+}
+.oi-stat {
+  padding: 32px 24px; text-align: center;
+  border-right: 1px solid var(--border);
+}
+.oi-stat:last-child { border-right: none; }
+.oi-stat-num {
+  font-family: var(--serif);
+  font-size: 48px; font-style: italic;
+  color: var(--burgundy); line-height: 1;
+  margin-bottom: 10px;
+}
+.oi-stat-label {
+  font-family: var(--mono);
+  font-size: 9px; font-weight: 500;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--muted); line-height: 1.6;
+}
+
+.oi-cta-section {
+  background: var(--burgundy);
+  padding: 80px 48px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+.oi-cta-eye {
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 500;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--lime); margin-bottom: 20px;
+  opacity: .7;
+}
+.oi-cta-head {
+  font-family: var(--serif);
+  font-size: clamp(32px, 4vw, 54px);
+  font-weight: 400; line-height: 1.1;
+  color: var(--cream); margin-bottom: 16px;
+}
+.oi-cta-head em { color: var(--lime); font-style: italic; }
+.oi-cta-sub {
+  font-size: 16px; color: rgba(245,240,232,.65);
+  max-width: 520px; margin: 0 auto 40px;
+  line-height: 1.7;
+}
+.oi-cta-btn {
+  display: inline-block;
+  background: var(--lime); color: var(--charcoal);
+  font-family: var(--mono); font-size: 11px;
+  font-weight: 700; letter-spacing: .2em;
+  text-transform: uppercase; text-decoration: none;
+  padding: 20px 48px; border-radius: 100px;
+  border: none; cursor: pointer;
+  box-shadow: 0 8px 40px rgba(234,255,157,.35), 0 2px 8px rgba(0,0,0,.2);
+  transition: all .2s ease;
+}
+.oi-cta-btn:hover {
+  background: #f2ffad;
+  transform: translateY(-3px);
+  box-shadow: 0 14px 50px rgba(234,255,157,.5);
+}
+
+.oi-footer {
+  background: var(--charcoal);
+  padding: 28px 48px; text-align: center;
+}
+.oi-footer p { font-size: 11px; color: rgba(245,240,232,.35); line-height: 2; }
+.oi-footer a { color: rgba(234,255,157,.6); text-decoration: none; margin: 0 8px; }
+.oi-footer a:hover { color: var(--lime); }
+
+.rv { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
+.rv.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 768px) {
+  .oi-hero { grid-template-columns: 1fr; }
+  .oi-hero-left { border-right: none; border-bottom: 1px solid var(--border); padding: 48px 24px; }
+  .oi-hero-right { padding: 40px 24px; }
+  .oi-hero-left::before { display: none; }
+  .oi-form-grid { grid-template-columns: 1fr; }
+  .oi-what-grid { grid-template-columns: 1fr; }
+  .oi-stats { grid-template-columns: 1fr 1fr; }
+  .oi-stat:nth-child(2) { border-right: none; }
+  .oi-stat:first-child, .oi-stat:nth-child(2) { border-bottom: 1px solid var(--border); }
+  .oi-section { padding: 56px 0; }
+  .oi-wrap { padding: 0 24px; }
+  .oi-cta-section { padding: 56px 24px; }
+  .oi-footer { padding: 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="dev-bar">
+  <button class="dev-btn active" id="btn-desktop" onclick="setDevice('desktop')">
+    <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+    Desktop
+  </button>
+  <div class="dev-sep"></div>
+  <button class="dev-btn" id="btn-mobile" onclick="setDevice('mobile')">
+    <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="1" fill="currentColor"/></svg>
+    Mobile
+  </button>
+</div>
+
+<div class="oi-announce">
+  Free Resource <span>·</span> Instant Access <span>·</span> No Credit Card Required
+</div>
+
+<header class="oi-header">
+  <div class="oi-header-brand">Cool Girl Rehab™</div>
+  <div class="oi-header-label">Free Resource</div>
+</header>
+
+<section class="oi-hero">
+  <div class="oi-hero-left">
+    <div class="oi-eyebrow">Free Download</div>
+
+    <h1 class="oi-hero-head">
+      [Your Lead Magnet<br>
+      <em>Title Goes Here]</em>
+    </h1>
+
+    <p class="oi-hero-sub">
+      The <strong>[X-step / X-page]</strong> resource that helps you [specific result] — even if [common objection].
+    </p>
+
+    <div class="oi-proof-row">
+      <span class="oi-proof-stars">★★★★★</span>
+      <span class="oi-proof-text"><strong>[XXX]+ women</strong> already have this</span>
+    </div>
+  </div>
+
+  <div class="oi-hero-right">
+    <div class="oi-form-card">
+      <div class="oi-form-card-head">
+        <div class="oi-form-card-label">Yes, send it to me</div>
+        <div class="oi-form-card-title">It's completely free →</div>
+      </div>
+      <div class="oi-form-body">
+        {% if error %}
+        <div class="oi-error-msg">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          {{ error }}
+        </div>
+        {% endif %}
+        
+        <form method="post">
+          {% csrf_token %}
+          <div class="oi-form-grid">
+            <div class="oi-field">
+              <label class="oi-label">First Name</label>
+              <input class="oi-input" type="text" name="first_name" placeholder="Your first name" value="{{ first_name }}" autocomplete="given-name" required>
+            </div>
+            <div class="oi-field">
+              <label class="oi-label">Last Name</label>
+              <input class="oi-input" type="text" name="last_name" placeholder="Your last name" value="{{ last_name }}" autocomplete="family-name" required>
+            </div>
+            <div class="oi-field full">
+              <label class="oi-label">Email Address</label>
+              <input class="oi-input {% if error %}error{% endif %}" type="email" name="email" placeholder="Your email address" value="{{ email }}" autocomplete="email" required>
+            </div>
+            <div class="oi-field full">
+              <label class="oi-label">Phone Number</label>
+              <div class="oi-phone-wrap">
+                <select class="oi-phone-code" name="phone_code" aria-label="Country code">
+                  <option value="+61">🇦🇺 +61</option>
+                  <option value="+1">🇺🇸 +1</option>
+                  <option value="+44">🇬🇧 +44</option>
+                  <option value="+64">🇳🇿 +64</option>
+                  <option value="+27">🇿🇦 +27</option>
+                  <option value="+33">🇫🇷 +33</option>
+                  <option value="+49">🇩🇪 +49</option>
+                  <option value="+34">🇪🇸 +34</option>
+                  <option value="+39">🇮🇹 +39</option>
+                  <option value="+31">🇳🇱 +31</option>
+                  <option value="+46">🇸🇪 +46</option>
+                  <option value="+47">🇳🇴 +47</option>
+                  <option value="+45">🇩🇰 +45</option>
+                  <option value="+353">🇮🇪 +353</option>
+                  <option value="+65">🇸🇬 +65</option>
+                  <option value="+971">🇦🇪 +971</option>
+                  <option value="+91">🇮🇳 +91</option>
+                  <option value="+55">🇧🇷 +55</option>
+                  <option value="+52">🇲🇽 +52</option>
+                  <option value="+54">🇦🇷 +54</option>
+                </select>
+                <input class="oi-input oi-phone-num" type="tel" name="phone" placeholder="Your phone number" value="{{ phone }}" autocomplete="tel">
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="oi-submit">
+            Send Me The Free Resource →
+          </button>
+          <p class="oi-form-note">🔒 Your details are safe. No spam, ever. Unsubscribe anytime.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="oi-section white rv">
+  <div class="oi-wrap">
+    <div class="oi-section-eye">What's Inside</div>
+    <h2 class="oi-section-head">
+      Everything you need to<br>
+      <em>[achieve the result]</em>
+    </h2>
+
+    <div class="oi-what-body">
+      <p class="oi-what-p">
+        [Lead Magnet Name] is a [X-page / X-part] resource designed to help you [specific outcome]. Whether you're just starting out or you've been at this for a while and something still isn't clicking, this gives you a clear, practical place to begin.
+      </p>
+      <p class="oi-what-p">
+        Inside you'll find [describe the type of content — frameworks, prompts, exercises, etc.] that [what it helps them do or feel]. No fluff, no theory for the sake of it — just the [honest description] that actually moves the needle.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="oi-section dark rv">
+  <div class="oi-wrap">
+    <div class="oi-section-eye">This is for you if</div>
+    <h2 class="oi-section-head">
+      You're in the right place<br>
+      <em>if any of this sounds like you</em>
+    </h2>
+
+    <div class="oi-for-list">
+      <div class="oi-for-item">
+        <div class="oi-for-check">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="oi-for-text">You're <strong>[describe their situation]</strong> and ready to [desired outcome]</div>
+      </div>
+
+      <div class="oi-for-item">
+        <div class="oi-for-check">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="oi-for-text">You've been <strong>[struggling with X]</strong> and want a clear path forward</div>
+      </div>
+
+      <div class="oi-for-item">
+        <div class="oi-for-check">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="oi-for-text">You want <strong>[specific result]</strong> without [common frustration]</div>
+      </div>
+
+      <div class="oi-for-item">
+        <div class="oi-for-check">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="oi-for-text">You're done with <strong>[old approach]</strong> and ready for something that actually works</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="oi-cta-section rv">
+  <div class="oi-cta-eye">Ready?</div>
+  <h2 class="oi-cta-head">
+    Get your free copy of<br>
+    <em>[Lead Magnet Name]</em>
+  </h2>
+  <p class="oi-cta-sub">
+    Instant access. No credit card. Just [the thing they actually want].
+  </p>
+  <a href="#" class="oi-cta-btn" onclick="scrollToForm(event)">
+    Yes, Send It To Me →
+  </a>
+</div>
+
+<footer class="oi-footer">
+  <p>
+    © 2026 Cool Girl Rehab™ &nbsp;·&nbsp; All Rights Reserved<br>
+    <a href="#">Terms & Conditions</a>
+    <a href="#">Privacy Policy</a>
+    <a href="#">Earnings Disclaimer</a>
+    <a href="#">Refund Policy</a>
+  </p>
+  <p style="margin-top:8px;padding-bottom:8px;">
+    Questions? Email <a href="mailto:support@coolgirlrehab.com">support@coolgirlrehab.com</a>
+  </p>
+</footer>
+
+<script>
+function setDevice(mode) {
+  const body = document.body;
+  const btnD = document.getElementById('btn-desktop');
+  const btnM = document.getElementById('btn-mobile');
+  if (mode === 'mobile') {
+    body.classList.add('mobile-mode');
+    btnM.classList.add('active');
+    btnD.classList.remove('active');
+  } else {
+    body.classList.remove('mobile-mode');
+    btnD.classList.add('active');
+    btnM.classList.remove('active');
+  }
+  window.scrollTo(0, 0);
+}
+
+function scrollToForm(e) {
+  e.preventDefault();
+  const form = document.querySelector('.oi-form-card');
+  if (form) form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+const rvEls = document.querySelectorAll('.rv');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+rvEls.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

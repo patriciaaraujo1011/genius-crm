@@ -2,26 +2,94 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class Pipeline(models.Model):
+    name = models.CharField(max_length=200)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.name
+
+
+class PipelineStage(models.Model):
+    pipeline = models.ForeignKey(Pipeline, on_delete=models.CASCADE, related_name='stages')
+    name = models.CharField(max_length=100)
+    order = models.IntegerField(default=0)
+    include_in_chart = models.BooleanField(default=True)
+    include_in_distribution = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        ordering = ['order']
+
+
 class Contact(models.Model):
     SOURCE_CHOICES = [
-        ('lead_magnet', 'Lead Magnet'),
+        ('lead_magnet_freebie_a', 'Lead Magnet - Freebie A'),
+        ('lead_magnet_freebie_b', 'Lead Magnet - Freebie B'),
         ('webinar', 'Webinar'),
         ('referral', 'Referral'),
         ('organic', 'Organic'),
         ('instagram', 'Instagram'),
         ('paid_ad', 'Paid Ad'),
+        ('manual', 'Manual Entry'),
+    ]
+    PIPELINE_STAGE_CHOICES = [
+        ('new_lead', 'New Lead'),
+        ('contacted', 'Contacted'),
+        ('qualified', 'Qualified'),
+        ('proposal', 'Proposal'),
+        ('negotiation', 'Negotiation'),
+        ('closed_won', 'Closed Won'),
+        ('closed_lost', 'Closed Lost'),
     ]
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=20, blank=True)
+    country = models.CharField(max_length=100, blank=True)
+    address = models.TextField(blank=True)
     source = models.CharField(max_length=50, choices=SOURCE_CHOICES, default='organic')
     tags = models.JSONField(default=list, blank=True)
+    products_purchased = models.JSONField(default=list, blank=True)
+    pipeline_stage = models.CharField(max_length=50, choices=PIPELINE_STAGE_CHOICES, default='new_lead')
     is_buyer = models.BooleanField(default=False)
+    last_activity = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+    
+    def add_tag(self, tag):
+        if tag not in self.tags:
+            self.tags.append(tag)
+            self.save()
+    
+    def remove_tag(self, tag):
+        if tag in self.tags:
+            self.tags.remove(tag)
+            self.save()
+    
+    def add_product(self, product_name):
+        if product_name not in self.products_purchased:
+            self.products_purchased.append(product_name)
+            self.save()
+
+
+class Opportunity(models.Model):
+    contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
+    pipeline = models.ForeignKey(Pipeline, on_delete=models.SET_NULL, null=True, blank=True)
+    stage = models.ForeignKey(PipelineStage, on_delete=models.SET_NULL, null=True, blank=True)
+    deal_value = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    close_date = models.DateField(null=True, blank=True)
+    notes = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return f"Opp: {self.contact} - {self.stage}"
 
 
 class Product(models.Model):
