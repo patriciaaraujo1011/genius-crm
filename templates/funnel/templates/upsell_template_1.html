@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wait! One More Thing... — {{ funnel.name }}</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --void:      #0B0A09;
+  --obsidian:  #131210;
+  --ink:       #1C1A17;
+  --card:      #211F1B;
+  --smoke:     #2A2722;
+  --bone:      #FAF7F2;
+  --silk:      rgba(250,247,242,.7);
+  --veil:      rgba(250,247,242,.35);
+  --blush:     #C8A882;
+  --blush2:    #E2C9A4;
+  --blush-d:   rgba(200,168,130,.12);
+  --blush-b:   rgba(200,168,130,.28);
+  --blush-bg:  rgba(200,168,130,.1);
+  --blush-brd: rgba(200,168,130,.28);
+  --blush-glo: rgba(200,168,130,.18);
+  --rouge:     #8B3A3A;
+  --rouge-bg:  rgba(139,58,58,.15);
+  --green:     #3A6B4A;
+  --green-bg:  rgba(58,107,74,.15);
+  --green-brd: rgba(58,107,74,.4);
+  --green-lit: #6dbf8a;
+  --serif:     'Cormorant Garamond', Georgia, serif;
+  --sans:      'Jost', sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;padding:0;background:#0B0A09;font-family:'Jost',sans-serif;}
+
+#page-upsell {
+  --void:    #0B0A09;
+  --obsidian:#131210;
+  --ink:     #1C1A17;
+  --smoke:   #2A2722;
+  --bone:    #FAF7F2;
+  --silk:    rgba(250,247,242,0.68);
+  --veil:    rgba(250,247,242,0.32);
+  --blush:   #C8A882;
+  --blush2:  #E2C9A4;
+  --blush-d: rgba(200,168,130,0.1);
+  --blush-b: rgba(200,168,130,0.26);
+  --rouge:   #8B3A3A;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Jost', sans-serif;
+}
+
+*, *::before, *::after {box-sizing:border-box;margin:0;padding:0;}
+html {scroll-behavior:smooth;background:var(--void);}
+body {font-family:var(--sans);background:var(--void);color:var(--bone);font-size:17px;line-height:1.76;overflow-x:hidden;}
+#page-upsell h1, #page-upsell h2, #page-upsell h3 {font-family:var(--serif);line-height:1.08;letter-spacing:-0.02em;}
+#page-upsell h1 {font-size:clamp(32px,5vw,56px);font-weight:400;}
+#page-upsell h2 {font-size:clamp(24px,4vw,42px);font-weight:400;margin-bottom:20px;}
+#page-upsell h3 {font-size:clamp(18px,2.2vw,24px);font-weight:500;}
+#page-upsell p {margin-bottom:16px;color:var(--silk);font-weight:300;}
+#page-upsell strong {font-weight:600;color:var(--bone);}
+#page-upsell em {font-style:italic;color:var(--blush2);}
+
+/* URGENCY BAR */
+#page-upsell .urgency-bar {
+  background: var(--rouge);
+  padding: 12px 24px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  position: relative;
+}
+#page-upsell .urgency-bar::before {
+  content: '⚡';
+  margin-right: 8px;
+}
+#page-upsell .urgency-timer {
+  font-family: var(--serif);
+  font-size: 18px;
+  color: #fff;
+  margin-left: 8px;
+}
+
+/* HERO */
+#page-upsell .hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px 60px;
+  position: relative;
+  overflow: hidden;
+}
+#page-upsell .hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 20%, rgba(200,168,130,0.15) 0%, transparent 50%),
+              radial-gradient(ellipse 60% 50% at 50% 80%, rgba(139,58,58,0.2) 0%, transparent 50%);
+  pointer-events: none;
+}
+#page-upsell .hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+}
+
+#page-upsell .congrats-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--green-bg);
+  border: 1px solid var(--green-brd);
+  color: var(--green-lit);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border-radius: 50px;
+  margin-bottom: 28px;
+}
+#page-upsell .congrats-badge .icon {
+  font-size: 16px;
+}
+
+#page-upsell .hero h1 {
+  color: var(--bone);
+  margin-bottom: 16px;
+}
+#page-upsell .hero h1 em {
+  color: var(--blush2);
+  display: block;
+  font-size: 0.85em;
+  margin-top: 8px;
+}
+#page-upsell .hero-sub {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-style: italic;
+  color: var(--blush);
+  margin-bottom: 32px;
+  line-height: 1.5;
+}
+
+/* VALUE STACK */
+#page-upsell .value-stack {
+  background: var(--ink);
+  border: 1px solid var(--blush-b);
+  border-radius: 12px;
+  padding: 40px;
+  margin: 40px 0;
+  box-shadow: 0 0 60px rgba(200,168,130,0.1);
+}
+#page-upsell .stack-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+#page-upsell .stack-header h2 {
+  color: var(--bone);
+  margin-bottom: 8px;
+}
+#page-upsell .stack-header p {
+  color: var(--blush);
+  margin: 0;
+  font-size: 15px;
+}
+#page-upsell .stack-items {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+#page-upsell .stack-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+  background: var(--obsidian);
+  border-radius: 8px;
+  transition: transform 0.2s;
+}
+#page-upsell .stack-item:hover {
+  transform: translateX(8px);
+}
+#page-upsell .stack-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--blush-d);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+#page-upsell .stack-content {
+  flex: 1;
+}
+#page-upsell .stack-name {
+  font-weight: 600;
+  color: var(--bone);
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+#page-upsell .stack-desc {
+  font-size: 14px;
+  color: var(--silk);
+  line-height: 1.5;
+}
+#page-upsell .stack-price {
+  font-family: var(--serif);
+  font-size: 20px;
+  color: var(--green-lit);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+#page-upsell .stack-price-orig {
+  font-size: 14px;
+  color: var(--veil);
+  text-decoration: line-through;
+  display: block;
+  text-align: right;
+  margin-bottom: 2px;
+}
+
+/* CTA BUTTONS */
+#page-upsell .cta-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+}
+#page-upsell .cta-yes {
+  display: inline-block;
+  background: var(--blush);
+  color: var(--void);
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 20px 48px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s, transform 0.15s;
+  animation: btn-pulse 3s infinite;
+}
+#page-upsell .cta-yes:hover {
+  background: var(--blush2);
+  transform: translateY(-2px);
+}
+@keyframes btn-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(200,168,130,0.5); }
+  50% { box-shadow: 0 0 0 16px rgba(200,168,130,0); }
+}
+
+#page-upsell .cta-note {
+  font-size: 13px;
+  color: var(--silk);
+  max-width: 400px;
+}
+#page-upsell .cta-note strong {
+  color: var(--blush);
+}
+
+#page-upsell .cta-decline {
+  background: none;
+  border: none;
+  color: var(--veil);
+  font-family: var(--sans);
+  font-size: 13px;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: color 0.2s;
+}
+#page-upsell .cta-decline:hover {
+  color: var(--silk);
+}
+
+/* SOCIAL PROOF */
+#page-upsell .proof-strip {
+  background: var(--obsidian);
+  padding: 40px 24px;
+  text-align: center;
+}
+#page-upsell .proof-stars {
+  color: var(--blush);
+  font-size: 18px;
+  letter-spacing: 4px;
+  margin-bottom: 12px;
+}
+#page-upsell .proof-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  color: var(--bone);
+  font-style: italic;
+  max-width: 500px;
+  margin: 0 auto 16px;
+}
+#page-upsell .proof-author {
+  font-size: 12px;
+  color: var(--blush);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* BONUS TIMER */
+#page-upsell .bonus-timer {
+  background: var(--rouge);
+  padding: 32px 24px;
+  text-align: center;
+}
+#page-upsell .bonus-timer h3 {
+  color: #fff;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+#page-upsell .bonus-timer p {
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+  margin: 0 0 16px;
+}
+#page-upsell .timer-display {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+#page-upsell .timer-unit {
+  background: rgba(0,0,0,0.3);
+  padding: 12px 16px;
+  border-radius: 6px;
+  min-width: 70px;
+}
+#page-upsell .timer-num {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1;
+}
+#page-upsell .timer-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.6);
+  margin-top: 4px;
+}
+
+/* TESTIMONIALS */
+#page-upsell .testi-section {
+  padding: 60px 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+#page-upsell .testi-section h2 {
+  text-align: center;
+  color: var(--bone);
+  margin-bottom: 36px;
+}
+#page-upsell .testi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media(max-width: 600px) {
+  #page-upsell .testi-grid { grid-template-columns: 1fr; }
+}
+#page-upsell .testi-card {
+  background: var(--ink);
+  border: 1px solid var(--smoke);
+  border-radius: 8px;
+  padding: 24px;
+}
+#page-upsell .testi-card q {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-style: italic;
+  color: var(--bone);
+  line-height: 1.6;
+  display: block;
+  margin-bottom: 12px;
+}
+#page-upsell .testi-card .author {
+  font-size: 12px;
+  color: var(--blush);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* FOOTER */
+#page-upsell .footer {
+  background: var(--void);
+  border-top: 1px solid var(--smoke);
+  padding: 28px;
+  text-align: center;
+}
+#page-upsell .footer p {
+  font-size: 12px;
+  color: var(--veil);
+  line-height: 1.9;
+  margin: 0;
+}
+#page-upsell .footer a {
+  color: var(--blush);
+  text-decoration: none;
+  margin: 0 8px;
+}
+#page-upsell .footer a:hover {
+  color: var(--blush2);
+}
+
+/* MOBILE */
+@media(max-width: 600px) {
+  #page-upsell .value-stack { padding: 28px 20px; }
+  #page-upsell .cta-yes { display: block; width: 100%; text-align: center; }
+}
+
+/* DEVICE TOGGLE */
+.dev-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; background: #1a1a1a; border-bottom: 1px solid #333; padding: 8px 16px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.dev-btn { background: transparent; border: 1px solid #444; color: #888; font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all .15s ease; }
+.dev-btn svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.dev-btn.active { background: var(--blush-d); border-color: var(--blush-b); color: var(--blush); }
+.dev-btn:hover:not(.active) { color: rgba(250,247,242,.7); border-color: rgba(250,247,242,.15); }
+.dev-sep { width: 1px; height: 18px; background: #333; }
+
+body { transition: all 0.3s ease; }
+body.mobile-mode { max-width: 430px !important; margin-left: auto !important; margin-right: auto !important; box-shadow: 0 0 0 100vw #0B0A09 !important; position: relative !important; }
+body.mobile-mode #page-upsell .hero { padding: 60px 16px 40px !important; }
+body.mobile-mode #page-upsell .value-stack { padding: 24px 16px !important; }
+body.mobile-mode #page-upsell .stack-items { gap: 12px !important; }
+body.mobile-mode #page-upsell .stack-item { flex-direction: column !important; padding: 16px !important; }
+body.mobile-mode #page-upsell .cta-yes { display: block !important; width: 100% !important; text-align: center !important; }
+</style>
+</head>
+<body>
+
+<!-- DEVICE TOGGLE -->
+<div class="dev-bar">
+  <button class="dev-btn active" id="btn-desktop" onclick="setDevice('desktop')">
+    <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+    Desktop
+  </button>
+  <div class="dev-sep"></div>
+  <button class="dev-btn" id="btn-mobile" onclick="setDevice('mobile')">
+    <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="1" fill="currentColor"/></svg>
+    Mobile
+  </button>
+</div>
+
+<div id="page-upsell">
+
+<!-- URGENCY BAR -->
+<div class="urgency-bar">
+  <span>One-time offer — Available for the next</span>
+  <span class="urgency-timer" id="urgency-timer">15:00</span>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="congrats-badge">
+      <span class="icon">🎉</span>
+      <span>Congratulations! Your order is confirmed</span>
+    </div>
+
+    <h1>Wait! Before You Go...<em>One Exclusive Offer</em></h1>
+
+    <p class="hero-sub">
+      You've made a great decision. Let me make it even better.
+    </p>
+
+    <!-- VALUE STACK -->
+    <div class="value-stack">
+      <div class="stack-header">
+        <h2>The Complete Transformation Bundle</h2>
+        <p>Add this to your order and save 40%</p>
+      </div>
+
+      <div class="stack-items">
+        <div class="stack-item">
+          <div class="stack-icon">📓</div>
+          <div class="stack-content">
+            <div class="stack-name">The Inconvenient Truth Workbook</div>
+            <div class="stack-desc">75 pages of guided exercises to take the framework offline and into your real life.</div>
+          </div>
+          <div class="stack-price-wrap">
+            <span class="stack-price-orig">$97</span>
+            <span class="stack-price">$29</span>
+          </div>
+        </div>
+
+        <div class="stack-item">
+          <div class="stack-icon">🎥</div>
+          <div class="stack-content">
+            <div class="stack-name">The Pattern Breaker Video Series</div>
+            <div class="stack-desc">90 minutes of deeper work on the five phases of the Cool Girl pattern.</div>
+          </div>
+          <div class="stack-price-wrap">
+            <span class="stack-price-orig">$147</span>
+            <span class="stack-price">$49</span>
+          </div>
+        </div>
+
+        <div class="stack-item">
+          <div class="stack-icon">💬</div>
+          <div class="stack-content">
+            <div class="stack-name">Private Community Access</div>
+            <div class="stack-desc">Join the inner circle of women doing this work at the deepest level.</div>
+          </div>
+          <div class="stack-price-wrap">
+            <span class="stack-price-orig">$197</span>
+            <span class="stack-price">$39</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:24px;padding-top:24px;border-top:1px solid var(--smoke);">
+        <span style="font-size:13px;color:var(--veil);text-decoration:line-through;margin-right:8px;">Total value: $441</span>
+        <span style="font-family:var(--serif);font-size:32px;font-weight:600;color:var(--blush);">$97</span>
+        <span style="display:block;font-size:12px;color:var(--green-lit);margin-top:4px;">You save $344</span>
+      </div>
+
+      <!-- CTAs -->
+      <div class="cta-wrap">
+        <a href="{{ accept_url }}" class="cta-yes">Yes! Add to My Order — $97</a>
+        <p class="cta-note">
+          30-day money-back guarantee on everything.<br>
+          <strong>No risk. All reward.</strong>
+        </p>
+        <a href="{{ decline_url }}" class="cta-decline">No thanks, I'll stick with my original order</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<div class="proof-strip">
+  <div class="proof-stars">★★★★★</div>
+  <p class="proof-title">"The workbook alone changed how I show up in my relationships. Worth every penny."</p>
+  <p class="proof-author">Sarah K. · Program Member</p>
+</div>
+
+<!-- BONUS TIMER -->
+<div class="bonus-timer">
+  <h3>This offer expires soon</h3>
+  <p>After this page, this bundle won't be available at this price.</p>
+  <div class="timer-display" id="bonus-timer">
+    <div class="timer-unit">
+      <div class="timer-num" id="minutes">15</div>
+      <div class="timer-label">Min</div>
+    </div>
+    <div class="timer-unit">
+      <div class="timer-num" id="seconds">00</div>
+      <div class="timer-label">Sec</div>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="testi-section">
+  <h2>What Members Say About the Bundle</h2>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <q>The video series helped me see things I missed in the main program. Patricia's teaching style is unmatched.</q>
+      <span class="author">Amanda R.</span>
+    </div>
+    <div class="testi-card">
+      <q>I literally do the workbook on my commute. It's transformed my daily commute into growth time.</q>
+      <span class="author">Jessica T.</span>
+    </div>
+    <div class="testi-card">
+      <q>The community access was the missing piece. Having women who truly get it made all the difference.</q>
+      <span class="author">Nicole M.</span>
+    </div>
+    <div class="testi-card">
+      <q>Best $97 I ever spent. The ROI on this bundle is insane.</q>
+      <span class="author">Rachel L.</span>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>
+    © 2026 {{ funnel.name }} · All Rights Reserved<br>
+    <a href="#">Terms & Conditions</a>
+    <a href="#">Privacy Policy</a>
+    <a href="#">Refund Policy</a>
+  </p>
+</footer>
+
+</div>
+
+<script>
+// TIMERS
+(function() {
+  // 15 minute countdown
+  var totalSeconds = 15 * 60;
+
+  function updateTimers() {
+    var minutes = Math.floor(totalSeconds / 60);
+    var seconds = totalSeconds % 60;
+
+    // Main timer
+    var timerEl = document.getElementById('urgency-timer');
+    if (timerEl) {
+      timerEl.textContent = String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0');
+    }
+
+    // Bonus timer
+    var minEl = document.getElementById('minutes');
+    var secEl = document.getElementById('seconds');
+    if (minEl) minEl.textContent = String(minutes).padStart(2, '0');
+    if (secEl) secEl.textContent = String(seconds).padStart(2, '0');
+
+    if (totalSeconds > 0) {
+      totalSeconds--;
+    }
+  }
+
+  updateTimers();
+  setInterval(updateTimers, 1000);
+})();
+
+function setDevice(mode) {
+  var body = document.body;
+  var btnD = document.getElementById('btn-desktop');
+  var btnM = document.getElementById('btn-mobile');
+  if (mode === 'mobile') {
+    body.classList.add('mobile-mode');
+    btnM.classList.add('active');
+    btnD.classList.remove('active');
+  } else {
+    body.classList.remove('mobile-mode');
+    btnD.classList.add('active');
+    btnM.classList.remove('active');
+  }
+  window.scrollTo(0, 0);
+}
+</script>
+
+</body>
+</html>

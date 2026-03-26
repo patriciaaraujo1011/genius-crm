@@ -429,20 +429,21 @@ def funnel_landing(request, slug):
 def funnel_order(request, slug):
     funnel = get_object_or_404(Funnel, slug=slug, is_active=True)
     order_page = funnel.funnelpage_set.filter(page_type="order").first()
-    main_product = funnel.funnelpage_set.filter(page_type="order").first()
     order_bumps = (
         funnel.order_bumps.filter(is_active=True)
         .order_by("order")
         .select_related("product")
     )
+    main_product = order_bumps.first()
 
     context = {
         "funnel": funnel,
         "page": order_page,
         "main_product": main_product,
         "order_bumps": order_bumps,
+        "product": main_product.product if main_product else None,
     }
-    return render(request, "funnel/order.html", context)
+    return render(request, "funnel/templates/order_template_1.html", context)
 
 
 @require_http_methods(["POST"])
@@ -490,8 +491,14 @@ def funnel_thankyou(request, slug):
     context = {
         "funnel": funnel,
         "session_id": session_id,
+        "first_name": request.session.get("first_name", "there"),
+        "order_items": [{"name": "Program Access", "price": "497"}],
+        "total_paid": "497",
+        "access_url": "/dashboard/",
     }
-    return render(request, "funnel/thank-you.html", context)
+    return render(
+        request, "funnel/templates/thank_you_template_1.html", context
+    )
 
 
 def funnel_upsell(request, slug):
@@ -501,8 +508,10 @@ def funnel_upsell(request, slug):
     context = {
         "funnel": funnel,
         "page": upsell_page,
+        "accept_url": f"/funnel/{slug}/checkout/",
+        "decline_url": f"/funnel/{slug}/thank-you/",
     }
-    return render(request, "funnel/upsell.html", context)
+    return render(request, "funnel/templates/upsell_template_1.html", context)
 
 
 def offer_expired(request):
@@ -566,4 +575,86 @@ def handle_successful_payment(session):
         amount=product.price,
         status="completed",
         stripe_payment_id=session.get("id", ""),
+    )
+
+
+# Preview views for funnel templates
+def preview_sales(request):
+    from crm.models import Funnel
+
+    funnel = Funnel.objects.first()
+    if not funnel:
+        funnel = type(
+            "Funnel", (), {"name": "Preview Funnel", "slug": "preview"}
+        )()
+    return render(
+        request, "funnel/templates/sales_template_1.html", {"funnel": funnel}
+    )
+
+
+def preview_order(request):
+    from crm.models import Funnel
+
+    funnel = Funnel.objects.first()
+    if not funnel:
+        funnel = type(
+            "Funnel", (), {"name": "Preview Funnel", "slug": "preview"}
+        )()
+    context = {
+        "funnel": funnel,
+        "product": type(
+            "Product",
+            (),
+            {
+                "name": "Program",
+                "price": 497,
+                "description": "Transform your life",
+            },
+        )(),
+        "order_bumps": [],
+        "checkout_url": "/preview/checkout/",
+        "offer_end_date": "2026-04-01T23:59:59",
+        "subtotal": 497,
+        "total_price": 497,
+    }
+    return render(request, "funnel/templates/order_template_1.html", context)
+
+
+def preview_upsell(request):
+    from crm.models import Funnel
+
+    funnel = Funnel.objects.first()
+    if not funnel:
+        funnel = type(
+            "Funnel", (), {"name": "Preview Funnel", "slug": "preview"}
+        )()
+    return render(
+        request,
+        "funnel/templates/upsell_template_1.html",
+        {
+            "funnel": funnel,
+            "accept_url": "/preview/checkout/",
+            "decline_url": "/preview/thank-you/",
+        },
+    )
+
+
+def preview_thankyou(request):
+    from crm.models import Funnel
+
+    funnel = Funnel.objects.first()
+    if not funnel:
+        funnel = type(
+            "Funnel", (), {"name": "Preview Funnel", "slug": "preview"}
+        )()
+    return render(
+        request,
+        "funnel/templates/thank_you_template_1.html",
+        {
+            "funnel": funnel,
+            "first_name": "Sarah",
+            "order_items": [{"name": "Program Access", "price": "497"}],
+            "total_paid": "497",
+            "access_url": "/",
+        },
     )

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You're In! — {{ funnel.name }}</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --void:      #0B0A09;
+  --obsidian:  #131210;
+  --ink:       #1C1A17;
+  --card:      #211F1B;
+  --smoke:     #2A2722;
+  --bone:      #FAF7F2;
+  --silk:      rgba(250,247,242,.7);
+  --veil:      rgba(250,247,242,.35);
+  --blush:     #C8A882;
+  --blush2:    #E2C9A4;
+  --blush-d:   rgba(200,168,130,.12);
+  --blush-b:   rgba(200,168,130,.28);
+  --blush-bg:  rgba(200,168,130,.1);
+  --blush-brd: rgba(200,168,130,.28);
+  --blush-glo: rgba(200,168,130,.18);
+  --rouge:     #8B3A3A;
+  --rouge-bg:  rgba(139,58,58,.15);
+  --green:     #3A6B4A;
+  --green-bg:  rgba(58,107,74,.15);
+  --green-brd: rgba(58,107,74,.4);
+  --green-lit: #6dbf8a;
+  --serif:     'Cormorant Garamond', Georgia, serif;
+  --sans:      'Jost', sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;padding:0;background:#0B0A09;font-family:'Jost',sans-serif;}
+
+#page-thankyou {
+  --void:    #0B0A09;
+  --obsidian:#131210;
+  --ink:     #1C1A17;
+  --smoke:   #2A2722;
+  --bone:    #FAF7F2;
+  --silk:    rgba(250,247,242,0.68);
+  --veil:    rgba(250,247,242,0.32);
+  --blush:   #C8A882;
+  --blush2:  #E2C9A4;
+  --blush-d: rgba(200,168,130,0.1);
+  --blush-b: rgba(200,168,130,0.26);
+  --rouge:   #8B3A3A;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Jost', sans-serif;
+}
+
+*, *::before, *::after {box-sizing:border-box;margin:0;padding:0;}
+html {scroll-behavior:smooth;background:var(--void);}
+body {font-family:var(--sans);background:var(--void);color:var(--bone);font-size:17px;line-height:1.76;overflow-x:hidden;}
+#page-thankyou h1, #page-thankyou h2, #page-thankyou h3 {font-family:var(--serif);line-height:1.08;letter-spacing:-0.02em;}
+#page-thankyou h1 {font-size:clamp(32px,5vw,56px);font-weight:400;}
+#page-thankyou h2 {font-size:clamp(24px,4vw,42px);font-weight:400;margin-bottom:20px;}
+#page-thankyou h3 {font-size:clamp(18px,2.2vw,24px);font-weight:500;}
+#page-thankyou p {margin-bottom:16px;color:var(--silk);font-weight:300;}
+#page-thankyou strong {font-weight:600;color:var(--bone);}
+#page-thankyou em {font-style:italic;color:var(--blush2);}
+#page-thankyou a {color:var(--blush);text-decoration:none;}
+#page-thankyou a:hover {color:var(--blush2);}
+
+/* HERO */
+#page-thankyou .hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px 60px;
+  position: relative;
+  overflow: hidden;
+}
+#page-thankyou .hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 20%, rgba(58,107,74,0.15) 0%, transparent 50%),
+              radial-gradient(ellipse 60% 50% at 50% 80%, rgba(200,168,130,0.12) 0%, transparent 50%);
+  pointer-events: none;
+}
+#page-thankyou .hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+}
+
+/* CONFIRMATION BADGE */
+#page-thankyou .confirm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--green-bg);
+  border: 1px solid var(--green-brd);
+  color: var(--green-lit);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 14px 24px;
+  border-radius: 50px;
+  margin-bottom: 32px;
+}
+#page-thankyou .confirm-badge .icon {
+  font-size: 20px;
+}
+
+#page-thankyou .hero h1 {
+  color: var(--bone);
+  margin-bottom: 16px;
+}
+#page-thankyou .hero h1 em {
+  color: var(--blush2);
+  display: block;
+  font-size: 0.85em;
+  margin-top: 8px;
+}
+#page-thankyou .hero-sub {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-style: italic;
+  color: var(--blush);
+  margin-bottom: 40px;
+  line-height: 1.5;
+}
+
+/* ORDER SUMMARY CARD */
+#page-thankyou .order-summary {
+  background: var(--ink);
+  border: 1px solid var(--smoke);
+  border-radius: 12px;
+  padding: 32px;
+  margin: 0 auto 40px;
+  max-width: 480px;
+  text-align: left;
+}
+#page-thankyou .summary-title {
+  font-family: var(--serif);
+  font-size: 18px;
+  color: var(--bone);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#page-thankyou .summary-items {
+  border-top: 1px solid var(--smoke);
+  padding-top: 16px;
+}
+#page-thankyou .summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  font-size: 14px;
+}
+#page-thankyou .summary-item-name {
+  color: var(--silk);
+}
+#page-thankyou .summary-item-price {
+  color: var(--bone);
+  font-weight: 500;
+}
+#page-thankyou .summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  margin-top: 12px;
+  border-top: 1px solid var(--smoke);
+  font-size: 16px;
+}
+#page-thankyou .summary-total .label {
+  color: var(--bone);
+  font-weight: 600;
+}
+#page-thankyou .summary-total .value {
+  font-family: var(--serif);
+  font-size: 24px;
+  color: var(--bone);
+  font-weight: 600;
+}
+
+/* ACCESS CTA */
+#page-thankyou .access-cta {
+  display: inline-block;
+  background: var(--blush);
+  color: var(--void);
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 20px 48px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s, transform 0.15s;
+  margin-bottom: 16px;
+}
+#page-thankyou .access-cta:hover {
+  background: var(--blush2);
+  transform: translateY(-2px);
+}
+#page-thankyou .access-note {
+  font-size: 13px;
+  color: var(--veil);
+}
+
+/* NEXT STEPS TIMELINE */
+#page-thankyou .timeline-sec {
+  background: var(--obsidian);
+  padding: 60px 24px;
+}
+#page-thankyou .timeline-sec h2 {
+  text-align: center;
+  color: var(--bone);
+  margin-bottom: 40px;
+}
+#page-thankyou .timeline {
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+}
+#page-thankyou .timeline::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--smoke);
+}
+#page-thankyou .timeline-item {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 32px;
+  position: relative;
+}
+#page-thankyou .timeline-item:last-child {
+  margin-bottom: 0;
+}
+#page-thankyou .timeline-icon {
+  width: 42px;
+  height: 42px;
+  background: var(--blush-d);
+  border: 2px solid var(--blush-b);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+#page-thankyou .timeline-content {
+  padding-top: 8px;
+}
+#page-thankyou .timeline-step {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--blush);
+  margin-bottom: 4px;
+}
+#page-thankyou .timeline-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  color: var(--bone);
+  margin-bottom: 6px;
+}
+#page-thankyou .timeline-desc {
+  font-size: 14px;
+  color: var(--silk);
+  line-height: 1.6;
+}
+
+/* WHAT'S INSIDE */
+#page-thankyou .inside-sec {
+  padding: 60px 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+#page-thankyou .inside-sec h2 {
+  text-align: center;
+  color: var(--bone);
+  margin-bottom: 36px;
+}
+#page-thankyou .inside-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+@media(max-width: 700px) {
+  #page-thankyou .inside-grid {
+    grid-template-columns: 1fr;
+  }
+}
+#page-thankyou .inside-card {
+  background: var(--ink);
+  border: 1px solid var(--smoke);
+  border-radius: 8px;
+  padding: 28px;
+  text-align: center;
+}
+#page-thankyou .inside-icon {
+  font-size: 36px;
+  margin-bottom: 16px;
+}
+#page-thankyou .inside-card h3 {
+  color: var(--bone);
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+#page-thankyou .inside-card p {
+  font-size: 13px;
+  color: var(--silk);
+  margin: 0;
+}
+
+/* SUPPORT */
+#page-thankyou .support-sec {
+  background: var(--ink);
+  padding: 48px 24px;
+  text-align: center;
+}
+#page-thankyou .support-sec h3 {
+  color: var(--bone);
+  margin-bottom: 12px;
+}
+#page-thankyou .support-sec p {
+  color: var(--silk);
+  font-size: 14px;
+  margin: 0 0 20px;
+}
+#page-thankyou .support-email {
+  font-family: var(--serif);
+  font-size: 18px;
+  color: var(--blush);
+}
+
+/* FOOTER */
+#page-thankyou .footer {
+  background: var(--void);
+  border-top: 1px solid var(--smoke);
+  padding: 28px;
+  text-align: center;
+}
+#page-thankyou .footer p {
+  font-size: 12px;
+  color: var(--veil);
+  line-height: 1.9;
+  margin: 0;
+}
+#page-thankyou .footer a {
+  color: var(--blush);
+  text-decoration: none;
+  margin: 0 8px;
+}
+#page-thankyou .footer a:hover {
+  color: var(--blush2);
+}
+
+/* CONFETTI ANIMATION */
+@keyframes confetti-fall {
+  0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+#page-thankyou .confetti {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+#page-thankyou .confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  animation: confetti-fall 4s linear forwards;
+}
+
+/* DEVICE TOGGLE */
+.dev-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; background: #1a1a1a; border-bottom: 1px solid #333; padding: 8px 16px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.dev-btn { background: transparent; border: 1px solid #444; color: #888; font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all .15s ease; }
+.dev-btn svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.dev-btn.active { background: var(--blush-d); border-color: var(--blush-b); color: var(--blush); }
+.dev-btn:hover:not(.active) { color: rgba(250,247,242,.7); border-color: rgba(250,247,242,.15); }
+.dev-sep { width: 1px; height: 18px; background: #333; }
+
+body { transition: all 0.3s ease; }
+body.mobile-mode { max-width: 430px !important; margin-left: auto !important; margin-right: auto !important; box-shadow: 0 0 0 100vw #0B0A09 !important; position: relative !important; }
+body.mobile-mode #page-thankyou .hero { padding: 60px 16px 40px !important; }
+body.mobile-mode #page-thankyou .timeline-sec { padding: 40px 16px !important; }
+body.mobile-mode #page-thankyou .timeline::before { left: 16px !important; }
+body.mobile-mode #page-thankyou .inside-grid { grid-template-columns: 1fr !important; }
+body.mobile-mode #page-thankyou .order-summary { padding: 20px 16px !important; }
+</style>
+</head>
+<body>
+
+<!-- DEVICE TOGGLE -->
+<div class="dev-bar">
+  <button class="dev-btn active" id="btn-desktop" onclick="setDevice('desktop')">
+    <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+    Desktop
+  </button>
+  <div class="dev-sep"></div>
+  <button class="dev-btn" id="btn-mobile" onclick="setDevice('mobile')">
+    <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="1" fill="currentColor"/></svg>
+    Mobile
+  </button>
+</div>
+
+<div id="page-thankyou">
+
+<!-- CONFETTI -->
+<div class="confetti" id="confetti"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="confirm-badge">
+      <span class="icon">✓</span>
+      <span>Order Confirmed</span>
+    </div>
+
+    <h1>Welcome to the Program, {{ first_name|default:"there" }}!<em>Your transformation starts now.</em></h1>
+
+    <p class="hero-sub">
+      You've just made one of the best decisions for yourself. Let's get you set up.
+    </p>
+
+    <!-- ORDER SUMMARY -->
+    <div class="order-summary">
+      <h3 class="summary-title">📋 Order Summary</h3>
+      <div class="summary-items">
+        {% for item in order_items %}
+        <div class="summary-item">
+          <span class="summary-item-name">{{ item.name }}</span>
+          <span class="summary-item-price">${{ item.price }}</span>
+        </div>
+        {% endfor %}
+        <div class="summary-total">
+          <span class="label">Total Paid</span>
+          <span class="value">${{ total_paid }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACCESS CTA -->
+    <a href="{{ access_url }}" class="access-cta">Get Started Now →</a>
+    <p class="access-note">Check your email for receipt and login details</p>
+
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<div class="timeline-sec">
+  <h2>What Happens Next</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-icon">📧</div>
+      <div class="timeline-content">
+        <div class="timeline-step">Step 1</div>
+        <div class="timeline-title">Check Your Email</div>
+        <div class="timeline-desc">In the next few minutes, you'll receive an email with your login credentials and receipt.</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-icon">🔑</div>
+      <div class="timeline-content">
+        <div class="timeline-step">Step 2</div>
+        <div class="timeline-title">Create Your Account</div>
+        <div class="timeline-desc">Click the link in the email to set your password and access your dashboard.</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-icon">🚀</div>
+      <div class="timeline-content">
+        <div class="timeline-step">Step 3</div>
+        <div class="timeline-title">Start the Program</div>
+        <div class="timeline-desc">Head to Module 1 and begin your transformation. The Pattern Identifier awaits.</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-icon">💬</div>
+      <div class="timeline-content">
+        <div class="timeline-step">Step 4</div>
+        <div class="timeline-title">Join the Community</div>
+        <div class="timeline-desc">Introduce yourself in the private community. The women are waiting for you.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT'S INSIDE -->
+<div class="inside-sec">
+  <h2>What's Inside</h2>
+  <div class="inside-grid">
+    <div class="inside-card">
+      <div class="inside-icon">📓</div>
+      <h3>The Pattern Identifier</h3>
+      <p>The diagnostic that names the pattern in your specific life.</p>
+    </div>
+    <div class="inside-card">
+      <div class="inside-icon">🔄</div>
+      <h3>Cycle Breaker Framework</h3>
+      <p>The structural tool that makes it impossible to keep running the pattern.</p>
+    </div>
+    <div class="inside-card">
+      <div class="inside-icon">👑</div>
+      <h3>Cool Girl Identity</h3>
+      <p>Five phases of the pattern and what it costs to stay in each.</p>
+    </div>
+    <div class="inside-card">
+      <div class="inside-icon">📝</div>
+      <h3>The Workbook</h3>
+      <p>75 pages of guided exercises to take offline.</p>
+    </div>
+    <div class="inside-card">
+      <div class="inside-icon">🎥</div>
+      <h3>Video Series</h3>
+      <p>90 minutes of deeper work on each phase.</p>
+    </div>
+    <div class="inside-card">
+      <div class="inside-icon">💜</div>
+      <h3>Community</h3>
+      <p>Women doing this exact work, at every stage.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SUPPORT -->
+<div class="support-sec">
+  <h3>Questions?</h3>
+  <p>We're here to help you get started on the right foot.</p>
+  <a href="mailto:support@{{ funnel.slug|default:"example" }}.com" class="support-email">support@{{ funnel.slug|default:"example" }}.com</a>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>
+    © 2026 {{ funnel.name }} · All Rights Reserved<br>
+    <a href="#">Terms & Conditions</a>
+    <a href="#">Privacy Policy</a>
+    <a href="#">Refund Policy</a>
+  </p>
+</footer>
+
+</div>
+
+<script>
+// CONFETTI EFFECT
+(function() {
+  var colors = ['#C8A882', '#8B3A3A', '#3A6B4A', '#E2C9A4', '#FAF7F2'];
+  var confettiContainer = document.getElementById('confetti');
+  var pieceCount = 50;
+
+  for (var i = 0; i < pieceCount; i++) {
+    var piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + '%';
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.animationDelay = Math.random() * 3 + 's';
+    piece.style.animationDuration = (3 + Math.random() * 2) + 's';
+    confettiContainer.appendChild(piece);
+  }
+})();
+
+function setDevice(mode) {
+  var body = document.body;
+  var btnD = document.getElementById('btn-desktop');
+  var btnM = document.getElementById('btn-mobile');
+  if (mode === 'mobile') {
+    body.classList.add('mobile-mode');
+    btnM.classList.add('active');
+    btnD.classList.remove('active');
+  } else {
+    body.classList.remove('mobile-mode');
+    btnD.classList.add('active');
+    btnM.classList.remove('active');
+  }
+  window.scrollTo(0, 0);
+}
+</script>
+
+</body>
+</html>

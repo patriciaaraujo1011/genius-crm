@@ -292,9 +292,43 @@ body::after {content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
   #page-sales .cta-btn {display:block;width:100%;padding:18px 24px;text-align:center;}
   #page-sales .hero {padding:80px 20px 60px;}
 }
+
+/* DEVICE TOGGLE */
+.dev-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; background: #1a1a1a; border-bottom: 1px solid #333; padding: 8px 16px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.dev-btn { background: transparent; border: 1px solid #444; color: #888; font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all .15s ease; }
+.dev-btn svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.dev-btn.active { background: var(--blush-d); border-color: var(--blush-b); color: var(--blush); }
+.dev-btn:hover:not(.active) { color: rgba(250,247,242,.7); border-color: rgba(250,247,242,.15); }
+.dev-sep { width: 1px; height: 18px; background: #333; }
+
+body { transition: all 0.3s ease; }
+body.mobile-mode { max-width: 430px !important; margin-left: auto !important; margin-right: auto !important; box-shadow: 0 0 0 100vw #0B0A09 !important; position: relative !important; }
+body.mobile-mode #page-sales .sec { padding: 60px 20px !important; }
+body.mobile-mode #page-sales .hero { padding: 100px 20px 60px !important; }
+body.mobile-mode #page-sales .auth-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+body.mobile-mode #page-sales .testi-grid { grid-template-columns: 1fr !important; }
+body.mobile-mode #page-sales .choices { grid-template-columns: 1fr !important; }
+body.mobile-mode #page-sales .shots { columns: 1 !important; }
+body.mobile-mode #page-sales .offer-head { padding: 32px 20px !important; }
+body.mobile-mode #page-sales .offer-rows { padding: 12px 16px !important; }
+body.mobile-mode #page-sales .offer-total { padding: 24px 20px 32px !important; }
+body.mobile-mode #page-sales .cta-btn { display: block !important; width: 100% !important; text-align: center !important; padding: 16px 24px !important; }
 </style>
 </head>
 <body>
+
+<!-- DEVICE TOGGLE -->
+<div class="dev-bar">
+  <button class="dev-btn active" id="btn-desktop" onclick="setDevice('desktop')">
+    <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+    Desktop
+  </button>
+  <div class="dev-sep"></div>
+  <button class="dev-btn" id="btn-mobile" onclick="setDevice('mobile')">
+    <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="1" fill="currentColor"/></svg>
+    Mobile
+  </button>
+</div>
 
 <!-- SALES PAGE CONTENT -->
 <div id="page-sales">
@@ -662,6 +696,22 @@ body::after {content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
     });
   });
 })();
+
+function setDevice(mode) {
+  var body = document.body;
+  var btnD = document.getElementById('btn-desktop');
+  var btnM = document.getElementById('btn-mobile');
+  if (mode === 'mobile') {
+    body.classList.add('mobile-mode');
+    btnM.classList.add('active');
+    btnD.classList.remove('active');
+  } else {
+    body.classList.remove('mobile-mode');
+    btnD.classList.add('active');
+    btnM.classList.remove('active');
+  }
+  window.scrollTo(0, 0);
+}
 </script>
 
 </body>

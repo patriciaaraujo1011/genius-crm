@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complete Your Order — {{ funnel.name }}</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --void:      #0B0A09;
+  --obsidian:  #131210;
+  --ink:       #1C1A17;
+  --card:      #211F1B;
+  --smoke:     #2A2722;
+  --bone:      #FAF7F2;
+  --silk:      rgba(250,247,242,.7);
+  --veil:      rgba(250,247,242,.35);
+  --blush:     #C8A882;
+  --blush2:    #E2C9A4;
+  --blush-d:   rgba(200,168,130,.12);
+  --blush-b:   rgba(200,168,130,.28);
+  --blush-bg:  rgba(200,168,130,.1);
+  --blush-brd: rgba(200,168,130,.28);
+  --blush-glo: rgba(200,168,130,.18);
+  --rouge:     #8B3A3A;
+  --rouge-bg:  rgba(139,58,58,.15);
+  --green:     #3A6B4A;
+  --green-bg:  rgba(58,107,74,.15);
+  --green-brd: rgba(58,107,74,.4);
+  --green-lit: #6dbf8a;
+  --serif:     'Cormorant Garamond', Georgia, serif;
+  --sans:      'Jost', sans-serif;
+  --max:       1200px;
+}
+
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;padding:0;background:#0B0A09;font-family:'Jost',sans-serif;}
+
+#page-order {
+  --void:    #0B0A09;
+  --obsidian:#131210;
+  --ink:     #1C1A17;
+  --smoke:   #2A2722;
+  --bone:    #FAF7F2;
+  --silk:    rgba(250,247,242,0.68);
+  --veil:    rgba(250,247,242,0.32);
+  --blush:   #C8A882;
+  --blush2:  #E2C9A4;
+  --blush-d: rgba(200,168,130,0.1);
+  --blush-b: rgba(200,168,130,0.26);
+  --rouge:   #8B3A3A;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Jost', sans-serif;
+}
+
+*, *::before, *::after {box-sizing:border-box;margin:0;padding:0;}
+html {scroll-behavior:smooth;background:var(--void);}
+body {font-family:var(--sans);background:var(--void);color:var(--bone);font-size:17px;line-height:1.76;overflow-x:hidden;}
+#page-order h1, #page-order h2, #page-order h3 {font-family:var(--serif);line-height:1.08;letter-spacing:-0.02em;}
+#page-order h1 {font-size:clamp(32px,5vw,56px);font-weight:400;}
+#page-order h2 {font-size:clamp(24px,4vw,42px);font-weight:400;margin-bottom:20px;}
+#page-order h3 {font-size:clamp(16px,2vw,22px);font-weight:500;}
+#page-order p {margin-bottom:16px;color:var(--silk);font-weight:300;}
+#page-order strong {font-weight:600;color:var(--bone);}
+#page-order em {font-style:italic;color:var(--blush2);}
+
+/* COUNTDOWN BAR */
+#page-order .countdown-bar {
+  background: var(--rouge);
+  padding: 14px 24px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+#page-order .countdown-bar .timer {
+  display: flex;
+  gap: 8px;
+}
+#page-order .countdown-bar .timer-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#page-order .countdown-bar .timer-num {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+}
+#page-order .countdown-bar .timer-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+}
+
+/* LAYOUT */
+#page-order .order-layout {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 60px 24px;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 48px;
+  align-items: start;
+}
+@media(max-width: 900px) {
+  #page-order .order-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* FORM SECTION */
+#page-order .form-section {
+  background: var(--ink);
+  border: 1px solid var(--smoke);
+  border-radius: 8px;
+  padding: 40px;
+}
+#page-order .form-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+#page-order .form-header h1 {
+  color: var(--bone);
+  margin-bottom: 8px;
+}
+#page-order .form-header p {
+  color: var(--blush);
+  font-size: 15px;
+  margin: 0;
+}
+
+#page-order .form-group {
+  margin-bottom: 20px;
+}
+#page-order .form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--silk);
+  margin-bottom: 8px;
+}
+#page-order .form-input {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--obsidian);
+  border: 1px solid var(--smoke);
+  border-radius: 4px;
+  color: var(--bone);
+  font-family: var(--sans);
+  font-size: 15px;
+  transition: border-color 0.2s;
+}
+#page-order .form-input:focus {
+  outline: none;
+  border-color: var(--blush);
+}
+#page-order .form-input::placeholder {
+  color: var(--veil);
+}
+
+#page-order .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media(max-width: 500px) {
+  #page-order .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+#page-order .form-submit {
+  width: 100%;
+  padding: 18px 32px;
+  background: var(--blush);
+  color: var(--void);
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  margin-top: 12px;
+}
+#page-order .form-submit:hover {
+  background: var(--blush2);
+  transform: translateY(-2px);
+}
+
+#page-order .form-secure {
+  text-align: center;
+  font-size: 12px;
+  color: var(--veil);
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* ORDER BUMPS */
+#page-order .order-bumps {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--smoke);
+}
+#page-order .bumps-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  color: var(--bone);
+  margin-bottom: 20px;
+  text-align: center;
+}
+#page-order .bump-item {
+  background: var(--obsidian);
+  border: 2px solid var(--smoke);
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 14px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+#page-order .bump-item:hover {
+  border-color: var(--blush-b);
+}
+#page-order .bump-item.selected {
+  border-color: var(--blush);
+  background: var(--blush-d);
+}
+#page-order .bump-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+#page-order .bump-checkbox {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--smoke);
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+}
+#page-order .bump-item.selected .bump-checkbox {
+  background: var(--blush);
+  border-color: var(--blush);
+}
+#page-order .bump-item.selected .bump-checkbox::after {
+  content: '✓';
+  font-size: 12px;
+  color: var(--void);
+  font-weight: 700;
+}
+#page-order .bump-content {
+  flex: 1;
+}
+#page-order .bump-name {
+  font-weight: 600;
+  color: var(--bone);
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+#page-order .bump-desc {
+  font-size: 13px;
+  color: var(--silk);
+  line-height: 1.5;
+}
+#page-order .bump-price {
+  font-family: var(--serif);
+  font-size: 22px;
+  color: var(--blush);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+#page-order .bump-savings {
+  background: var(--green-bg);
+  border: 1px solid var(--green-brd);
+  color: var(--green-lit);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 3px;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+/* SIDEBAR */
+#page-order .order-sidebar {
+  position: sticky;
+  top: 80px;
+}
+#page-order .product-summary {
+  background: var(--ink);
+  border: 1px solid var(--smoke);
+  border-radius: 8px;
+  overflow: hidden;
+}
+#page-order .summary-header {
+  background: var(--obsidian);
+  padding: 24px;
+  border-bottom: 1px solid var(--smoke);
+}
+#page-order .summary-header h3 {
+  color: var(--bone);
+  margin: 0;
+}
+#page-order .summary-items {
+  padding: 24px;
+}
+#page-order .summary-item {
+  display: flex;
+  gap: 14px;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(255,250,242,0.06);
+}
+#page-order .summary-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+#page-order .summary-thumb {
+  width: 60px;
+  height: 60px;
+  background: var(--smoke);
+  border-radius: 4px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+#page-order .summary-details {
+  flex: 1;
+}
+#page-order .summary-name {
+  font-weight: 600;
+  color: var(--bone);
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+#page-order .summary-desc {
+  font-size: 12px;
+  color: var(--veil);
+  line-height: 1.4;
+}
+#page-order .summary-price {
+  font-family: var(--serif);
+  font-size: 18px;
+  color: var(--bone);
+  font-weight: 600;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+#page-order .summary-totals {
+  background: var(--obsidian);
+  padding: 24px;
+  border-top: 1px solid var(--smoke);
+}
+#page-order .total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+#page-order .total-row.subtotal {
+  color: var(--silk);
+}
+#page-order .total-row.discount {
+  color: var(--green-lit);
+}
+#page-order .total-row.grand-total {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--smoke);
+  font-size: 20px;
+}
+#page-order .total-row.grand-total .total-label {
+  font-weight: 600;
+  color: var(--bone);
+}
+#page-order .total-row.grand-total .total-value {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--bone);
+}
+
+#page-order .summary-cta {
+  padding: 24px;
+  background: var(--blush-d);
+  text-align: center;
+}
+#page-order .summary-cta p {
+  font-size: 13px;
+  color: var(--silk);
+  margin: 0 0 16px;
+}
+#page-order .guarantee {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--veil);
+}
+#page-order .guarantee-icon {
+  font-size: 20px;
+}
+
+/* TESTIMONIALS STRIP */
+#page-order .testi-strip {
+  background: var(--obsidian);
+  border-top: 1px solid var(--smoke);
+  border-bottom: 1px solid var(--smoke);
+  padding: 40px 24px;
+  text-align: center;
+}
+#page-order .testi-strip .stars {
+  color: var(--blush);
+  font-size: 16px;
+  letter-spacing: 4px;
+  margin-bottom: 12px;
+}
+#page-order .testi-strip .quote {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-style: italic;
+  color: var(--bone);
+  max-width: 600px;
+  margin: 0 auto 16px;
+  line-height: 1.5;
+}
+#page-order .testi-strip .author {
+  font-size: 12px;
+  color: var(--blush);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* FOOTER */
+#page-order .footer {
+  background: var(--void);
+  border-top: 1px solid var(--smoke);
+  padding: 28px;
+  text-align: center;
+}
+#page-order .footer p {
+  font-size: 12px;
+  color: var(--veil);
+  line-height: 1.9;
+  margin: 0;
+}
+#page-order .footer a {
+  color: var(--blush);
+  text-decoration: none;
+  margin: 0 8px;
+}
+#page-order .footer a:hover {
+  color: var(--blush2);
+}
+
+/* FAQ MINIMAL */
+#page-order .faq-mini {
+  padding: 48px 24px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+#page-order .faq-mini h3 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: var(--bone);
+}
+#page-order .faq-row {
+  border-bottom: 1px solid var(--smoke);
+}
+#page-order .faq-q {
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--silk);
+  padding: 16px 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#page-order .faq-q::after {
+  content: '+';
+  font-size: 18px;
+  color: var(--blush);
+  font-weight: 300;
+}
+#page-order .faq-row.open .faq-q::after {
+  transform: rotate(45deg);
+}
+#page-order .faq-a {
+  overflow: hidden;
+  max-height: 0;
+  font-size: 13px;
+  color: var(--veil);
+  line-height: 1.7;
+  transition: max-height 0.3s;
+}
+#page-order .faq-row.open .faq-a {
+  max-height: 200px;
+  padding-bottom: 16px;
+}
+
+/* MOBILE */
+@media(max-width: 900px) {
+  #page-order .order-sidebar {
+    position: static;
+    order: -1;
+  }
+  #page-order .form-section {
+    padding: 28px 20px;
+  }
+}
+
+/* DEVICE TOGGLE */
+.dev-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 9999; background: #1a1a1a; border-bottom: 1px solid #333; padding: 8px 16px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.dev-btn { background: transparent; border: 1px solid #444; color: #888; font-family: 'Jost', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 14px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all .15s ease; }
+.dev-btn svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.dev-btn.active { background: var(--blush-d); border-color: var(--blush-b); color: var(--blush); }
+.dev-btn:hover:not(.active) { color: rgba(250,247,242,.7); border-color: rgba(250,247,242,.15); }
+.dev-sep { width: 1px; height: 18px; background: #333; }
+
+body { transition: all 0.3s ease; }
+body.mobile-mode { max-width: 430px !important; margin-left: auto !important; margin-right: auto !important; box-shadow: 0 0 0 100vw #0B0A09 !important; position: relative !important; }
+body.mobile-mode #page-order .order-layout { grid-template-columns: 1fr !important; padding: 24px 16px !important; gap: 24px !important; }
+body.mobile-mode #page-order .form-section { padding: 20px 16px !important; }
+body.mobile-mode #page-order .order-sidebar { position: static !important; }
+body.mobile-mode #page-order .form-row { grid-template-columns: 1fr !important; }
+</style>
+</head>
+<body>
+
+<!-- DEVICE TOGGLE -->
+<div class="dev-bar">
+  <button class="dev-btn active" id="btn-desktop" onclick="setDevice('desktop')">
+    <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+    Desktop
+  </button>
+  <div class="dev-sep"></div>
+  <button class="dev-btn" id="btn-mobile" onclick="setDevice('mobile')">
+    <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="1" fill="currentColor"/></svg>
+    Mobile
+  </button>
+</div>
+
+<div id="page-order">
+
+<!-- COUNTDOWN BAR -->
+<div class="countdown-bar" id="countdown-bar">
+  <span>Offer expires in:</span>
+  <div class="timer" id="countdown-timer">
+    <div class="timer-unit">
+      <span class="timer-num" id="hours">00</span>
+      <span class="timer-label">Hours</span>
+    </div>
+    <div class="timer-unit">
+      <span class="timer-num" id="minutes">00</span>
+      <span class="timer-label">Min</span>
+    </div>
+    <div class="timer-unit">
+      <span class="timer-num" id="seconds">00</span>
+      <span class="timer-label">Sec</span>
+    </div>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="order-layout">
+
+  <!-- FORM SECTION -->
+  <div class="form-section">
+    <div class="form-header">
+      <h1>Complete Your Order</h1>
+      <p>You're getting instant access to {{ funnel.name }}</p>
+    </div>
+
+    <form id="checkout-form" method="POST" action="{{ checkout_url }}">
+      {% csrf_token %}
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input type="text" name="first_name" class="form-input" placeholder="First name" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input type="text" name="last_name" class="form-input" placeholder="Last name" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input type="email" name="email" class="form-input" placeholder="your@email.com" required>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Phone Number (optional)</label>
+        <input type="tel" name="phone" class="form-input" placeholder="+1 (555) 000-0000">
+      </div>
+
+      <!-- ORDER BUMPS -->
+      {% if order_bumps %}
+      <div class="order-bumps">
+        <h3 class="bumps-title">Add-Ons (Limited Time Offers)</h3>
+        {% for bump in order_bumps %}
+        <div class="bump-item" data-bump-id="{{ bump.id }}" data-bump-price="{{ bump.price }}">
+          <div class="bump-header">
+            <div class="bump-checkbox"></div>
+            <div class="bump-content">
+              <div class="bump-name">{{ bump.name }}</div>
+              <div class="bump-desc">{{ bump.description }}</div>
+            </div>
+            <div class="bump-price">${{ bump.price }}</div>
+          </div>
+          {% if bump.savings %}
+          <div class="bump-savings">Save ${{ bump.savings }} with bundle</div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <input type="hidden" name="product_id" value="{{ product.id }}">
+      <input type="hidden" name="funnel_id" value="{{ funnel.id }}">
+      <input type="hidden" name="selected_bumps" id="selected-bumps" value="">
+
+      <button type="submit" class="form-submit">
+        Complete Order — ${{ total_price }}
+      </button>
+
+      <div class="form-secure">
+        🔒 Secure checkout powered by Stripe
+      </div>
+    </form>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="order-sidebar">
+    <div class="product-summary">
+      <div class="summary-header">
+        <h3>Order Summary</h3>
+      </div>
+
+      <div class="summary-items">
+        <div class="summary-item">
+          <div class="summary-thumb">📦</div>
+          <div class="summary-details">
+            <div class="summary-name">{{ product.name }}</div>
+            <div class="summary-desc">{{ product.description|truncatechars:80 }}</div>
+          </div>
+          <div class="summary-price">${{ product.price }}</div>
+        </div>
+
+        {% for bump in selected_bumps_display %}
+        <div class="summary-item">
+          <div class="summary-thumb">🎁</div>
+          <div class="summary-details">
+            <div class="summary-name">{{ bump.name }}</div>
+            <div class="summary-desc">{{ bump.description|truncatechars:60 }}</div>
+          </div>
+          <div class="summary-price">${{ bump.price }}</div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="summary-totals">
+        <div class="total-row subtotal">
+          <span class="total-label">Subtotal</span>
+          <span class="total-value" id="subtotal">${{ subtotal }}</span>
+        </div>
+        {% if discount %}
+        <div class="total-row discount">
+          <span class="total-label">Discount</span>
+          <span class="total-value">-${{ discount }}</span>
+        </div>
+        {% endif %}
+        <div class="total-row grand-total">
+          <span class="total-label">Total</span>
+          <span class="total-value" id="grand-total">${{ total_price }}</span>
+        </div>
+      </div>
+
+      <div class="summary-cta">
+        <p>30-day money-back guarantee · Instant access</p>
+        <div class="guarantee">
+          <span class="guarantee-icon">🛡️</span>
+          <span>100% satisfaction guarantee</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- TESTIMONIAL STRIP -->
+<div class="testi-strip">
+  <div class="stars">★★★★★</div>
+  <p class="quote">"I've done so much self-development work. This is the first thing that actually named the thing I couldn't name. Module 2 alone was worth everything."</p>
+  <p class="author">Jade M. · Executive Coach</p>
+</div>
+
+<!-- FAQ -->
+<div class="faq-mini">
+  <h3>Questions?</h3>
+  <div class="faq-row">
+    <button class="faq-q">When do I get access?</button>
+    <div class="faq-a">Immediately after payment. You'll receive an email with your login credentials and can start immediately.</div>
+  </div>
+  <div class="faq-row">
+    <button class="faq-q">What's the refund policy?</button>
+    <div class="faq-a">We offer a 30-day money-back guarantee, no questions asked. If the program isn't right for you, simply email us for a full refund.</div>
+  </div>
+  <div class="faq-row">
+    <button class="faq-q">How long do I have access?</button>
+    <div class="faq-a">Lifetime access. Once you purchase, you have unlimited access to all materials and any future updates.</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>
+    © 2026 {{ funnel.name }} · All Rights Reserved<br>
+    <a href="#">Terms & Conditions</a>
+    <a href="#">Privacy Policy</a>
+    <a href="#">Refund Policy</a>
+  </p>
+</footer>
+
+</div>
+
+<script>
+// COUNTDOWN TIMER
+(function() {
+  var endDate = new Date('{{ offer_end_date|default:"2026-04-01T23:59:59" }}');
+
+  function updateTimer() {
+    var now = new Date();
+    var diff = endDate - now;
+
+    if (diff <= 0) {
+      document.getElementById('countdown-bar').innerHTML = '<span>Offer has ended</span>';
+      return;
+    }
+
+    var hours = Math.floor(diff / (1000 * 60 * 60));
+    var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+    document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+  }
+
+  updateTimer();
+  setInterval(updateTimer, 1000);
+})();
+
+// ORDER BUMP SELECTION
+(function() {
+  var bumps = document.querySelectorAll('.bump-item');
+  var selectedInput = document.getElementById('selected-bumps');
+  var subtotalEl = document.getElementById('subtotal');
+  var totalEl = document.getElementById('grand-total');
+  var basePrice = {{ product.price|default:0 }};
+
+  var selectedBumps = [];
+
+  bumps.forEach(function(bump) {
+    bump.addEventListener('click', function() {
+      bump.classList.toggle('selected');
+      updateBumps();
+    });
+  });
+
+  function updateBumps() {
+    selectedBumps = [];
+    var totalBumpPrice = 0;
+
+    bumps.forEach(function(bump) {
+      if (bump.classList.contains('selected')) {
+        var id = bump.dataset.bumpId;
+        var price = parseFloat(bump.dataset.bumpPrice);
+        selectedBumps.push(id);
+        totalBumpPrice += price;
+      }
+    });
+
+    selectedInput.value = JSON.stringify(selectedBumps);
+
+    var subtotal = basePrice + totalBumpPrice;
+    subtotalEl.textContent = '$' + subtotal;
+    totalEl.textContent = '$' + subtotal;
+  }
+})();
+
+// FAQ ACCORDION
+document.querySelectorAll('.faq-q').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var row = btn.closest('.faq-row');
+    row.classList.toggle('open');
+  });
+});
+
+function setDevice(mode) {
+  var body = document.body;
+  var btnD = document.getElementById('btn-desktop');
+  var btnM = document.getElementById('btn-mobile');
+  if (mode === 'mobile') {
+    body.classList.add('mobile-mode');
+    btnM.classList.add('active');
+    btnD.classList.remove('active');
+  } else {
+    body.classList.remove('mobile-mode');
+    btnD.classList.add('active');
+    btnM.classList.remove('active');
+  }
+  window.scrollTo(0, 0);
+}
+</script>
+
+</body>
+</html>

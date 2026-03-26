@@ -3,71 +3,184 @@
 {% block breadcrumb %}Funnel Templates{% endblock %}
 
 {% block content %}
+<style>
+#previewModal {
+  display: none;
+  position: fixed;
+  top: 5%;
+  left: 5%;
+  width: 90%;
+  height: 90%;
+  background: #0B0A09;
+  border-radius: 10px;
+  box-shadow: 0 10px 50px rgba(0,0,0,0.8);
+  z-index: 999999;
+}
+#previewModal.show {
+  display: flex;
+  flex-direction: column;
+}
+#previewHeader {
+  height: 45px;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  flex-shrink: 0;
+  border-radius: 10px 10px 0 0;
+}
+#previewHeader span {
+  color: white;
+  font-weight: 500;
+}
+#previewClose {
+  background: #8A0329;
+  border: none;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+#previewClose:hover {
+  background: #a01030;
+}
+#previewFrame {
+  flex: 1;
+  width: 100%;
+  border: none;
+  border-radius: 0 0 10px 10px;
+  background: white;
+}
+</style>
+
 <div class="page-header">
   <div>
     <h2>Funnel Templates</h2>
-    <p>Pre-built funnel page templates. Each template is fully customizable.</p>
+    <p>Pre-built funnel page templates. Click preview to see each template.</p>
   </div>
 </div>
 
-<div class="table-card" style="padding: 24px; margin-bottom: 24px;">
-  <h3 style="color: var(--cream); margin-bottom: 16px;">Available Templates</h3>
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
 
-  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+<div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 24px;">
+  <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 8px;">Sales Page</div>
+  <h4 style="color: var(--cream); margin-bottom: 8px; font-size: 1.1rem;">Sales Template 1</h4>
+  <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+    Hero, video, testimonials, pricing, FAQ.
+  </p>
+  <button type="button" class="preview-btn" data-url="/preview/sales/" style="background: var(--accent); color: var(--void); padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;">Preview</button>
+</div>
 
-    <div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 20px;">
-      <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 8px;">Sales Page</div>
-      <h4 style="color: var(--cream); margin-bottom: 8px;">Sales Template 1</h4>
-      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
-        Hero, video, testimonials, pricing, FAQ. Perfect for landing pages.
-      </p>
-      <code style="font-size: 0.75rem; color: var(--accent); background: var(--bg-tertiary); padding: 4px 8px; border-radius: 4px;">
-        sales_template_1.html
-      </code>
-    </div>
+<div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 24px;">
+  <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 8px;">Order Page</div>
+  <h4 style="color: var(--cream); margin-bottom: 8px; font-size: 1.1rem;">Order Template 1</h4>
+  <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+    Checkout form, order bumps, product summary.
+  </p>
+  <button type="button" class="preview-btn" data-url="/preview/order/" style="background: var(--accent); color: var(--void); padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;">Preview</button>
+</div>
 
-    <div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 20px;">
-      <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 8px;">Order Page</div>
-      <h4 style="color: var(--cream); margin-bottom: 8px;">Order Template 1</h4>
-      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
-        Checkout form, order bumps, product summary sidebar.
-      </p>
-      <code style="font-size: 0.75rem; color: var(--accent); background: var(--bg-tertiary); padding: 4px 8px; border-radius: 4px;">
-        order_template_1.html
-      </code>
-    </div>
+<div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 24px;">
+  <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 8px;">Upsell Page</div>
+  <h4 style="color: var(--cream); margin-bottom: 8px; font-size: 1.1rem;">Upsell Template 1</h4>
+  <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+    Post-purchase upgrade offer.
+  </p>
+  <button type="button" class="preview-btn" data-url="/preview/upsell/" style="background: var(--accent); color: var(--void); padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;">Preview</button>
+</div>
 
-    <div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 20px;">
-      <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 8px;">Upsell Page</div>
-      <h4 style="color: var(--cream); margin-bottom: 8px;">Upsell Template 1</h4>
-      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
-        Post-purchase upgrade offer with urgency and value stack.
-      </p>
-      <code style="font-size: 0.75rem; color: var(--accent); background: var(--bg-tertiary); padding: 4px 8px; border-radius: 4px;">
-        upsell_template_1.html
-      </code>
-    </div>
+<div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 24px;">
+  <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 8px;">Thank You Page</div>
+  <h4 style="color: var(--cream); margin-bottom: 8px; font-size: 1.1rem;">Thank You Template 1</h4>
+  <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+    Confirmation with access instructions.
+  </p>
+  <button type="button" class="preview-btn" data-url="/preview/thank-you/" style="background: var(--accent); color: var(--void); padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;">Preview</button>
+</div>
 
-    <div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 20px;">
-      <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 8px;">Thank You Page</div>
-      <h4 style="color: var(--cream); margin-bottom: 8px;">Thank You Template 1</h4>
-      <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
-        Confirmation with access instructions and next steps.
-      </p>
-      <code style="font-size: 0.75rem; color: var(--accent); background: var(--bg-tertiary); padding: 4px 8px; border-radius: 4px;">
-        thank_you_template_1.html
-      </code>
-    </div>
+</div>
 
+<!-- Preview Modal -->
+<div id="previewModal">
+  <div id="previewHeader">
+    <span>Template Preview</span>
+    <button type="button" id="previewClose" style="background: #8A0329; border: none; color: white; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 14px; font-weight: bold;">X</button>
   </div>
+  <iframe id="previewFrame"></iframe>
 </div>
 
-<div class="table-card" style="padding: 24px; background: var(--bg-secondary); border: 1px solid var(--accent);">
-  <h3 style="color: var(--accent); margin-bottom: 12px;">How to use templates</h3>
-  <ul style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.8; padding-left: 20px;">
-    <li>When creating a Funnel Page, select which template to use</li>
-    <li>Each template can be fully customized: colors, fonts, images, video, copy</li>
-    <li>To request changes to a template, contact your developer</li>
-  </ul>
-</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var modal = document.getElementById('previewModal');
+  var frame = document.getElementById('previewFrame');
+  var closeBtn = document.getElementById('previewClose');
+  var buttons = document.querySelectorAll('.preview-btn');
+  var isLoading = false;
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      if (isLoading) return;
+      isLoading = true;
+
+      var url = btn.getAttribute('data-url');
+
+      fetch(url)
+        .then(function(response) { return response.text(); })
+        .then(function(html) {
+          // Add preview mode styles to disable buttons and add banner
+          var previewStyles = '<style>' +
+            '#previewModeBanner { position: fixed; top: 10px; right: 10px; background: #8A0329; color: white; padding: 8px 16px; border-radius: 4px; font-size: 12px; font-weight: bold; z-index: 999999; } ' +
+            '#previewModeBanner::before { content: "👁️ PREVIEW MODE - "; } ' +
+            '/* Disable all clickable elements */ ' +
+            '#page-sales a[href], #page-sales button, #page-sales input[type="submit"], ' +
+            '#page-order a[href], #page-order button, #page-order input[type="submit"], ' +
+            '#page-upsell a[href], #page-upsell button, #page-upsell input[type="submit"], ' +
+            '#page-thankyou a[href], #page-thankyou button, #page-thankyou input[type="submit"], ' +
+            '.cta-btn, .cta-yes, .cta-decline, .form-submit, .access-cta, ' +
+            '[onclick] { pointer-events: none !important; opacity: 0.4 !important; cursor: not-allowed !important; } ' +
+            '/* Keep dev-bar working */ ' +
+            '.dev-bar, .dev-bar *, .dev-btn { pointer-events: auto !important; opacity: 1 !important; cursor: pointer !important; } ' +
+            '</style>';
+
+          // Insert banner and disable styles at the start of body
+          html = html.replace('<body>', '<body><div id="previewModeBanner"></div>');
+
+          // Add script to disable onclick handlers after load
+          var disableScript = '<script>document.querySelectorAll("[onclick]").forEach(function(el){if(!el.classList.contains("dev-btn")){el.removeAttribute("onclick");}});document.querySelectorAll("a[href]").forEach(function(el){if(!el.classList.contains("dev-btn")){el.setAttribute("data-href",el.getAttribute("href"));el.removeAttribute("href");}});<\/script>';
+
+          frame.srcdoc = previewStyles + html + disableScript;
+          modal.classList.add('show');
+          isLoading = false;
+        })
+        .catch(function(err) {
+          console.error('Error loading preview:', err);
+          isLoading = false;
+        });
+    });
+  });
+
+  closeBtn.addEventListener('click', function() {
+    modal.classList.remove('show');
+    frame.srcdoc = '';
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      modal.classList.remove('show');
+      frame.srcdoc = '';
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (modal.classList.contains('show') && !modal.contains(e.target) && !e.target.classList.contains('preview-btn')) {
+      modal.classList.remove('show');
+      frame.srcdoc = '';
+    }
+  });
+});
+</script>
 {% endblock %}

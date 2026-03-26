@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}Pipelines{% endblock %}
+{% block breadcrumb %}Pipelines{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>Pipelines</h2>
+    <p>Manage your sales pipelines and deals</p>
+  </div>
+  <button class="btn btn-primary" onclick="createPipeline()">+ Create Pipeline</button>
+</div>
+
+<div class="table-card">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Pipeline Name</th>
+        <th>Stages</th>
+        <th>Deals</th>
+        <th>Total Value</th>
+        <th>Created</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for pipeline in pipelines %}
+      <tr>
+        <td>
+          <a href="/pipeline/{{ pipeline.id }}/" style="color: var(--accent); font-weight: 500;">{{ pipeline.name }}</a>
+        </td>
+        <td>{{ pipeline.stages.count }} stages</td>
+        <td>{{ pipeline.opportunity_set.count }}</td>
+        <td>${{ pipeline.total_value|default:"0" }}</td>
+        <td>{{ pipeline.created_at|date:"M d, Y" }}</td>
+        <td>
+          <a href="/pipeline/{{ pipeline.id }}/" class="btn btn-sm">View Board</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-muted);">
+          No pipelines yet. Create your first pipeline to get started.
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<script>
+function createPipeline() {
+  var name = prompt('Enter pipeline name:');
+  if (name) {
+    fetch('/api/pipeline/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': '{{ csrf_token }}'
+      },
+      body: JSON.stringify({ name: name })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.id) {
+        window.location.href = '/pipeline/' + data.id + '/';
+      }
+    });
+  }
+}
+</script>
+{% endblock %}

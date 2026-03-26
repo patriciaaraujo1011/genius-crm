@@ -18,17 +18,17 @@ A unified, scalable CRM platform for personal development brand (Cool Girl Rehab
 
 ### 2.0 Funnel Templates
 - [x] Sales page template created (`sales_template_1.html`) ✅
-- [ ] **Order page template** (`order_template_1.html`) - TODO NEXT
+- [x] **Order page template** (`order_template_1.html`) ✅
   - Include countdown timer (under hero, scrolling)
   - Order form with contact fields
   - Order bumps section
   - Product summary sidebar
-- [ ] **Upsell page template** (`upsell_template_1.html`) - TODO
+- [x] **Upsell page template** (`upsell_template_1.html`) ✅
   - Urgency bar
   - Congratulation hero
   - Value stack
   - Final CTA
-- [ ] **Thank you page template** (`thank_you_template_1.html`) - TODO
+- [x] **Thank you page template** (`thank_you_template_1.html`) ✅
   - Confirmation badge
   - Order summary
   - Access instructions

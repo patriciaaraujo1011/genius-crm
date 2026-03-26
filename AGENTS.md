@@ -252,3 +252,212 @@ Pre-commit hook definitions. See "Pre-Commit Hooks" section above.
 
 ### .gitignore
 Excludes: `__pycache__`, `.venv`, `db.sqlite3`, IDE files, OS files
+
+---
+
+## Testing Rule (MANDATORY)
+
+Before saying any work is "done" or "ready":
+
+1. **Always test the actual functionality** - not just verify code exists
+2. **Test, re-test, and test again** - at least 3 verification steps
+3. **Check the actual browser output** - verify curl/HTML contains expected elements
+4. **Never assume it works** - always verify with actual tests
+5. **Report exact test results** - not just "it should work"
+
+Example verification process:
+```bash
+# 1. Check endpoint returns 200
+curl -s -o /dev/null -w "%{http_code}" "http://localhost:8000/url/"
+# 2. Verify content contains expected elements
+curl -s "http://localhost:8000/url/" | grep "expected-element"
+# 3. Check JavaScript functions exist
+curl -s "http://localhost:8000/url/" | grep "function-name"
+```
+
+**Never tell the user "it should work" without verifying it actually does.**
+
+---
+
+## Comprehensive Testing Checklist (MANDATORY)
+
+For any feature, always verify ALL of these BEFORE saying done:
+
+### 1. Test Every Single Page/Template
+- Check ALL pages in the feature work (not just one)
+- Example: If feature has 4 templates, test ALL 4
+
+### 2. Test Every Interactive Element
+- Every button
+- Every link (a href)
+- Every form input
+- Every onclick handler
+- Every CTA button
+- Every navigation element
+
+### 3. Use This Exact Testing Process
+```bash
+# 1. Check all pages return 200
+curl -s -o /dev/null -w "%{http_code}" "http://localhost:8000/page1/"
+curl -s -o /dev/null -w "%{http_code}" "http://localhost:8000/page2/"
+
+# 2. Find ALL buttons/links
+curl -s "http://localhost:8000/page/" | grep -oE "(href=|onclick=|<button|<a )"
+
+# 3. Check CSS disables all elements
+curl -s "http://localhost:8000/page/" | grep "pointer-events"
+
+# 4. Open in browser and manually click EVERY button
+```
+
+### 4. Interactive Elements to Check
+- `<button>` tags
+- `<a href="...">` links
+- `onclick="..."` handlers
+- `input[type="submit"]`
+- Classes: cta-btn, form-submit, access-cta, btn, button
+
+### 5. When Done, Report This
+- How many pages tested
+- How many buttons/links found
+- How many tested manually in browser
+- Exact issues found (if any)
+
+---
+
+## Template Preview Modal (MANDATORY)
+
+When creating template preview functionality in the CRM, use this proven approach:
+
+### The Working Solution: iframe with srcdoc
+
+```html
+<style>
+#previewModal {
+  display: none;
+  position: fixed;
+  top: 5%;
+  left: 5%;
+  width: 90%;
+  height: 90%;
+  background: #0B0A09;
+  border-radius: 10px;
+  box-shadow: 0 10px 50px rgba(0,0,0,0.8);
+  z-index: 999999;
+}
+#previewModal.show {
+  display: flex;
+  flex-direction: column;
+}
+#previewHeader {
+  height: 45px;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  flex-shrink: 0;
+}
+#previewClose {
+  background: #8A0329;
+  border: none;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+#previewFrame {
+  flex: 1;
+  width: 100%;
+  border: none;
+  border-radius: 0 0 10px 10px;
+  background: white;
+}
+</style>
+
+<!-- Preview Buttons -->
+<button type="button" class="preview-btn" data-url="/preview/sales/">Preview</button>
+
+<!-- Modal -->
+<div id="previewModal">
+  <div id="previewHeader">
+    <span>Template Preview</span>
+    <button type="button" id="previewClose">X</button>
+  </div>
+  <iframe id="previewFrame"></iframe>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var modal = document.getElementById('previewModal');
+  var frame = document.getElementById('previewFrame');
+  var closeBtn = document.getElementById('previewClose');
+  var buttons = document.querySelectorAll('.preview-btn');
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var url = btn.getAttribute('data-url');
+      fetch(url)
+        .then(function(response) { return response.text(); })
+        .then(function(html) {
+          // Add preview mode styles to disable buttons and add banner
+          var previewStyles = '<style>' +
+            '#previewModeBanner { position: fixed; top: 10px; right: 10px; background: #8A0329; color: white; padding: 8px 16px; border-radius: 4px; font-size: 12px; font-weight: bold; z-index: 999999; } ' +
+            '#previewModeBanner::before { content: "👁️ PREVIEW MODE - "; } ' +
+            '/* Disable all clickable elements */ ' +
+            '#page-sales a[href], #page-sales button, #page-sales input[type="submit"], ' +
+            '#page-order a[href], #page-order button, #page-order input[type="submit"], ' +
+            '#page-upsell a[href], #page-upsell button, #page-upsell input[type="submit"], ' +
+            '#page-thankyou a[href], #page-thankyou button, #page-thankyou input[type="submit"], ' +
+            '.cta-btn, .cta-yes, .cta-decline, .form-submit, .access-cta, ' +
+            '[onclick] { pointer-events: none !important; opacity: 0.4 !important; cursor: not-allowed !important; } ' +
+            '/* Keep dev-bar working */ ' +
+            '.dev-bar, .dev-bar *, .dev-btn { pointer-events: auto !important; opacity: 1 !important; cursor: pointer !important; } ' +
+            '</style>';
+
+          // Insert banner
+          html = html.replace('<body>', '<body><div id="previewModeBanner"></div>');
+
+          // Add script to disable onclick handlers after load
+          var disableScript = '<script>document.querySelectorAll("[onclick]").forEach(function(el){if(!el.classList.contains("dev-btn")){el.removeAttribute("onclick");}});document.querySelectorAll("a[href]").forEach(function(el){if(!el.classList.contains("dev-btn")){el.setAttribute("data-href",el.getAttribute("href"));el.removeAttribute("href");}});<\/script>';
+
+          frame.srcdoc = previewStyles + html + disableScript;
+          modal.classList.add('show');
+        });
+    });
+  });
+
+  closeBtn.addEventListener('click', function() {
+    modal.classList.remove('show');
+    frame.srcdoc = '';
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      modal.classList.remove('show');
+      frame.srcdoc = '';
+    }
+  });
+});
+</script>
+```
+
+### Why This Works
+- **srcdoc** completely isolates template CSS from CRM styles
+- **iframe** provides proper scrolling context
+- **fetch + srcdoc** loads HTML dynamically without CORS issues
+- **DOMContentLoaded** ensures JavaScript runs after DOM is ready
+- **Disables ALL buttons/links** - CSS + JavaScript removal of href/onclick
+- **Preview banner** - Shows user they are in preview mode
+- **Keeps dev-bar working** - Mobile/desktop toggle still functions
+4. Add Escape key handler for accessibility
+5. Test on multiple templates before finalizing
+
+### Preview Routes Required
+For each template, create a preview URL endpoint that renders just the template HTML:
+```python
+path("preview/sales/", views.preview_sales, name="preview_sales"),
+path("preview/order/", views.preview_order, name="preview_order"),
+# etc.
+```

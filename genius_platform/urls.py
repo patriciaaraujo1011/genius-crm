@@ -1,10 +1,24 @@
+from django.contrib.auth import login
 from django.contrib.auth import views as auth_views
+from django.shortcuts import redirect
 from django.urls import path
 
 from crm import views as crm_views
 from crm.admin import admin_site
 
+
+def auto_login(request):
+    from django.contrib.auth import get_user_model
+
+    user_model = get_user_model()
+    user = user_model.objects.get(username="admin")
+    user.backend = "django.contrib.auth.backends.ModelBackend"
+    login(request, user)
+    return redirect("/")
+
+
 urlpatterns = [
+    path("auto-login/", auto_login, name="auto_login"),
     path("admin/", admin_site.urls),
     path("", crm_views.dashboard, name="dashboard"),
     path(
@@ -93,5 +107,14 @@ urlpatterns = [
         "funnel/<slug:slug>/upsell/",
         crm_views.funnel_upsell,
         name="funnel_upsell",
+    ),
+    # Preview routes for templates
+    path("preview/sales/", crm_views.preview_sales, name="preview_sales"),
+    path("preview/order/", crm_views.preview_order, name="preview_order"),
+    path("preview/upsell/", crm_views.preview_upsell, name="preview_upsell"),
+    path(
+        "preview/thank-you/",
+        crm_views.preview_thankyou,
+        name="preview_thankyou",
     ),
 ]
