@@ -142,55 +142,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
   buttons.forEach(function(btn) {
     btn.addEventListener('click', function() {
-      if (isLoading) return;
-      isLoading = true;
-
       var url = btn.getAttribute('data-url');
-
-      fetch(url)
-        .then(function(response) { return response.text(); })
-        .then(function(html) {
-          // Add preview mode styles to disable buttons and add banner
-          var previewStyles = '<style>' +
-            '#previewModeBanner { position: fixed; top: 10px; right: 10px; background: #8A0329; color: white; padding: 8px 16px; border-radius: 4px; font-size: 12px; font-weight: bold; z-index: 999999; } ' +
-            '#previewModeBanner::before { content: "👁️ PREVIEW MODE - "; } ' +
-            '/* Disable all clickable elements */ ' +
-            '#page-sales a[href], #page-sales button, #page-sales input[type="submit"], ' +
-            '#page-order a[href], #page-order button, #page-order input[type="submit"], ' +
-            '#page-upsell a[href], #page-upsell button, #page-upsell input[type="submit"], ' +
-            '#page-thankyou a[href], #page-thankyou button, #page-thankyou input[type="submit"], ' +
-            '.cta-btn, .cta-yes, .cta-decline, .form-submit, .access-cta, ' +
-            '[onclick] { pointer-events: none !important; opacity: 0.4 !important; cursor: not-allowed !important; } ' +
-            '/* Keep dev-bar working */ ' +
-            '.dev-bar, .dev-bar *, .dev-btn { pointer-events: auto !important; opacity: 1 !important; cursor: pointer !important; } ' +
-            '</style>';
-
-          // Insert banner and disable styles at the start of body
-          html = html.replace('<body>', '<body><div id="previewModeBanner"></div>');
-
-          // Add script to disable onclick handlers after load
-          var disableScript = '<script>document.querySelectorAll("[onclick]").forEach(function(el){if(!el.classList.contains("dev-btn")){el.removeAttribute("onclick");}});document.querySelectorAll("a[href]").forEach(function(el){if(!el.classList.contains("dev-btn")){el.setAttribute("data-href",el.getAttribute("href"));el.removeAttribute("href");}});<\/script>';
-
-          frame.srcdoc = previewStyles + html + disableScript;
-          modal.classList.add('show');
-          isLoading = false;
-        })
-        .catch(function(err) {
-          console.error('Error loading preview:', err);
-          isLoading = false;
-        });
+      window.location.href = url;
     });
   });
 
   closeBtn.addEventListener('click', function() {
     modal.classList.remove('show');
     frame.srcdoc = '';
+    frame.src = 'about:blank';
   });
 
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
       modal.classList.remove('show');
       frame.srcdoc = '';
+      frame.src = 'about:blank';
     }
   });
 
@@ -198,6 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (modal.classList.contains('show') && !modal.contains(e.target) && !e.target.classList.contains('preview-btn')) {
       modal.classList.remove('show');
       frame.srcdoc = '';
+      frame.src = 'about:blank';
     }
   });
 

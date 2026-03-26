@@ -14,10 +14,77 @@
             --charcoal: #2D2D2D;
         }
 
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
         body {
             font-family: 'Playfair Display', Georgia, serif;
-            background: var(--cream);
-            color: var(--charcoal);
+            background: var(--charcoal);
+            color: var(--cream);
+        }
+
+        .top-bar {
+            height: 60px;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .page-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .page-dot.active {
+            background: var(--lime);
+        }
+
+        .page-label {
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            opacity: 0.5;
+            cursor: pointer;
+        }
+
+        .page-label.active {
+            opacity: 1;
+            color: var(--lime);
+        }
+
+        .preview-frame {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: calc(100% - 60px);
+            border: none;
+            z-index: 1;
+        }
+
+        .preview-frame.mobile {
+            left: 50%;
+            transform: translateX(-50%);
+            width: 375px;
+            max-width: 375px;
         }
 
         .dev-bar {
@@ -29,7 +96,7 @@
             border-radius: 30px;
             display: flex;
             gap: 8px;
-            z-index: 99999;
+            z-index: 99;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
@@ -42,118 +109,24 @@
             cursor: pointer;
             font-size: 12px;
             font-weight: 600;
-            transition: all 0.3s;
         }
 
         .dev-btn.active {
             background: var(--lime);
             color: var(--charcoal);
         }
-
-        .funnel-page {
-            min-height: 100vh;
-            display: none;
-        }
-
-        .funnel-page.active {
-            display: block;
-        }
-
-        .page-nav {
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--burgundy);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            font-size: 20px;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .page-nav.prev { left: 20px; }
-        .page-nav.next { right: 20px; }
-
-        .page-dots {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
-            z-index: 100;
-            background: rgba(0,0,0,0.7);
-            padding: 10px 20px;
-            border-radius: 30px;
-        }
-
-        .page-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.3);
-            cursor: pointer;
-        }
-
-        .page-dot.active {
-            background: var(--lime);
-        }
-
-        .mobile-frame {
-            max-width: 375px;
-            margin: 0 auto;
-            background: white;
-            min-height: 100vh;
-            box-shadow: 0 0 50px rgba(0,0,0,0.2);
-        }
-
-        @media (max-width: 768px) {
-            .mobile-frame {
-                max-width: 100%;
-            }
-        }
     </style>
 </head>
 <body>
-    <div class="page-dots">
-        <div class="page-dot active" data-page="0"></div>
-        <div class="page-dot" data-page="1"></div>
-        <div class="page-dot" data-page="2"></div>
-        <div class="page-dot" data-page="3"></div>
+    <div class="top-bar">
+        <a href="/funnels/templates/" style="color: white; text-decoration: none; font-size: 14px;">&larr; Back</a>
+        <span class="page-label active" data-page="0" onclick="showPage(0)">Sales</span>
+        <span class="page-label" data-page="1" onclick="showPage(1)">Order</span>
+        <span class="page-label" data-page="2" onclick="showPage(2)">Upsell</span>
+        <span class="page-label" data-page="3" onclick="showPage(3)">Thank You</span>
     </div>
 
-    <button class="page-nav prev" onclick="changePage(-1)">&#8249;</button>
-    <button class="page-nav next" onclick="changePage(1)">&#8250;</button>
-
-    <div class="funnel-page active" id="page-sales">
-        <div class="mobile-frame">
-            {% include "funnel/templates/sales_template_1.html" %}
-        </div>
-    </div>
-
-    <div class="funnel-page" id="page-order">
-        <div class="mobile-frame">
-            {% include "funnel/templates/order_template_1.html" %}
-        </div>
-    </div>
-
-    <div class="funnel-page" id="page-upsell">
-        <div class="mobile-frame">
-            {% include "funnel/templates/upsell_template_1.html" %}
-        </div>
-    </div>
-
-    <div class="funnel-page" id="page-thankyou">
-        <div class="mobile-frame">
-            {% include "funnel/templates/thank_you_template_1.html" %}
-        </div>
-    </div>
+    <iframe class="preview-frame active" id="mainFrame" src="/preview/sales/"></iframe>
 
     <div class="dev-bar">
         <button class="dev-btn active" onclick="setDevice('desktop')">Desktop</button>
@@ -161,50 +134,45 @@
     </div>
 
     <script>
-        let currentPage = 0;
-        const totalPages = 4;
+        var pages = [
+            '/preview/sales/?preview=1',
+            '/preview/order/?preview=1',
+            '/preview/upsell/?preview=1',
+            '/preview/thank-you/?preview=1'
+        ];
 
-        function changePage(delta) {
-            currentPage = (currentPage + delta + totalPages) % totalPages;
-            showPage(currentPage);
-        }
+        var currentPage = 0;
 
         function showPage(index) {
-            document.querySelectorAll('.funnel-page').forEach((p, i) => {
-                p.classList.toggle('active', i === index);
+            document.getElementById('mainFrame').src = pages[index];
+
+            document.querySelectorAll('.page-label').forEach(function(el) {
+                el.classList.remove('active');
             });
-            document.querySelectorAll('.page-dot').forEach((d, i) => {
-                d.classList.toggle('active', i === index);
-            });
+            document.querySelectorAll('.page-label')[index].classList.add('active');
+
             currentPage = index;
         }
 
-        document.querySelectorAll('.page-dot').forEach(dot => {
-            dot.addEventListener('click', () => {
-                showPage(parseInt(dot.dataset.page));
-            });
-        });
-
         function setDevice(device) {
-            document.querySelectorAll('.dev-btn').forEach(btn => {
+            document.querySelectorAll('.dev-btn').forEach(function(btn) {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
 
-            document.querySelectorAll('.mobile-frame').forEach(frame => {
-                if (device === 'mobile') {
-                    frame.style.maxWidth = '375px';
-                    frame.style.margin = '0 auto';
-                } else {
-                    frame.style.maxWidth = '100%';
-                    frame.style.margin = '0';
-                }
-            });
+            var frame = document.getElementById('mainFrame');
+            if (device === 'mobile') {
+                frame.classList.add('mobile');
+            } else {
+                frame.classList.remove('mobile');
+            }
         }
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') changePage(-1);
-            if (e.key === 'ArrowRight') changePage(1);
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '1') showPage(0);
+            if (e.key === '2') showPage(1);
+            if (e.key === '3') showPage(2);
+            if (e.key === '4') showPage(3);
         });
     </script>
 </body>

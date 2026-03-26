@@ -587,21 +587,28 @@ def preview_sales(request):
         funnel = type(
             "Funnel", (), {"name": "Preview Funnel", "slug": "preview"}
         )()
-    return render(
-        request, "funnel/templates/sales_template_1.html", {"funnel": funnel}
+    preview_mode = request.GET.get("preview") == "1"
+    response = render(
+        request,
+        "funnel/templates/sales_template_1.html",
+        {"funnel": funnel, "preview_mode": preview_mode},
     )
+    response["X-Frame-Options"] = "ALLOW-FROM *"
+    return response
 
 
 def preview_order(request):
     from crm.models import Funnel
 
     funnel = Funnel.objects.first()
+    preview_mode = request.GET.get("preview") == "1"
     if not funnel:
         funnel = type(
             "Funnel", (), {"name": "Preview Funnel", "slug": "preview"}
         )()
     context = {
         "funnel": funnel,
+        "preview_mode": preview_mode,
         "product": type(
             "Product",
             (),
@@ -617,47 +624,59 @@ def preview_order(request):
         "subtotal": 497,
         "total_price": 497,
     }
-    return render(request, "funnel/templates/order_template_1.html", context)
+    response = render(
+        request, "funnel/templates/order_template_1.html", context
+    )
+    response["X-Frame-Options"] = "ALLOW-FROM *"
+    return response
 
 
 def preview_upsell(request):
     from crm.models import Funnel
 
     funnel = Funnel.objects.first()
+    preview_mode = request.GET.get("preview") == "1"
     if not funnel:
         funnel = type(
             "Funnel", (), {"name": "Preview Funnel", "slug": "preview"}
         )()
-    return render(
+    response = render(
         request,
         "funnel/templates/upsell_template_1.html",
         {
             "funnel": funnel,
+            "preview_mode": preview_mode,
             "accept_url": "/preview/checkout/",
             "decline_url": "/preview/thank-you/",
         },
     )
+    response["X-Frame-Options"] = "ALLOW-FROM *"
+    return response
 
 
 def preview_thankyou(request):
     from crm.models import Funnel
 
     funnel = Funnel.objects.first()
+    preview_mode = request.GET.get("preview") == "1"
     if not funnel:
         funnel = type(
             "Funnel", (), {"name": "Preview Funnel", "slug": "preview"}
         )()
-    return render(
+    response = render(
         request,
         "funnel/templates/thank_you_template_1.html",
         {
             "funnel": funnel,
+            "preview_mode": preview_mode,
             "first_name": "Sarah",
             "order_items": [{"name": "Program Access", "price": "497"}],
             "total_paid": "497",
             "access_url": "/",
         },
     )
+    response["X-Frame-Options"] = "ALLOW-FROM *"
+    return response
 
 
 def preview_pack(request, pack_id):
@@ -694,7 +713,9 @@ def preview_pack(request, pack_id):
         "total_paid": "497",
         "access_url": "/",
     }
-    return render(request, "funnel/templates/pack_preview.html", context)
+    response = render(request, "funnel/templates/pack_preview.html", context)
+    response["X-Frame-Options"] = "ALLOW-FROM *"
+    return response
 
 
 @require_http_methods(["GET"])
