@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funnel Preview - CGR Collection</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --burgundy: #8A0329;
+            --lime: #EAFF9D;
+            --cream: #F5F0E8;
+            --charcoal: #2D2D2D;
+        }
+
+        body {
+            font-family: 'Playfair Display', Georgia, serif;
+            background: var(--cream);
+            color: var(--charcoal);
+        }
+
+        .dev-bar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--charcoal);
+            padding: 8px 16px;
+            border-radius: 30px;
+            display: flex;
+            gap: 8px;
+            z-index: 99999;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .dev-btn {
+            background: transparent;
+            border: 2px solid var(--lime);
+            color: var(--lime);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .dev-btn.active {
+            background: var(--lime);
+            color: var(--charcoal);
+        }
+
+        .funnel-page {
+            min-height: 100vh;
+            display: none;
+        }
+
+        .funnel-page.active {
+            display: block;
+        }
+
+        .page-nav {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--burgundy);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-nav.prev { left: 20px; }
+        .page-nav.next { right: 20px; }
+
+        .page-dots {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+            background: rgba(0,0,0,0.7);
+            padding: 10px 20px;
+            border-radius: 30px;
+        }
+
+        .page-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+        }
+
+        .page-dot.active {
+            background: var(--lime);
+        }
+
+        .mobile-frame {
+            max-width: 375px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 50px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-frame {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-dots">
+        <div class="page-dot active" data-page="0"></div>
+        <div class="page-dot" data-page="1"></div>
+        <div class="page-dot" data-page="2"></div>
+        <div class="page-dot" data-page="3"></div>
+    </div>
+
+    <button class="page-nav prev" onclick="changePage(-1)">&#8249;</button>
+    <button class="page-nav next" onclick="changePage(1)">&#8250;</button>
+
+    <div class="funnel-page active" id="page-sales">
+        <div class="mobile-frame">
+            {% include "funnel/templates/sales_template_1.html" %}
+        </div>
+    </div>
+
+    <div class="funnel-page" id="page-order">
+        <div class="mobile-frame">
+            {% include "funnel/templates/order_template_1.html" %}
+        </div>
+    </div>
+
+    <div class="funnel-page" id="page-upsell">
+        <div class="mobile-frame">
+            {% include "funnel/templates/upsell_template_1.html" %}
+        </div>
+    </div>
+
+    <div class="funnel-page" id="page-thankyou">
+        <div class="mobile-frame">
+            {% include "funnel/templates/thank_you_template_1.html" %}
+        </div>
+    </div>
+
+    <div class="dev-bar">
+        <button class="dev-btn active" onclick="setDevice('desktop')">Desktop</button>
+        <button class="dev-btn" onclick="setDevice('mobile')">Mobile</button>
+    </div>
+
+    <script>
+        let currentPage = 0;
+        const totalPages = 4;
+
+        function changePage(delta) {
+            currentPage = (currentPage + delta + totalPages) % totalPages;
+            showPage(currentPage);
+        }
+
+        function showPage(index) {
+            document.querySelectorAll('.funnel-page').forEach((p, i) => {
+                p.classList.toggle('active', i === index);
+            });
+            document.querySelectorAll('.page-dot').forEach((d, i) => {
+                d.classList.toggle('active', i === index);
+            });
+            currentPage = index;
+        }
+
+        document.querySelectorAll('.page-dot').forEach(dot => {
+            dot.addEventListener('click', () => {
+                showPage(parseInt(dot.dataset.page));
+            });
+        });
+
+        function setDevice(device) {
+            document.querySelectorAll('.dev-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            document.querySelectorAll('.mobile-frame').forEach(frame => {
+                if (device === 'mobile') {
+                    frame.style.maxWidth = '375px';
+                    frame.style.margin = '0 auto';
+                } else {
+                    frame.style.maxWidth = '100%';
+                    frame.style.margin = '0';
+                }
+            });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changePage(-1);
+            if (e.key === 'ArrowRight') changePage(1);
+        });
+    </script>
+</body>
+</html>

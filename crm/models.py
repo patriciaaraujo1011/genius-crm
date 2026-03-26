@@ -201,6 +201,9 @@ class FunnelPage(models.Model):
     )
     countdown_hours = models.IntegerField(default=0)
     order = models.IntegerField(default=0)
+    template = models.CharField(
+        max_length=100, blank=True, default="sales_template_1.html"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

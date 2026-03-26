@@ -117,4 +117,16 @@ urlpatterns = [
         crm_views.preview_thankyou,
         name="preview_thankyou",
     ),
+    path(
+        "preview/pack/<int:pack_id>/",
+        crm_views.preview_pack,
+        name="preview_pack",
+    ),
+    # API routes for funnels
+    path("api/funnels/", crm_views.api_list_funnels, name="api_list_funnels"),
+    path(
+        "api/funnels/<int:funnel_id>/apply-template/",
+        crm_views.api_apply_template,
+        name="api_apply_template",
+    ),
 ]

@@ -658,3 +658,94 @@ def preview_thankyou(request):
             "access_url": "/",
         },
     )
+
+
+def preview_pack(request, pack_id):
+    from crm.models import Funnel
+
+    funnel = Funnel.objects.first()
+    if not funnel:
+        funnel = type(
+            "Funnel", (), {"name": "Preview Funnel", "slug": "preview"}
+        )()
+
+    product = type(
+        "Product",
+        (),
+        {
+            "name": "Program",
+            "price": 497,
+            "description": "Transform your life",
+        },
+    )()
+
+    context = {
+        "funnel": funnel,
+        "product": product,
+        "order_bumps": [],
+        "checkout_url": "/preview/checkout/",
+        "offer_end_date": "2026-04-01T23:59:59",
+        "subtotal": 497,
+        "total_price": 497,
+        "accept_url": "/preview/checkout/",
+        "decline_url": "/preview/thank-you/",
+        "first_name": "Sarah",
+        "order_items": [{"name": "Program Access", "price": "497"}],
+        "total_paid": "497",
+        "access_url": "/",
+    }
+    return render(request, "funnel/templates/pack_preview.html", context)
+
+
+@require_http_methods(["GET"])
+def api_list_funnels(request):
+    from crm.models import Funnel
+
+    funnels = Funnel.objects.all().order_by("-created_at")
+    data = [
+        {
+            "id": f.id,
+            "name": f.name,
+            "slug": f.slug,
+            "is_active": f.is_active,
+            "pages_count": f.funnelpage_set.count(),
+        }
+        for f in funnels
+    ]
+    return JsonResponse({"funnels": data})
+
+
+@require_http_methods(["POST"])
+def api_apply_template(request, funnel_id):
+    import json
+
+    from crm.models import Funnel, FunnelPage
+
+    try:
+        json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({"success": False, "error": "Invalid JSON"})
+
+    try:
+        funnel = Funnel.objects.get(id=funnel_id)
+    except Funnel.DoesNotExist:
+        return JsonResponse({"success": False, "error": "Funnel not found"})
+
+    page_types = {
+        "landing": "sales_template_1.html",
+        "order": "order_template_1.html",
+        "upsell": "upsell_template_1.html",
+        "thank_you": "thank_you_template_1.html",
+    }
+
+    for page_type, template in page_types.items():
+        FunnelPage.objects.update_or_create(
+            funnel=funnel,
+            page_type=page_type,
+            defaults={
+                "title": f"{funnel.name} - {page_type.title()}",
+                "template": template,
+            },
+        )
+
+    return JsonResponse({"success": True, "funnel_id": funnel.id})

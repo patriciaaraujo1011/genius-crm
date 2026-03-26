@@ -60,46 +60,49 @@
 <div class="page-header">
   <div>
     <h2>Funnel Templates</h2>
-    <p>Pre-built funnel page templates. Click preview to see each template.</p>
+    <p>Complete funnel template packs. Each pack includes matching Sales, Order, Upsell, and Thank You pages.</p>
   </div>
 </div>
 
-<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 24px;">
 
-<div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 24px;">
-  <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 8px;">Sales Page</div>
-  <h4 style="color: var(--cream); margin-bottom: 8px; font-size: 1.1rem;">Sales Template 1</h4>
-  <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
-    Hero, video, testimonials, pricing, FAQ.
-  </p>
-  <button type="button" class="preview-btn" data-url="/preview/sales/" style="background: var(--accent); color: var(--void); padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;">Preview</button>
-</div>
+<!-- Template Pack 1 -->
+<div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; padding: 24px;">
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+    <div>
+      <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 4px;">Template Pack</div>
+      <h3 style="color: var(--cream); font-size: 1.3rem;">CGR Collection</h3>
+    </div>
+    <span style="background: var(--accent); color: var(--void); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600;">Active</span>
+  </div>
 
-<div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 24px;">
-  <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 8px;">Order Page</div>
-  <h4 style="color: var(--cream); margin-bottom: 8px; font-size: 1.1rem;">Order Template 1</h4>
-  <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
-    Checkout form, order bumps, product summary.
-  </p>
-  <button type="button" class="preview-btn" data-url="/preview/order/" style="background: var(--accent); color: var(--void); padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;">Preview</button>
-</div>
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 20px;">
+    <div style="background: var(--bg-primary); border-radius: 6px; padding: 12px; text-align: center;">
+      <div style="font-size: 1.5rem; margin-bottom: 4px;">1</div>
+      <div style="font-size: 0.7rem; color: var(--text-muted);">Sales</div>
+    </div>
+    <div style="background: var(--bg-primary); border-radius: 6px; padding: 12px; text-align: center;">
+      <div style="font-size: 1.5rem; margin-bottom: 4px;">2</div>
+      <div style="font-size: 0.7rem; color: var(--text-muted);">Order</div>
+    </div>
+    <div style="background: var(--bg-primary); border-radius: 6px; padding: 12px; text-align: center;">
+      <div style="font-size: 1.5rem; margin-bottom: 4px;">3</div>
+      <div style="font-size: 0.7rem; color: var(--text-muted);">Upsell</div>
+    </div>
+    <div style="background: var(--bg-primary); border-radius: 6px; padding: 12px; text-align: center;">
+      <div style="font-size: 1.5rem; margin-bottom: 4px;">4</div>
+      <div style="font-size: 0.7rem; color: var(--text-muted);">Thank You</div>
+    </div>
+  </div>
 
-<div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 24px;">
-  <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 8px;">Upsell Page</div>
-  <h4 style="color: var(--cream); margin-bottom: 8px; font-size: 1.1rem;">Upsell Template 1</h4>
-  <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
-    Post-purchase upgrade offer.
+  <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">
+    Complete sales funnel with video, testimonials, order bumps, and upsell flow.
   </p>
-  <button type="button" class="preview-btn" data-url="/preview/upsell/" style="background: var(--accent); color: var(--void); padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;">Preview</button>
-</div>
 
-<div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 24px;">
-  <div style="font-size: 0.7rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 8px;">Thank You Page</div>
-  <h4 style="color: var(--cream); margin-bottom: 8px; font-size: 1.1rem;">Thank You Template 1</h4>
-  <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
-    Confirmation with access instructions.
-  </p>
-  <button type="button" class="preview-btn" data-url="/preview/thank-you/" style="background: var(--accent); color: var(--void); padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer;">Preview</button>
+  <div style="display: flex; gap: 10px;">
+    <button type="button" class="preview-btn" data-url="/preview/pack/1/" style="flex: 1; background: var(--accent); color: var(--void); padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">Preview Funnel</button>
+    <button type="button" class="use-template-btn" data-pack="1" style="flex: 1; background: var(--burgundy); color: white; padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">Use Template</button>
+  </div>
 </div>
 
 </div>
@@ -111,6 +114,22 @@
     <button type="button" id="previewClose" style="background: #8A0329; border: none; color: white; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 14px; font-weight: bold;">X</button>
   </div>
   <iframe id="previewFrame"></iframe>
+</div>
+
+<!-- Use Template Modal -->
+<div id="useTemplateModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 999999; align-items: center; justify-content: center;">
+  <div style="background: var(--bg-secondary); border-radius: 12px; padding: 30px; max-width: 500px; width: 90%;">
+    <h3 style="color: var(--cream); margin-bottom: 16px;">Apply Template to Funnel</h3>
+    <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.9rem;">Select a funnel to apply this template pack to. This will update all 4 pages (Sales, Order, Upsell, Thank You).</p>
+
+    <div id="funnelList" style="max-height: 300px; overflow-y: auto; margin-bottom: 20px;">
+    </div>
+
+    <div style="display: flex; gap: 10px;">
+      <button type="button" id="useTemplateCancel" style="flex: 1; background: var(--bg-primary); color: var(--text); padding: 12px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer;">Cancel</button>
+      <button type="button" id="useTemplateConfirm" style="flex: 1; background: var(--burgundy); color: white; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;" disabled>Apply Template</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -179,6 +198,18 @@ document.addEventListener('DOMContentLoaded', function() {
     if (modal.classList.contains('show') && !modal.contains(e.target) && !e.target.classList.contains('preview-btn')) {
       modal.classList.remove('show');
       frame.srcdoc = '';
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && useTemplateModal.style.display === 'flex') {
+      useTemplateModal.style.display = 'none';
+    }
+  });
+
+  useTemplateModal.addEventListener('click', function(e) {
+    if (e.target === useTemplateModal) {
+      useTemplateModal.style.display = 'none';
     }
   });
 });
