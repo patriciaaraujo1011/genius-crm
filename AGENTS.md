@@ -149,6 +149,11 @@ for c in contacts:
 
 ## Git Workflow
 
+**COMMIT FREQUENTLY** - Make small commits for every change:
+- Commit after every small change (even single file edits)
+- Don't wait until many changes accumulate
+- Makes it easier to track changes and rollback if needed
+
 1. Make changes
 2. Test thoroughly
 3. Commit with clear message:
@@ -222,6 +227,8 @@ source .venv/bin/activate
 - **Keep existing styling** - burgundy (#8A0329), lime (#EAFF9D), cream (#F5F0E8)
 - **No emojis** in code or commits
 - **Concise responses** - answer directly without preamble
+- **Report issues first** - When something is wrong, explain what's wrong and why before making changes. Only make changes if the user asks you to fix it.
+- **Explain everything** - The user is new to coding. Use plain language, avoid jargon, ask clarifying questions, summarize at each step, and check understanding before moving on.
 
 ---
 

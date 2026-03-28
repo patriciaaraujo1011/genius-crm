@@ -1,7 +1,7 @@
 from django.contrib import admin
-from django.contrib.admin.sites import AdminSite
 from django.shortcuts import render
 from django.urls import path
+from unfold.sites import UnfoldAdminSite
 
 from .models import (
     Badge,
@@ -53,7 +53,7 @@ def funnel_templates_view(request):
     return render(request, "admin/funnel_templates.html", context)
 
 
-class MyAdminSite(AdminSite):
+class MyAdminSite(UnfoldAdminSite):
     site_header = "Genius CRM"
     site_title = "Genius CRM Admin"
     index_title = "Dashboard"
@@ -68,11 +68,6 @@ class MyAdminSite(AdminSite):
             ),
         ]
         return my_urls + urls
-
-    def get_menu(self, request):
-        menu = super().get_menu(request)
-        menu.add_break()
-        return menu
 
 
 admin_site = MyAdminSite(name="myadmin")

@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Sum
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
 from .models import (
@@ -292,7 +293,7 @@ def api_add_contact(request):
 def api_create_order(request):
     try:
         data = json.loads(request.body)
-        contact, created = Contact.objects.get_or_create(
+        contact, _ = Contact.objects.get_or_create(
             email=data.get("email"),
             defaults={
                 "first_name": data.get("first_name", ""),
@@ -314,15 +315,67 @@ def api_create_order(request):
 
 
 @require_http_methods(["POST"])
+@csrf_exempt
+@login_required
 def api_send_broadcast(request):
     try:
         data = json.loads(request.body)
+
+        # Validate required fields
+        subject = data.get("subject", "").strip()
+        message = data.get("message", "").strip()
+
+        if not subject:
+            return JsonResponse(
+                {"success": False, "error": "Subject is required"}
+            )
+
+        if not message:
+            return JsonResponse(
+                {"success": False, "error": "Message is required"}
+            )
+
+        # Get the segment
+        segment = data.get("segment", "all")
+
+        # Create broadcast record in database
         broadcast = Broadcast.objects.create(
+            subject=subject,
+            message=message,
+            segment=segment,
+        )
+
+        # Import and send the broadcast email
+        from crm.email_utils import send_broadcast_email
+
+        sent_count = send_broadcast_email(broadcast, segment=segment)
+
+        return JsonResponse(
+            {"success": True, "id": broadcast.id, "sent_count": sent_count}
+        )
+    except Exception as e:
+        return JsonResponse({"success": False, "error": str(e)})
+
+
+@require_http_methods(["POST"])
+def api_save_draft(request):
+    """
+    Save a broadcast as draft without sending.
+    """
+    try:
+        data = json.loads(request.body)
+
+        draft = Broadcast.objects.create(
             subject=data.get("subject", ""),
             message=data.get("message", ""),
             segment=data.get("segment", "all"),
+            status="draft",
+            open_rate=0,
         )
-        return JsonResponse({"success": True, "id": broadcast.id})
+
+        return JsonResponse(
+            {"success": True, "id": draft.id, "status": "draft"}
+        )
     except Exception as e:
         return JsonResponse({"success": False, "error": str(e)})
 

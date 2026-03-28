@@ -15,7 +15,7 @@
   <div class="table-toolbar">
     <div class="table-title">All Contacts ({{ contacts|length }})</div>
     <input type="text" id="searchContacts" placeholder="Search by name, email, or tag..."
-           style="background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 6px; padding: 8px 14px; font-size: 0.8rem; color: var(--cream); font-family: var(--font-body); outline: none; width: 240px;" />
+           style="background: var(--cream); border: 1px solid var(--border); border-radius: 6px; padding: 8px 14px; font-size: 0.8rem; color: var(--dark); font-family: var(--font-body); outline: none; width: 240px;" />
   </div>
   <table>
     <thead>
@@ -36,8 +36,8 @@
       <tr>
         <td style="font-weight: 500;">{{ contact.first_name }} {{ contact.last_name }}</td>
         <td>{{ contact.email }}</td>
-        <td style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">{{ contact.phone|default:"—" }}</td>
-        <td style="font-family: var(--font-mono); font-size: 0.75rem;">{{ contact.country|default:"—" }}</td>
+        <td style="font-family: var(--font-body); font-size: 0.8rem; color: var(--text-muted);">{{ contact.phone|default:"—" }}</td>
+        <td style="font-family: var(--font-body); font-size: 0.75rem;">{{ contact.country|default:"—" }}</td>
         <td><span class="tag">{{ contact.get_source_display }}</span></td>
         <td><span class="tag">{{ contact.get_pipeline_stage_display }}</span></td>
         <td>
@@ -49,12 +49,12 @@
         </td>
         <td>
           {% if contact.is_buyer %}
-            <span style="color: var(--lime);">✓</span>
+            <span style="color: var(--primary);">✓</span>
           {% else %}
             —
           {% endif %}
         </td>
-        <td style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">{{ contact.created_at|date:"M d, Y" }}</td>
+        <td style="font-family: var(--font-body); font-size: 0.75rem; color: var(--text-muted);">{{ contact.created_at|date:"M d, Y" }}</td>
       </tr>
       {% empty %}
       <tr>
@@ -66,8 +66,8 @@
 </div>
 
 <div id="addContactModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 100; align-items: center; justify-content: center;">
-  <div style="background: #1e1e1e; border: 1px solid var(--border); border-radius: 12px; padding: 28px; width: 450px; max-width: 90%;">
-    <h3 style="font-family: var(--font-display); color: var(--cream); margin-bottom: 20px;">Add New Contact</h3>
+  <div style="background: var(--cream); border: 1px solid var(--border); border-radius: 12px; padding: 28px; width: 450px; max-width: 90%;">
+    <h3 style="font-family: var(--font-display); color: var(--dark); margin-bottom: 20px;">Add New Contact</h3>
     <form id="contactForm">
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
         <div class="form-group">
@@ -113,9 +113,9 @@
 </div>
 
 <div id="errorModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 100; align-items: center; justify-content: center;">
-  <div style="background: #1e1e1e; border: 1px solid #ff8a8a; border-radius: 12px; padding: 28px; width: 400px; max-width: 90%;">
+  <div style="background: var(--cream); border: 1px solid #ff8a8a; border-radius: 12px; padding: 28px; width: 400px; max-width: 90%;">
     <h3 style="font-family: var(--font-display); color: #ff8a8a; margin-bottom: 16px;">Error</h3>
-    <p id="errorMessage" style="color: var(--cream); margin-bottom: 20px;"></p>
+    <p id="errorMessage" style="color: var(--dark); margin-bottom: 20px;"></p>
     <button onclick="document.getElementById('errorModal').style.display='none'" class="btn btn-primary" style="width: 100%;">OK</button>
   </div>
 </div>

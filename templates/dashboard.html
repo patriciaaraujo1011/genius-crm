@@ -8,7 +8,7 @@
     <div class="stat-label">Total Contacts</div>
     <div class="stat-value">{{ total_contacts }}</div>
   </div>
-  <div class="stat-card lime">
+  <div class="stat-card pink">
     <div class="stat-label">Buyers</div>
     <div class="stat-value">{{ buyer_contacts }}</div>
   </div>
@@ -27,7 +27,7 @@
     <div class="stat-label">Products</div>
     <div class="stat-value">{{ total_products }}</div>
   </div>
-  <div class="stat-card lime">
+  <div class="stat-card pink">
     <div class="stat-label">Active Funnels</div>
     <div class="stat-value">{{ active_funnels }}</div>
   </div>
@@ -59,9 +59,9 @@
           <tr>
             <td>{{ order.contact.first_name }} {{ order.contact.last_name }}</td>
             <td>{{ order.product.name }}</td>
-            <td style="color: var(--lime); font-family: var(--font-mono);">${{ order.amount|floatformat:0 }}</td>
+            <td style="color: var(--primary); font-family: var(--font-body);">${{ order.amount|floatformat:0 }}</td>
             <td><span class="tag">{{ order.status }}</span></td>
-            <td style="color: var(--text-muted); font-family: var(--font-mono); font-size: 0.75rem;">{{ order.created_at|date:"M d, Y" }}</td>
+            <td style="color: var(--text-muted); font-family: var(--font-body); font-size: 0.75rem;">{{ order.created_at|date:"M d, Y" }}</td>
           </tr>
           {% empty %}
           <tr>
@@ -91,7 +91,7 @@
             <td>{{ contact.first_name }} {{ contact.last_name }}</td>
             <td>{{ contact.email }}</td>
             <td><span class="tag">{{ contact.source }}</span></td>
-            <td>{% if contact.is_buyer %}<span style="color: var(--lime);">✓</span>{% else %}—{% endif %}</td>
+            <td>{% if contact.is_buyer %}<span style="color: var(--primary);">✓</span>{% else %}—{% endif %}</td>
           </tr>
           {% empty %}
           <tr>
@@ -110,7 +110,7 @@
         <div class="event-item">
           <span class="e-type">📦</span>
           <span class="e-name">{{ product.name }}</span>
-          <span style="color: var(--text-muted); font-family: var(--font-mono);">{{ product.order_count }} sales</span>
+          <span style="color: var(--text-muted); font-family: var(--font-body);">{{ product.order_count }} sales</span>
         </div>
         {% empty %}
         <div style="color: var(--text-muted); font-size: 0.78rem;">No products yet</div>

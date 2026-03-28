@@ -33,7 +33,7 @@
           <div style="font-size: 0.75rem; color: var(--text-muted);">{{ order.contact.email }}</div>
         </td>
         <td>{{ order.product.name }}</td>
-        <td style="color: var(--lime); font-family: var(--font-mono);">${{ order.amount|floatformat:0 }}</td>
+        <td style="color: var(--primary); font-family: var(--font-body);">${{ order.amount|floatformat:0 }}</td>
         <td>
           {% if order.status == 'completed' %}
             <span class="status-pill active">{{ order.status }}</span>
@@ -45,14 +45,14 @@
             <span class="tag">{{ order.status }}</span>
           {% endif %}
         </td>
-        <td style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">
+        <td style="font-family: var(--font-body); font-size: 0.72rem; color: var(--text-muted);">
           {% if order.stripe_payment_id %}
             {{ order.stripe_payment_id|slice:":20" }}...
           {% else %}
             —
           {% endif %}
         </td>
-        <td style="color: var(--text-muted); font-family: var(--font-mono); font-size: 0.75rem;">{{ order.created_at|date:"M d, Y" }}</td>
+        <td style="color: var(--text-muted); font-family: var(--font-body); font-size: 0.75rem;">{{ order.created_at|date:"M d, Y" }}</td>
       </tr>
       {% empty %}
       <tr>

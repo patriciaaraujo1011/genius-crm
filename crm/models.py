@@ -312,10 +312,20 @@ class UserBadge(models.Model):
 
 
 class Broadcast(models.Model):
+    STATUS_CHOICES = [
+        ("draft", "Draft"),
+        ("scheduled", "Scheduled"),
+        ("sent", "Sent"),
+    ]
+
     subject = models.CharField(max_length=200)
     message = models.TextField()
     segment = models.CharField(max_length=50, default="all")
     pillar_tag = models.CharField(max_length=100, blank=True)
+    status = models.CharField(
+        max_length=20, choices=STATUS_CHOICES, default="draft"
+    )
+    scheduled_at = models.DateTimeField(null=True, blank=True)
     sent_at = models.DateTimeField(auto_now_add=True)
     open_rate = models.IntegerField(default=0)
 

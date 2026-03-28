@@ -34,7 +34,7 @@
         </div>
         <div style="display: flex; gap: 10px;">
           <button type="submit" class="btn btn-primary">Send Now</button>
-          <button type="button" class="btn btn-ghost">Save Draft</button>
+          <button type="button" class="btn btn-ghost" id="saveDraftBtn" onclick="saveDraft()">Save Draft</button>
         </div>
       </form>
     </div>
@@ -48,7 +48,7 @@
         <div class="event-item">
           <span class="e-type">📬</span>
           <span class="e-name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;">"{{ broadcast.subject }}"</span>
-          <span style="margin-left: auto; color: var(--lime);">{{ broadcast.open_rate }}%</span>
+          <span style="margin-left: auto; color: var(--primary);">{{ broadcast.open_rate }}%</span>
         </div>
         {% empty %}
         <div style="color: var(--text-muted); font-size: 0.78rem;">No broadcasts sent yet</div>
@@ -58,23 +58,110 @@
   </div>
 </div>
 
+<div id="customModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; align-items: center; justify-content: center;">
+  <div style="background: #faf6f1; padding: 20px 28px; border-radius: 12px; max-width: 280px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.4); border: 2px solid #faf6f1;">
+    <div id="modalIcon" style="width: 22px; height: 22px; margin: 0 auto 8px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px;"></div>
+    <div id="modalMessage" style="font-size: 0.95rem; color: #2D2D2D; font-weight: 500; line-height: 1.5;"></div>
+    <button onclick="closeModal()" style="margin-top: 14px; padding: 7px 21px; background: #222222; color: #faf6f1; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.68rem;">OK</button>
+  </div>
+</div>
 <script>
-document.getElementById('broadcastForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const formData = new FormData(this);
+function showModal(message, isError) {
+  const modal = document.getElementById('customModal');
+  const icon = document.getElementById('modalIcon');
+  const msg = document.getElementById('modalMessage');
+
+  msg.textContent = message;
+
+  if (isError) {
+    icon.style.background = '#e93d3d';
+    icon.innerHTML = '<span style="color: #faf6f1;">✕</span>';
+  } else {
+    icon.style.background = '#22c55e';
+    icon.innerHTML = '<span style="color: #faf6f1;">✓</span>';
+  }
+
+  modal.style.display = 'flex';
+}
+function closeModal() {
+  document.getElementById('customModal').style.display = 'none';
+}
+document.getElementById('customModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+</script>
+
+<script>
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+</script>
+
+<script>
+console.log('Broadcast page loaded');
+
+async function saveDraft() {
+  const form = document.getElementById('broadcastForm');
+  const formData = new FormData(form);
   const data = Object.fromEntries(formData);
 
-  const response = await fetch('/api/broadcast/', {
+  const response = await fetch('/api/save-draft/', {
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrftoken
+    },
     body: JSON.stringify(data)
   });
 
   if (response.ok) {
-    location.reload();
+    showModal('Your draft has been saved', false);
   } else {
-    alert('Error sending broadcast');
+    const err = await response.json();
+    showModal(err.error || 'Failed to save draft', true);
   }
+}
+
+document.getElementById('broadcastForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const form = this;
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData);
+
+  fetch('/api/broadcast/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrftoken
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    if (response.ok) {
+      response.json().then(result => {
+        showModal('Broadcast sent to ' + result.sent_count + ' contacts!', false);
+      });
+    } else {
+      return response.json().then(err => {
+        showModal('Error: ' + (err.error || 'Failed to send broadcast'), true);
+      });
+    }
+  })
+  .catch(err => {
+    showModal('Error: ' + err.message, true);
+  });
 });
 </script>
 {% endblock %}

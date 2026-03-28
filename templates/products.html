@@ -34,7 +34,7 @@
           <div style="font-size: 0.75rem; color: var(--text-muted);">/{{ product.slug }}/</div>
         </td>
         <td><span class="tag">{{ product.get_product_type_display }}</span></td>
-        <td style="color: var(--lime); font-family: var(--font-mono);">${{ product.price|floatformat:0 }}</td>
+        <td style="color: var(--primary); font-family: var(--font-body);">${{ product.price|floatformat:0 }}</td>
         <td>
           {% if product.is_active %}
             <span class="status-pill active">Active</span>
@@ -42,7 +42,7 @@
             <span class="status-pill at-risk">Inactive</span>
           {% endif %}
         </td>
-        <td style="color: var(--text-muted); font-family: var(--font-mono); font-size: 0.75rem;">{{ product.created_at|date:"M d, Y" }}</td>
+        <td style="color: var(--text-muted); font-family: var(--font-body); font-size: 0.75rem;">{{ product.created_at|date:"M d, Y" }}</td>
         <td><a href="/admin/crm/product/{{ product.id }}/change/" class="action-dots">Edit</a></td>
       </tr>
       {% empty %}

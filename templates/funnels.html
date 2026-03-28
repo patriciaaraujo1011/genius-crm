@@ -23,25 +23,25 @@
 
   <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px;">
     <div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 16px;">
-      <div style="font-size: 0.65rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 6px;">Sales Page</div>
+      <div style="font-size: 0.65rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-body); margin-bottom: 6px;">Sales Page</div>
       <h4 style="color: var(--cream); font-size: 0.95rem; margin-bottom: 6px;">Sales Template 1</h4>
       <p style="font-size: 0.75rem; color: var(--text-muted);">Hero, video, testimonials, pricing</p>
     </div>
 
     <div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 16px;">
-      <div style="font-size: 0.65rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 6px;">Order Page</div>
+      <div style="font-size: 0.65rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-body); margin-bottom: 6px;">Order Page</div>
       <h4 style="color: var(--cream); font-size: 0.95rem; margin-bottom: 6px;">Order Template 1</h4>
       <p style="font-size: 0.75rem; color: var(--text-muted);">Checkout, order bumps, summary</p>
     </div>
 
     <div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 16px;">
-      <div style="font-size: 0.65rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 6px;">Upsell Page</div>
+      <div style="font-size: 0.65rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-body); margin-bottom: 6px;">Upsell Page</div>
       <h4 style="color: var(--cream); font-size: 0.95rem; margin-bottom: 6px;">Upsell Template 1</h4>
       <p style="font-size: 0.75rem; color: var(--text-muted);">Post-purchase upgrade offer</p>
     </div>
 
     <div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 16px;">
-      <div style="font-size: 0.65rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-mono); margin-bottom: 6px;">Thank You</div>
+      <div style="font-size: 0.65rem; text-transform: uppercase; color: var(--accent); font-family: var(--font-body); margin-bottom: 6px;">Thank You</div>
       <h4 style="color: var(--cream); font-size: 0.95rem; margin-bottom: 6px;">Thank You Template 1</h4>
       <p style="font-size: 0.75rem; color: var(--text-muted);">Confirmation + access instructions</p>
     </div>
@@ -68,7 +68,7 @@
       <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
         <div>
           <h3 style="font-family: var(--font-display); color: var(--cream); font-size: 1rem;">{{ funnel.name }}</h3>
-          <div style="font-size: 0.7rem; color: var(--text-muted); font-family: var(--font-mono);">/{{ funnel.slug }}/</div>
+          <div style="font-size: 0.7rem; color: var(--text-muted); font-family: var(--font-body);">/{{ funnel.slug }}/</div>
         </div>
         {% if funnel.is_active %}
           <span class="status-pill active">Active</span>
@@ -77,7 +77,7 @@
         {% endif %}
       </div>
       <div style="margin-bottom: 16px;">
-        <div style="font-size: 0.65rem; color: var(--text-muted); font-family: var(--font-mono); text-transform: uppercase; margin-bottom: 8px;">Pages</div>
+        <div style="font-size: 0.65rem; color: var(--text-muted); font-family: var(--font-body); text-transform: uppercase; margin-bottom: 8px;">Pages</div>
         {% with funnel.funnelpage_set.all as pages %}
           {% if pages %}
             {% for page in pages %}

@@ -8,8 +8,12 @@
 
 <style>
 {% if preview_mode %}
-.dev-bar { display: none !important; }
-#page-thankyou .confetti { display: none !important; }
+body { padding-top: 52px !important; }
+#page-thankyou a[href], #page-thankyou button, #page-thankyou input[type="submit"] {
+    pointer-events: none !important;
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+}
 {% endif %}
 :root {
   --void:      #0B0A09;

@@ -1,0 +1,158 @@
+================================================================================
+COMMON TERMINAL COMMANDS - Learning Reference
+================================================================================
+
+NAVIGATION COMMANDS
+--------------------------------------------------------------------------------
+cd /path/to/folder      - Go to a specific folder
+cd ..                  - Go back one folder level
+cd ~                   - Go to your home folder
+ls                     - List files in current folder
+ls -la                 - List all files (including hidden) with details
+pwd                    - Show current folder path
+mkdir folder_name      - Create a new folder
+rm -rf folder_name    - Delete a folder and everything in it
+
+FILE COMMANDS
+--------------------------------------------------------------------------------
+head -n filename           - Show first n lines of a file
+tail -n filename           - Show last n lines of a file
+cat filename               - Display entire file contents
+grep "text" filename       - Search for text in a file
+grep -r "text" folder/     - Search recursively in folder
+cp file.txt copy.txt       - Copy file
+mv old.txt new.txt         - Rename/move file
+rm filename                - Delete file
+touch filename             - Create empty file
+
+PYTHON/DJANGO COMMANDS
+--------------------------------------------------------------------------------
+source .venv/bin/activate              - Activate virtual environment
+deactivate                              - Deactivate virtual environment
+python manage.py runserver              - Start Django server (port 8000)
+python manage.py runserver 8888          - Start Django on specific port
+python manage.py check                  - Check for errors
+python manage.py makemigrations         - Create database changes
+python manage.py migrate                - Apply database changes
+python manage.py collectstatic          - Gather static files
+python manage.py shell                  - Open Django shell
+
+PROCESS COMMANDS
+--------------------------------------------------------------------------------
+pkill -f "manage.py runserver"  - Stop Django server
+Ctrl+C                          - Cancel current command
+ps aux | grep python            - Show running Python processes
+
+COMBINING COMMANDS
+--------------------------------------------------------------------------------
+cd /path && command            - Go to folder then run command
+command1 && command2           - Run command1, if success run command2
+command1 | command2            - Pass output of command1 to command2
+command > file.txt            - Save output to file
+command >> file.txt           - Append output to file
+
+GIT COMMANDS
+--------------------------------------------------------------------------------
+git status                    - Check what changed
+git add -A                    - Stage all changes
+git commit -m "message"      - Commit changes
+git push                      - Upload to GitHub
+git pull                      - Download from GitHub
+
+INSTALLING PACKAGES
+--------------------------------------------------------------------------------
+pip install package_name      - Install Python package
+uv pip install package_name  - Install with uv (faster)
+
+================================================================================
+TEXT EDITING COMMANDS - Detailed Explanations
+================================================================================
+
+COMMAND 1: sed -i '' (Find and Replace)
+--------------------------------------------------------------------------------
+sed -i '' 's/old/new/g' filename
+
+Part          What It Means
+sed           "Stream Editor" — a command to edit text
+-i            "In-place" — save changes to the file
+''            Empty quotes — Mac requirement (empty backup suffix)
+s/old/new/g   "Substitute: replace OLD with NEW, globally (all occurrences)"
+g              "Global" — replace ALL matches, not just first one
+
+Example:
+  sed -i '' 's/--burgundy: #8A0329;/--primary: #e93d3d;/g' base.html
+
+  In plain English: "Find every instance of --burgundy: #8A0329 and
+  replace it with --primary: #e93d3d in the entire file."
+
+Common flags:
+  -i ''        Mac: save changes in-place (required on Mac)
+  -i            Linux: save changes in-place
+  s/old/new/    Substitute first match
+  s/old/new/g   Substitute ALL matches
+  s/old/new/i   Case-insensitive match
+
+
+COMMAND 2: cd + source + pkill + python (Chained Commands)
+--------------------------------------------------------------------------------
+cd "/path" && source .venv/bin/activate && pkill -f "manage.py runserver" && python manage.py runserver
+
+Part                        What It Means
+cd "/path"                  Go to project folder
+&&                          Run command AND THEN run next one (if first succeeds)
+source .venv/bin/activate   Activate the virtual environment
+pkill -f "pattern"         Kill process matching the pattern
+python manage.py runserver  Start Django development server
+
+In plain English: "Go to the project folder, activate the environment,
+stop the old server, then start a new one."
+
+
+KEY SYMBOLS TO KNOW
+--------------------------------------------------------------------------------
+Symbol    Meaning
+&&        Run command AND THEN run next one (if first succeeds)
+||        Run command OR run next one (if first fails)
+>         Write to file (overwrite)
+>>        Add to end of file
+|         Pipe — send output of one command into another
+*         Wildcard — matches anything
+-r        Recursive (folders inside folders)
+-f        Force (override)
+
+
+COMMON MISTAKES TO AVOID
+--------------------------------------------------------------------------------
+1. Forgetting to activate the environment:
+   Always run: source .venv/bin/activate BEFORE running Django commands
+
+2. Not killing the old server:
+   Always run: pkill -f "manage.py runserver" before restarting
+
+3. Using wrong path:
+   Use quotes for paths with spaces: cd "/Users/Name/My Project"
+
+4. Missing the 'g' in sed:
+   Without 'g', only first match is replaced
+
+5. Forgetting sudo for system commands:
+   Some commands need sudo: sudo pip install package
+
+
+================================================================================
+QUICK REFERENCE - Typical Workflow
+================================================================================
+
+1. Navigate to project:
+   cd "/Users/patriciaaraujo/Desktop/Genius CRM /genius"
+
+2. Activate virtual environment:
+   source .venv/bin/activate
+
+3. Start server:
+   python manage.py runserver
+
+4. Stop server:
+   pkill -f "manage.py runserver"
+
+================================================================================

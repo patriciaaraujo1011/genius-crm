@@ -8,7 +8,17 @@
 
 <style>
 {% if preview_mode %}
-.dev-bar { display: none !important; }
+body { padding-top: 52px !important; }
+#page-sales a[href], #page-sales button, #page-sales input[type="submit"], #page-sales .cta-btn {
+    pointer-events: none !important;
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+}
+#page-sales .dev-bar, #page-sales .dev-bar * {
+    pointer-events: auto !important;
+    opacity: 1 !important;
+    cursor: pointer !important;
+}
 {% endif %}
 :root {
   --void:      #0B0A09;
@@ -321,6 +331,7 @@ body.mobile-mode #page-sales .cta-btn { display: block !important; width: 100% !
 <body>
 
 <!-- DEVICE TOGGLE -->
+{% if preview_mode %}
 <div class="dev-bar">
   <button class="dev-btn active" id="btn-desktop" onclick="setDevice('desktop')">
     <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
@@ -332,6 +343,7 @@ body.mobile-mode #page-sales .cta-btn { display: block !important; width: 100% !
     Mobile
   </button>
 </div>
+{% endif %}
 
 <!-- SALES PAGE CONTENT -->
 <div id="page-sales">

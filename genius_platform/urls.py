@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib.auth import login
 from django.contrib.auth import views as auth_views
 from django.shortcuts import redirect
@@ -14,7 +16,7 @@ def auto_login(request):
     user = user_model.objects.get(username="admin")
     user.backend = "django.contrib.auth.backends.ModelBackend"
     login(request, user)
-    return redirect("/")
+    return redirect("/admin/")
 
 
 urlpatterns = [
@@ -65,6 +67,11 @@ urlpatterns = [
         "api/broadcast/",
         crm_views.api_send_broadcast,
         name="api_send_broadcast",
+    ),
+    path(
+        "api/save-draft/",
+        crm_views.api_save_draft,
+        name="api_save_draft",
     ),
     path(
         "api/pipeline/",
@@ -130,3 +137,7 @@ urlpatterns = [
         name="api_apply_template",
     ),
 ]
+
+urlpatterns = urlpatterns + static(
+    "/static/", document_root=settings.STATIC_ROOT
+)

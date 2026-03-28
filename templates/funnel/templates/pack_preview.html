@@ -8,7 +8,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --burgundy: #8A0329;
             --lime: #EAFF9D;
             --cream: #F5F0E8;
             --charcoal: #2D2D2D;
@@ -29,7 +28,7 @@
 
         .top-bar {
             height: 60px;
-            background: rgba(0,0,0,0.8);
+            background: #1a1a1a;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -87,6 +86,26 @@
             max-width: 375px;
         }
 
+        /* Add top margin to pages to account for 60px navigation */
+        #page-sales { margin-top: 60px !important; }
+        #page-sales .snav { top: 60px !important; }
+
+        #page-order { margin-top: 60px !important; }
+        #page-order .countdown-bar { top: 60px !important; position: sticky !important; }
+        #page-order .order-layout { padding-top: 60px !important; }
+
+        #page-upsell { margin-top: 60px !important; }
+        #page-upsell .upsell-layout { padding-top: 60px !important; }
+
+        #page-thankyou { margin-top: 60px !important; }
+        #page-thankyou .hero { padding-top: 120px !important; }
+
+        /* Hide internal template confetti only (not dev-bar - that would hide our own toggle) */
+        .confetti, #confetti {
+            display: none !important;
+        }
+
+        /* Our own desktop/mobile toggle bar */
         .dev-bar {
             position: fixed;
             bottom: 20px;
@@ -128,11 +147,6 @@
 
     <iframe class="preview-frame active" id="mainFrame" src="/preview/sales/"></iframe>
 
-    <div class="dev-bar">
-        <button class="dev-btn active" onclick="setDevice('desktop')">Desktop</button>
-        <button class="dev-btn" onclick="setDevice('mobile')">Mobile</button>
-    </div>
-
     <script>
         var pages = [
             '/preview/sales/?preview=1',
@@ -152,20 +166,6 @@
             document.querySelectorAll('.page-label')[index].classList.add('active');
 
             currentPage = index;
-        }
-
-        function setDevice(device) {
-            document.querySelectorAll('.dev-btn').forEach(function(btn) {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-
-            var frame = document.getElementById('mainFrame');
-            if (device === 'mobile') {
-                frame.classList.add('mobile');
-            } else {
-                frame.classList.remove('mobile');
-            }
         }
 
         document.addEventListener('keydown', function(e) {

@@ -33,6 +33,7 @@ ALLOWED_HOSTS: list = ["localhost", "127.0.0.1", ".localhost", "testserver"]
 # Application definition
 
 INSTALLED_APPS = [
+    "unfold",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -42,12 +43,9 @@ INSTALLED_APPS = [
     "crm",
 ]
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -55,6 +53,17 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+# Unfold theme configuration
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+# Use WhiteNoise for serving compressed static files
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# WhiteNoise serves from STATIC_ROOT
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 ROOT_URLCONF = "genius_platform.urls"
 
@@ -139,3 +148,42 @@ STRIPE_WEBHOOK_SECRET = ""  # nosec
 
 # Funnel Configuration
 FUNNEL_OFFER_EXPIRED_URL = "/offer-expired/"
+
+# Unfold theme configuration with custom colors
+UNFOLD = {
+    "SITE_TITLE": "Genius CRM",
+    "SITE_HEADER": "Cool Girl Rehab™",
+    "COLORS": {
+        "primary": {
+            "50": "#faf6f1",  # Cream
+            "100": "#f8e8e8",
+            "200": "#f5d1d1",
+            "300": "#f2baba",
+            "400": "#efa3a3",
+            "500": "#e93d3d",  # Orange
+            "600": "#d21d13",  # Red
+            "700": "#b3180f",
+            "800": "#94140c",
+            "900": "#771009",
+            "950": "#222222",  # Dark
+        },
+    },
+}
+
+# Email Configuration
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# For real sending later, use:
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.sendgrid.net'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'your-api-key'
+# EMAIL_HOST_PASSWORD = 'your-password'
+
+# Email Branding Settings
+DEFAULT_FROM_EMAIL = "Cool Girl Rehab <hello@coolgirlrehab.com>"
+EMAIL_LOGO_URL = "https://your-domain.com/logo.png"
+EMAIL_COMPANY_ADDRESS = "123 Business St, City, State 12345"
+EMAIL_SOCIAL_LINKS = '<a href="https://instagram.com">Instagram</a> | <a href="https://facebook.com">Facebook</a>'
+EMAIL_UNSUBSCRIBE_URL = "/unsubscribe/"
+EMAIL_PREFERENCES_URL = "/email-preferences/"

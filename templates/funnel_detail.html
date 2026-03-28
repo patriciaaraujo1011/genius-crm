@@ -6,7 +6,7 @@
 <div class="page-header">
   <div>
     <h2>{{ funnel.name }}</h2>
-    <p style="font-family: var(--font-mono); color: var(--text-muted);">/{{ funnel.slug }}/</p>
+    <p style="font-family: var(--font-body); color: var(--text-muted);">/{{ funnel.slug }}/</p>
   </div>
   <div style="display: flex; gap: 8px;">
     {% if funnel.is_active %}
@@ -37,13 +37,13 @@
     <tbody>
       {% for page in pages %}
       <tr>
-        <td style="font-family: var(--font-mono); color: var(--text-muted);">{{ page.order }}</td>
+        <td style="font-family: var(--font-body); color: var(--text-muted);">{{ page.order }}</td>
         <td><span class="tag">{{ page.get_page_type_display }}</span></td>
         <td>{{ page.title }}</td>
         <td>{{ page.cta_text|default:"—" }}</td>
         <td>
           {% if page.countdown_hours > 0 %}
-            <span style="color: var(--lime);">{{ page.countdown_hours }}h</span>
+            <span style="color: var(--primary);">{{ page.countdown_hours }}h</span>
           {% else %}
             —
           {% endif %}
